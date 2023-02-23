@@ -21,10 +21,10 @@
                     </li>
                 </ul>
                 <span class="navbar-text">
-                    <a class="btn btn-primary" href="">Войти</a>
+                    <a class="btn btn-outline-primary" href="">Зарегистрироваться</a>
                 </span>
-                <span class="navbar-text">
-                    <a class="btn btn-primary" href="">Зарегистрироваться</a>
+                <span class="navbar-text" style="margin-left: 10px">
+                    <a class="btn btn-login" href="">Войти</a>
                 </span>
             </div>
         </div>

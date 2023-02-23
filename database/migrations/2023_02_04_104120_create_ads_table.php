@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('status_id')->constrained('statuses')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('contract_id')->constrained('contracts')->cascadeOnUpdate()->cascadeOnDelete();
-            //полиморфная связь с риелтором
-            //полиморфная связь с пользователем
-            //полиморфная связь с квартирой
-            //полиморфная связь с комнатой
-            //полиморфная связь с домом
-            //полиморфная связь с земельным участком
+            $table->foreignId('realtor_id')->constrained('realtors')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('user')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('flat_id')->constrained('flats')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('room_id')->constrained('rooms')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('house_id')->constrained('houses')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('landplot_id')->constrained('land_plots')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('price');
             $table->timestamps();
         });

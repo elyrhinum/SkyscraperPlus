@@ -15,7 +15,13 @@ class RepairType extends Model
         'name',
     ];
 
-    public function flats() {
-        return $this->hasOne(Flat::class);
-    }
+    // CONNECTIONS
+//    public function flat() {
+//        return $this->morphTo();
+//    }
+//
+//    public function room()
+//    {
+//        return $this->morphTo();
+//    }
 }

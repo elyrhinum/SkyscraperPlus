@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('room_flat_characteristics', function (Blueprint $table) {
-            //полиморфная связь с квартирой
-            //полиморфная связь с комнатной
-            $table->decimal('ceiling_high');
+            $table->foreignId('flat_id')->constrained('flats')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('room_id')->constrained('rooms')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->decimal('ceiling_height');
             $table->integer('floors');
             $table->integer('living_rooms_amount');
             $table->integer('bathrooms_amount');

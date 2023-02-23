@@ -16,8 +16,8 @@ class ContractType extends Model
     ];
 
     // CONNECTIONS
-    public function rc()
+    public function ad()
     {
-        return $this->belongsTo(ResidentialComplex::class);
+        return $this->hasMany(Ad::class);
     }
 }

@@ -47,13 +47,13 @@ class User extends Authenticatable
     ];
 
     // CONNECTIONS
-    public function saveds()
+    public function saved()
     {
-        return $this->hasMany(UserSaved::class);
+        return $this->belongsTo(UserSaved::class);
     }
 
-    public function ads()
+    public function ad()
     {
-        return $this->morphMany(Ad::class, 'saved');
+        return $this->morphOne(Ad::class, 'saved');
     }
 }

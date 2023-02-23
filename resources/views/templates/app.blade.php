@@ -21,5 +21,6 @@
 
     @include('inc.footer')
 
+@stack('script')
 </body>
 </html>

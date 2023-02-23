@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('street_id')->constrained('streets')->cascadeOnUpdate()->cascadeOnDelete();
             $table->text('description');
-            $table->integer('number');
             $table->text('images');
+            $table->integer('number');
             $table->string('area');
             $table->string('status');
         });

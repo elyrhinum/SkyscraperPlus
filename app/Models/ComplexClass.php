@@ -9,6 +9,8 @@ class ComplexClass extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name'
     ];
@@ -16,6 +18,6 @@ class ComplexClass extends Model
     // CONNECTIONS
     public function rc()
     {
-        return $this->belongsTo(ResidentialComplex::class);
+        return $this->hasMany(ResidentialComplex::class);
     }
 }

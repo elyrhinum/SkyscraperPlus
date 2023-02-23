@@ -10,7 +10,7 @@
 }
 
 body {
-    background-color: #DCDCDC;
+    background-color: rgba(220, 220, 220, 0.5);
 }
 
 /* HEADER */
@@ -24,12 +24,40 @@ header {
     font-weight: 500;
     font-size: 14px;
     color: black;
-    margin-bottom: -22px;
+    margin-bottom: -25px;
+}
+
+.navbar-nav > .nav-item > .nav-link:hover {
+    color: #356089;
+    transition: .5s;
 }
 
 #logo {
     width: 140px;
     height: fit-content;
+}
+
+.navbar-text > .btn-login {
+    font-family: HelveticaNeueCyr;
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    background-color: #356089;
+}
+
+.navbar-text > .btn-outline-primary {
+    padding: 5px 10px;
+    border: #356089 1px solid;
+}
+
+.navbar-text > .btn-outline-primary:hover {
+    background-color: transparent;
+    border: #EEA444 1px solid;
+}
+
+.navbar-text > .btn-login:hover {
+    color: white;
+    background-color: #EEA444;
 }
 
 

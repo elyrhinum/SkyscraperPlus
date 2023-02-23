@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('floor');
             $table->integer('flat_number');
             $table->text('images');
-            $table->string('room_area');
+            $table->string('area');
         });
     }
 

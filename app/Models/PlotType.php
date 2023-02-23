@@ -15,7 +15,8 @@ class PlotType extends Model
         'name',
     ];
 
-    public function houses() {
-        return $this->hasOne(House::class);
+    // CONNECTIONS
+    public function house() {
+        return $this->hasMany(House::class);
     }
 }

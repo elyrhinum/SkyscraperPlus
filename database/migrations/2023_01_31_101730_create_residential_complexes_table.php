@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('residential_complexes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('images');
             $table->foreignId('class_id')->constrained('complex_classes')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('street_id')->constrained('streets')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('name');
+            $table->text('images');
         });
     }
 
