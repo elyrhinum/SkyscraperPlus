@@ -1,0 +1,35 @@
+/* COMMON */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.pd {
+    padding: 0 10%;
+}
+
+body {
+    background-color: #DCDCDC;
+}
+
+/* HEADER */
+header {
+    border-bottom: 1px lightgray solid;
+    background-color: white !important;
+}
+
+.navbar-nav > li > a {
+    font-family: HelveticaNeueCyr;
+    font-weight: 500;
+    font-size: 14px;
+    color: black;
+    margin-bottom: -22px;
+}
+
+#logo {
+    width: 140px;
+    height: fit-content;
+}
+
+
