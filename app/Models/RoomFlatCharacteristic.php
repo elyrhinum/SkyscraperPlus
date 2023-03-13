@@ -10,8 +10,7 @@ class RoomFlatCharacteristic extends Model
     use HasFactory;
 
     protected $fillable = [
-        'flat_id',
-        'room_id',
+        'object',
         'ceiling_height',
         'floors',
         'living_rooms_amount',

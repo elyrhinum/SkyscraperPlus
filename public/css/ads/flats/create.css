@@ -1,0 +1,156 @@
+.main-container {
+    margin-bottom: 70px !important;
+}
+/*HEADERS*/
+h5 {
+    font-size: 16px !important;
+
+    margin-bottom: 20px !important;
+}
+
+.headers , .forms {
+    background-color: white;
+    padding: 15px;
+    margin: 30px 0;
+
+    border: .5px solid lightgray;
+    border-radius: 5px;
+}
+
+.headers > p, .block__text > p, .labels > p, #plot-area > div > p {
+    margin: 0 !important;
+}
+
+/*FORM*/
+form {
+    border: 0 !important;
+}
+
+input, textarea, input::placeholder, textarea::placeholder {
+    font-size: 14px !important;
+}
+
+#plot-area > div, .set-price__input {
+   display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#plot-area > div > p, .set-price__input > p {
+    margin-bottom: 0 !important;
+    margin-left: 10px !important;
+}
+
+#plot-number > input, #plot-area > div > input {
+    width: 70px;
+}
+
+#images {
+    display: none;
+}
+
+.label-images {
+    width: 100%;
+    min-height: 10%;
+    padding: 10px;
+
+    border-radius: 5px;
+    border: 3px dotted lightgray;
+
+    cursor: pointer;
+}
+
+.label-images > p {
+    text-align: center;
+    font-weight: 600;
+    color: lightgray;
+}
+
+#plot-description {
+    margin-bottom: 30px !important;
+}
+
+#characteristics {
+    display: grid;
+    grid-template-columns: 150px 150px;
+}
+
+#characteristics > label {
+    width: fit-content;
+    cursor: pointer;
+}
+
+#set-price {
+    margin-bottom: 30px !important;
+}
+
+.set-price__input > input {
+    width: 150px;
+}
+
+#plot-images > h5, #set-price > h5 {
+    margin-bottom: 5px !important;
+}
+
+#images-prev {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.btn-submit {
+    width: 100%;
+    text-align: center;
+}
+
+/*IMAGES*/
+.images-block {
+    position: relative;
+    margin-right: 10px !important;
+}
+
+.images-block > p {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    margin-bottom: 0 !important;
+
+    width: 20px;
+    height: 22px;
+
+    color: white;
+    text-align: center;
+    background-color: rgba(255, 0, 0, .8);
+
+    border-radius: 5px;
+}
+
+/*LABELS*/
+.labels {
+    display: grid;
+    grid-template-columns: 150px 50%;
+
+    margin-bottom: 10px;
+}
+
+fieldset {
+    margin-bottom: 30px !important;
+}
+
+/*DISABLING ARROWS IN INPUT:NUMBER*/
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance:textfield;
+}

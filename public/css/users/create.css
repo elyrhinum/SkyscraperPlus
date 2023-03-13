@@ -1,0 +1,94 @@
+h3 {
+    font-family: HelveticaNeueCyr;
+    margin: 20px 0 !important;
+    text-align: center;
+}
+
+/*TAB BUTTONS*/
+.tabs {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}
+
+#word {
+    position: absolute;
+    top: 20%;
+    left: 52%;
+}
+
+.tab-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px !important;
+}
+
+.tab-header__item {
+    padding: 7px;
+    color: #356089;
+    border: 1px solid #356089;
+    border-radius: 5px;
+
+    cursor: pointer;
+}
+
+.tab-header__item.active {
+    color: white;
+    background-color: #356089;
+}
+
+/*USER FORM*/
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 20px !important;
+    margin: 0 auto !important;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.inputs > label > input {
+    width: 400px;
+}
+
+.inputs > span {
+    font-size: 12px;
+}
+
+.rules {
+    margin-bottom: 20px;
+}
+
+.required-mark {
+    font-size: 12px;
+    color: red;
+}
+
+.required-instruction {
+    width: 100%;
+    text-align: left !important;
+    font-size: 12px;
+}
+
+/*SIGNUP BUTTON*/
+.btn-signup {
+    color: white !important;
+    font-weight: 500 !important;
+    background-color: #EEA444 !important;
+    font-family: HelveticaNeueCyr !important;
+    transition: .5s !important;
+    margin-top: 8px;
+}
+

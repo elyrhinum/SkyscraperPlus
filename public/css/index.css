@@ -5,11 +5,12 @@
     object-fit: cover;
 }
 
-.ads > h3 {
+.ads > h3, .latest-ads > h3, .rcs-list > h3, .realtors-list > h3 {
+    font-family: HelveticaNeueCyr;
     margin: 40px 0 20px 0;
 }
 
-/* PC STYLES */
+/*PC STYLES*/
 @media (min-width: 1200px) {
     /*CATEGORIES OF ADS*/
     .ads__blocks {
@@ -51,6 +52,21 @@
         grid-template-rows:  repeat(2, 1fr);
     }
 
+    .ads__blocks > .blocks__info-block-reverse {
+        display: grid !important;
+        grid-template:
+            'img' 1fr
+            'text' 1fr;
+    }
+
+    .ads__blocks > .blocks__info-block-reverse >  .blocks__info-block {
+        grid-area: text;
+    }
+
+    .ads__blocks > .blocks__info-block-reverse >  .blocks__img-block {
+        grid-area: img;
+    }
+
     .blocks__img-block {
         width: 100%;
         height: 250px;
@@ -75,7 +91,7 @@
 
     .ads__blocks > div {
         display: grid;
-        grid-template-rows: 1fr 2fr;
+        grid-template-rows: 1fr 1fr;
     }
 
     .blocks__img-block {

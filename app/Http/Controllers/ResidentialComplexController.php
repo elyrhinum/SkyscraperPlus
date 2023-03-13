@@ -6,14 +6,9 @@ use Illuminate\Http\Request;
 
 class ResidentialComplexController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view('complexes.index');
     }
 
     /**

@@ -15,9 +15,15 @@ class Status extends Model
         'name'
     ];
 
+    // CONNECTIONS
     public function ads()
     {
-        return $this->hasOne(Ad::class);
+        return $this->hasMany(Ad::class);
+    }
+
+    public function complexes()
+    {
+        return $this->hasMany(ResidentialComplex::class);
     }
 
 }

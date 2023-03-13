@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\District;
+use App\Models\Street;
 use Illuminate\Http\Request;
 
 class FlatController extends Controller
@@ -16,14 +18,12 @@ class FlatController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('ads.flats.create', [
+            'districts' => District::all(),
+            'streets' => Street::all()
+        ]);
     }
 
     /**

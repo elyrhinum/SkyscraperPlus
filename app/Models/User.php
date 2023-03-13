@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,15 +15,34 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
+    // METHODS
+    public function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->surname . " " . $this->name . " " . $this->patronymic
+        );
+    }
+
+    public function shortName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => strtoupper(substr($this->name, 0,1)) . '. ' . strtoupper(substr($this->patronymic, 0, 1)) . '. ' . $this->surname
+        );
+    }
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'role_id',
         'name',
+        'surname',
+        'patronymic',
         'email',
         'telephone',
+        'image',
         'login',
         'password',
     ];
@@ -47,13 +67,8 @@ class User extends Authenticatable
     ];
 
     // CONNECTIONS
-    public function saved()
+    public function role()
     {
-        return $this->belongsTo(UserSaved::class);
-    }
-
-    public function ad()
-    {
-        return $this->morphOne(Ad::class, 'saved');
+        return $this->hasOne(Role::class);
     }
 }

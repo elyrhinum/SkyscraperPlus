@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{{--     CSS  --}}
+    {{-- CSS --}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
-{{--    SCRIPTS--}}
+    {{-- SCRIPTS --}}
     <script defer src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+
+    {{-- FAVICON --}}
+    <link type="image/x-icon" href="{{asset('/media/icons/favicon.svg') }}" rel="shortcut icon">
+    <link type="Image/x-icon" href={{asset('/media/icons/favicon.svg') }}" rel="icon">
 
     <title>@yield('title')</title>
 

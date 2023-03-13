@@ -1,0 +1,45 @@
+h3 {
+    margin-bottom: 20px !important;
+    text-align: center;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*FORM*/
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    padding: 20px !important;
+    margin-top: 30px;
+}
+
+label {
+    font-size: 14px;
+}
+
+label > input {
+    margin-bottom: 10px;
+}
+
+/*BUTTONS*/
+.buttons-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
+.btn-login {
+    margin-bottom: 10px !important;
+}

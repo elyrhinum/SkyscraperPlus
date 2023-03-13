@@ -72,7 +72,7 @@
             </div>
 
             {{-- BLOCK 3 --}}
-            <div>
+            <div class="blocks__info-block-reverse">
                 <div class="blocks__info-block">
                     <h5>Снять другую недвижимость</h5>
 
@@ -85,7 +85,7 @@
             </div>
 
             {{-- BLOCK 4 --}}
-            <div>
+            <div class="blocks__info-block-reverse">
                 <div class="blocks__info-block">
                     <h5>Купить другую недвижимость</h5>
 
@@ -99,18 +99,18 @@
         </div>
     </div>
 
-    <!-- последние объявления -->
+    <!-- LATEST ADS -->
     <div class="latest-ads pd">
-
+        <h3>Последние объявления</h3>
     </div>
 
-    <!-- список жк -->
+    <!-- LIST OF RESIDENTIAL COMPLEXES -->
     <div class="rcs-list pd">
-
+        <h3>Жилые комплексы</h3>
     </div>
 
-    <!-- список риелторов -->
+    <!-- LIST OF REALTORS -->
     <div class="realtors-list pd">
-
+        <h3>Наши риелторы</h3>
     </div>
 @endsection

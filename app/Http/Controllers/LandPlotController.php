@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\District;
+use App\Models\HouseLandPlotCharacteristic;
+use App\Models\Street;
 use Illuminate\Http\Request;
 
 class LandPlotController extends Controller
@@ -16,14 +19,12 @@ class LandPlotController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('ads.landplots.create', [
+            'districts' => District::all(),
+            'streets' => Street::all()
+        ]);
     }
 
     /**
