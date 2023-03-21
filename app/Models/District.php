@@ -34,8 +34,14 @@ class District extends Model
         return $this->belongsTo(LandPlot::class);
     }
 
-    public function rc()
+    public function complexes()
     {
-        return $this->belongsTo(ResidentialComplex::class);
+        return $this->hasMany(ResidentialComplex::class);
     }
+
+//    public function getComplex($id)
+//    {
+//        $complex = ResidentialComplex::find($id);
+//        return District::find($complex->district_id);
+//    }
 }

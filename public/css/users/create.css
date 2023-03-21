@@ -1,3 +1,20 @@
+/*MAIN CONTAINER*/
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+    padding: 20px !important;
+    margin: 0 auto !important;
+
+    background-color: white;
+
+    border: .5px solid lightgray;
+    border-radius: 5px;
+}
+
 h3 {
     font-family: HelveticaNeueCyr;
     margin: 20px 0 !important;
@@ -13,7 +30,7 @@ h3 {
 
 #word {
     position: absolute;
-    top: 20%;
+    top: 35%;
     left: 52%;
 }
 
@@ -31,6 +48,8 @@ h3 {
     border: 1px solid #356089;
     border-radius: 5px;
 
+    font-size: 16px !important;
+
     cursor: pointer;
 }
 
@@ -46,11 +65,10 @@ form {
     justify-content: center;
     align-items: center;
 
-    background-color: white;
-    border-radius: 5px;
     width: fit-content;
-    padding: 20px !important;
-    margin: 0 auto !important;
+    padding: 25px 40px !important;
+
+    border: 0 !important;
 }
 
 .inputs {
@@ -89,6 +107,48 @@ form {
     background-color: #EEA444 !important;
     font-family: HelveticaNeueCyr !important;
     transition: .5s !important;
-    margin-top: 8px;
+    margin-top: 20px;
 }
 
+/*IMAGE PREVIEW*/
+.input-image {
+    width: 100%;
+}
+
+.input-image > p {
+    margin: 0 !important;
+}
+
+#image {
+    display: none;
+}
+
+.label-image {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+
+    border-radius: 5px;
+    border: 3px dotted lightgray;
+
+    cursor: pointer;
+}
+
+.label-image > p {
+    text-align: center;
+    font-weight: 600;
+    color: lightgray;
+}
+
+#image-prev {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#image-prev > img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

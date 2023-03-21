@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('street_id')->constrained('streets')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('repair_id')->constrained('repair_types')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('building_number');
+            $table->integer('street_number');
             $table->integer('entrance');
             $table->integer('floor');
             $table->integer('number');

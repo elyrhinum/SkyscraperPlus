@@ -13,7 +13,7 @@
 
     {{-- FAVICON --}}
     <link type="image/x-icon" href="{{asset('/media/icons/favicon.svg') }}" rel="shortcut icon">
-    <link type="Image/x-icon" href={{asset('/media/icons/favicon.svg') }}" rel="icon">
+    <link type="Image/x-icon" href="{{asset('/media/icons/favicon.svg')}}" rel="icon">
 
     <title>@yield('title')</title>
 

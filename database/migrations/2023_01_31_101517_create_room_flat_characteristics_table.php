@@ -16,14 +16,16 @@ return new class extends Migration
         Schema::create('room_flat_characteristics', function (Blueprint $table) {
             $table->id();
             $table->morphs('object');
-            $table->decimal('ceiling_height');
+            $table->decimal('ceiling_height')->nullable();
             $table->integer('floors');
             $table->integer('living_rooms_amount');
             $table->integer('bathrooms_amount');
-            $table->string('bathroom_type');
+            $table->string('bathroom_type')->nullable();
             $table->decimal('living_area');
             $table->decimal('total_area');
-            $table->decimal('kitchen_area');
+            $table->decimal('kitchen_area')->nullable();
+            $table->integer('building_year')->nullable();
+            $table->string('building_type')->nullable();
         });
     }
 

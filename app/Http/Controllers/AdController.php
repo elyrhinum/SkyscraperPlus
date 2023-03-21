@@ -2,76 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\District;
-use App\Models\HouseLandPlotCharacteristic;
-use App\Models\Street;
-use Illuminate\Http\Request;
+use App\Models\Ad;
 
 class AdController extends Controller
 {
+    // INDEX METHODS
     public function index()
     {
         return view('index');
     }
 
-    public function pre_create()
+    public function preCreate()
     {
-        return view('ads.pre-create');
+        return view('ads.preCreate');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // ADMIN PANEL METHODS
+    public function onlySuggested()
     {
-        //
+        return view('admins.ads.suggested', ['ads' => Ad::onlySuggested()]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function onlyPublished()
     {
-        //
+        return view('admins.ads.published', ['ads' => Ad::onlyPublished()]);
+    }
+    public function onlyInactive()
+    {
+        return view('admins.ads.inactive', ['ads' => Ad::onlyInactive()]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // STATUSES METHODS
+    public function confirm(Ad $ad)
     {
-        //
+        $result = $ad->update(['status_id' => 1]);
+
+        return $result ? back()->with(['success' => 'Объявление успешно опубликовано']) :
+            back()->withErrors(['error' => 'Не удалось опубликовать объявление']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function cancel(Ad $ad)
     {
-        //
+        $result = $ad->update(['status_id' => 3]);
+
+        return $result ? back()->with(['success' => 'Объявление отклонено']) :
+            back()->withErrors(['error' => 'Не удалось отклонить объявление']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function inactive(Ad $ad)
     {
-        //
+        $result = $ad->update(['status_id' => 4]);
+
+        return $result ? back()->with(['success' => 'Объявление скрыто']) :
+            back()->withErrors(['error' => 'Не удалось скрыть объявление']);
     }
 }

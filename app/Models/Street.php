@@ -11,6 +11,10 @@ class Street extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'name'
+    ];
+
     // CONNECTIONS
     public function flat()
     {

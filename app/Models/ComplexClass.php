@@ -16,8 +16,8 @@ class ComplexClass extends Model
     ];
 
     // CONNECTIONS
-    public function rc()
+    public function complex()
     {
-        return $this->hasMany(ResidentialComplex::class);
+        return $this->belongsTo(ResidentialComplex::class);
     }
 }

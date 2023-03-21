@@ -1,14 +1,28 @@
-.main-container {
-    margin-bottom: 70px !important;
-}
 /*HEADERS*/
 h5 {
     font-size: 16px !important;
-
     margin-bottom: 20px !important;
 }
 
-.headers , .forms {
+#plot-images > h5,
+#set-price > h5,
+#type > h5,
+#complex-images > h5,
+#room-images > h5,
+#layout-image > h5,
+#flat-images > h5 {
+    margin-bottom: 5px !important;
+}
+
+.forms {
+    background-color: white;
+    padding: 15px;
+
+    border: .5px solid lightgray;
+    border-radius: 5px;
+}
+
+.headers {
     background-color: white;
     padding: 15px;
     margin: 30px 0;
@@ -26,33 +40,55 @@ form {
     border: 0 !important;
 }
 
-input, textarea, input::placeholder, textarea::placeholder {
-    font-size: 14px !important;
-}
-
-#plot-area > div, .set-price__input {
+#plot-area > div,
+.set-price__input,
+#room-area > div,
+#living-area > div,
+#total-area > div,
+#kitchen-area > div,
+#ceiling-height > div {
    display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
 }
 
-#plot-area > div > p, .set-price__input > p {
+#plot-area > div > p,
+.set-price__input > p,
+#room-area > div > p,
+#living-area > div > p,
+#total-area > div > p,
+#kitchen-area > div > p,
+#ceiling-height > div > p {
     margin-bottom: 0 !important;
     margin-left: 10px !important;
 }
 
-#plot-number > input, #plot-area > div > input {
+#plot_number,
+#plot_area,
+#area,
+#living_area,
+#total_area,
+#kitchen_area,
+#ceiling_height,
+#floor,
+#building-floors,
+#building_year,
+#living_rooms_amount,
+#bathrooms_amount,
+#street_number,
+#number,
+#entrance {
     width: 70px;
 }
 
-#images {
+#images, #layout {
     display: none;
 }
 
-.label-images {
+.label-images, .label-layout {
     width: 100%;
-    min-height: 10%;
+    min-height: 150px;
     padding: 10px;
 
     border-radius: 5px;
@@ -61,13 +97,16 @@ input, textarea, input::placeholder, textarea::placeholder {
     cursor: pointer;
 }
 
-.label-images > p {
+.label-images > p, .label-layout > p {
     text-align: center;
     font-weight: 600;
     color: lightgray;
 }
 
-#plot-description {
+#plot-description,
+#room-description,
+#flat-description,
+#layout-image {
     margin-bottom: 30px !important;
 }
 
@@ -89,8 +128,11 @@ input, textarea, input::placeholder, textarea::placeholder {
     width: 150px;
 }
 
-#plot-images > h5, #set-price > h5 {
-    margin-bottom: 5px !important;
+#layout-prev {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 #images-prev {
@@ -100,6 +142,32 @@ input, textarea, input::placeholder, textarea::placeholder {
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+}
+
+#images-error, #floor-error, #submit-error {
+    color: red;
+    margin-bottom: 0 !important;
+}
+
+#floor-error {
+    font-size: 12px;
+    width: 360px;
+}
+
+#submit-error {
+    text-align: center;
+}
+
+#building-floors > div {
+    display: grid;
+    grid-template-columns: 70px 20px 70px;
+    gap: 10px;
+}
+
+#building-floors> div > p {
+    margin-bottom: 0 !important;
+    margin-top: 5px !important;
+    text-align: center;
 }
 
 .btn-submit {

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/users/create.css') }}">
 @section('title', 'Регистрация')
 @section('content')
-    <div class="pd" id="signup-container">
+    <div class="main-container pd mt">
         <h3>Зарегистрироваться как</h3>
 
         {{-- TABS --}}
@@ -115,7 +115,7 @@
 
                 <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-                <button class="btn btn-signup">Зарегистрироваться</button>
+                <button class="btn btn-filled btn-signup">Зарегистрироваться</button>
             </form>`,
                 target: 'tab-1'
             },
@@ -220,21 +220,30 @@
 
                 <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-                <button class="btn btn-signup">Зарегистрироваться</button>
+                <button class="btn brn-filled btn-signup">Зарегистрироваться</button>
             </form>`,
                 target: 'tab-2'
             }
         ];
 
         const tabHeader = document.querySelector('.tab-header'),
-            tabBody = document.querySelector('.tab-body__item'),
-            element_1 = document.querySelectorAll(".telephone");
+            tabBody = document.querySelector('.tab-body__item');
 
         let count = 0;
+
+        // TELEPHONE MASK
+        const telephoneMask = (element) => {
+            const maskOptions_1 = {
+                mask: '+{7}(000)000-00-00'
+            };
+            IMask(element, maskOptions_1);
+        }
 
         const start = () => {
             tabHeader.firstChild.classList.add('active');
             tabBody.innerHTML = `${tabs[0].body}`;
+            const element_1 = document.querySelector(".telephone");
+            telephoneMask(element_1);
         }
 
         const createElement = (item, classes, template) => {
@@ -256,6 +265,9 @@
             currentHeader.classList.add('active');
             let currentBody = tabs[currentHeader.dataset.target];
             tabBody.innerHTML = `<div>${currentBody.body}</div>`;
+
+            const element_1 = document.querySelector(".telephone");
+            telephoneMask(element_1);
         }
 
         tabs.forEach(tab => {
@@ -267,13 +279,6 @@
         })
 
         start();
-
-        // TELEPHONE MASK
-        element_1.forEach((element) => {
-            const maskOptions_1 = {
-                mask: '+{7}(000)000-00-00'
-            };
-            const mask_1 = IMask(element, maskOptions_1);
-        });
+        telephoneMask();
     </script>
 @endpush

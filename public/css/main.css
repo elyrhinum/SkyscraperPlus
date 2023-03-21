@@ -22,6 +22,11 @@ form {
     border-radius: 5px;
 }
 
+input, textarea, input::placeholder, textarea::placeholder, option, select {
+    font-size: 14px !important;
+}
+
+
 h5, h3, .btn {
     font-family: HelveticaNeueCyr;
 }
@@ -29,6 +34,10 @@ h5, h3, .btn {
 /*CLASSES*/
 .pd {
     padding: 0 10%;
+}
+
+.mt {
+    margin-top: 30px !important;
 }
 
 .main-container {
@@ -144,16 +153,12 @@ footer {
     font-weight: 500;
     font-family: HelveticaNeueCyr;
 
-    margin: 30px 10%;
+    margin: 30px 10% !important;
     padding-top: 30px !important;
 
     border-top: 1px solid rgba(0, 0, 0, 0.6);
 
     opacity: 60%;
-}
-
-.footer__inner {
-    margin-bottom: 20px !important;
 }
 
 .navbar__list, .footer__contacts {

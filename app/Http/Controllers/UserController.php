@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\FileService;
 use App\Http\FileServiceForRealtors;
-use App\Http\Requests\RealtorLoginRequest;
-use App\Http\Requests\RealtorSignUpRequest;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ModerSignUpRequest;
 use App\Http\Requests\SignUpRequest;
+use App\Models\Ad;
+use App\Models\ResidentialComplex;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,50 +15,79 @@ use function PHPUnit\Framework\isFalse;
 
 class UserController extends Controller
 {
-    // INDEX
-    public function indexUser()
+    // METHODS TO ACCOUNTS AND ADMIN METHODS
+    public function accountUser()
     {
         return view('users.user_account');
     }
-    public function indexRealtor()
+
+    public function accountRealtor()
     {
         return view('users.realtor_account');
     }
 
-    public function indexAdmin()
+    public function indexAdminPanel()
     {
-        return view('admins.index');
+        return view('admins.index', [
+            'ads' => Ad::all(),
+            'complexes' => ResidentialComplex::all()
+        ]);
     }
 
-    // CREATE
+    public function moderatorsIndex()
+    {
+        return view('moderators.index', ['moderators' => User::where('role_id', 4)->get()]);
+    }
+
+    // CREATE METHODS
     public function create()
     {
         return view('users.create');
     }
 
-    // LOGIN
+    public function createModerator()
+    {
+        return view('moderators.create');
+    }
+
+    // LOGIN METHODS
     public function login()
     {
         return view('users.login');
     }
 
-    // VERIFICATION
+    public function loginAdminPanel()
+    {
+        return view('admins.login');
+    }
+
+    // VERIFICATION METHODS
     public function verification(Request $request)
     {
         if (Auth::attempt($request->only(['login', 'password']))) {
             $request->session()->regenerate();
 
             if (auth()->user()->role_id == 1) {
-                return to_route('users.accountUser');
+                return to_route('users.user.account');
             } else if (auth()->user()->role_id == 2) {
-                return to_route('users.accountRealtor');
+                return to_route('users.realtor.account');
             }
-
         }
-        return back()->withErrors(['errorLogin' => 'Пользователь не найден']);
+        return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
     }
 
-    // LOGOUT
+    public function verificationAdminPanel(Request $request)
+    {
+        if (Auth::attempt($request->only(['login', 'password']))) {
+            $request->session()->regenerate();
+
+            return to_route('admins.index');
+
+        }
+        return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
+    }
+
+    // LOGOUT METHOD
     public function logout(Request $request)
     {
         auth()->logout();
@@ -68,13 +96,7 @@ class UserController extends Controller
         return to_route('ads.index');
     }
 
-    // STORE
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
+    // STORE METHODS
     public function storeUser(SignUpRequest $request)
     {
         $user = User::create(array_merge(
@@ -84,15 +106,9 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return to_route('users.accountUser');
+        return to_route('users.user.account');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function storeRealtor(SignUpRequest $request)
     {
         $path = FileServiceForRealtors::upload($request->file('image'), '/realtors');
@@ -108,40 +124,36 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return to_route('users.accountRealtor');
+        return to_route('users.realtor.account');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function storeModerator(ModerSignUpRequest $request)
     {
-        //
+        User::create(array_merge(
+            ['password' => Hash::make($request->password), 'role_id' => 4],
+            $request->only(['name', 'surname', 'patronymic', 'login'])
+        ));
+
+        return to_route('moderators.index');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function editRealtor(User $realtor)
     {
-        //
+        return view('users.realtor_edit', ['realtor' => $realtor]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function updateRealtor(Request $request, User $realtor)
     {
-        //
+        $path = FileServiceForRealtors::update('/realtors', $realtor->image, $request->file('image'));
+
+        if ($path) {
+            $result = $realtor->update(array_merge(['image' => $path],
+                $request->except(['_token', 'image'])));
+        } else {
+            $result = $realtor->update($request->except(['_token', 'image']));
+        }
+
+        return $result ? to_route('users.realtor.account')->with(['success' => 'Аккаунт успешно обновлен']) :
+            to_route('users.realtor.account')->withErrors(['error' => 'Не удалось обновить аккаунт']);
     }
 }

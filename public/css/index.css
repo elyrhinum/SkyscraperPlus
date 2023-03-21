@@ -38,7 +38,7 @@
 }
 
 /*TABLET STYLES*/
-@media (max-width: 990px) {
+@media (max-width: 1200px) {
     /*CATEGORIES OF ADS*/
     .ads__blocks {
         display: grid;

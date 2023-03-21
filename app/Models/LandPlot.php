@@ -14,14 +14,19 @@ class LandPlot extends Model
     protected $fillable = [
         'district_id',
         'street_id',
-        'number',
+        'street_number',
+        'plot_number',
         'area',
         'status'
+    ];
+
+    protected $casts = [
+        'checkboxes'
     ];
 
     // CONNECTIONS
     public function characteristics()
     {
-        $this->hasMany(HouseLandPlotCharacteristic::class);
+        $this->morphMany(ObjectAndCharacteristics::class, 'object');
     }
 }

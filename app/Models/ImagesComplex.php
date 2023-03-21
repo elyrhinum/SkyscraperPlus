@@ -15,4 +15,11 @@ class ImagesComplex extends Model
         'complex_id',
         'image'
     ];
+
+    // CONNECTIONS
+    public function complex()
+    {
+        return $this->belongsTo(ResidentialComplex::class);
+    }
+
 }

@@ -15,7 +15,7 @@ class RepairTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('plot_types')->insert([
+        DB::table('repair_types')->insert([
             ['name' => 'Косметический'],
             ['name' => 'Евро'],
             ['name' => 'Дизайнерский'],

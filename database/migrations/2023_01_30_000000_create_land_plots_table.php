@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('street_id')->constrained('streets')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->integer('number');
+            $table->integer('street_number');
+            $table->integer('plot_number')->nullable();
             $table->integer('area');
             $table->string('status');
         });

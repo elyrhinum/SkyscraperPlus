@@ -2,7 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\FileServiceForObjects;
+use App\Models\Ad;
+use App\Models\ContractType;
 use App\Models\District;
+use App\Models\Flat;
+use App\Models\ImagesAd;
+use App\Models\RepairType;
+use App\Models\ResidentialComplex;
+use App\Models\Room;
 use App\Models\Street;
 use Illuminate\Http\Request;
 
@@ -21,20 +29,65 @@ class FlatController extends Controller
     public function create()
     {
         return view('ads.flats.create', [
+            'contract_types' => ContractType::all(),
+            'complexes' => ResidentialComplex::onlyPublished()->get(),
+            'repair_types' => RepairType::all(),
             'districts' => District::all(),
             'streets' => Street::all()
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        // ПОЛУЧЕНИЕ УЛИЦЫ
+        $street = Street::firstOrCreate(['name' => request('street')]);
+
+        // ЗАГРУЗКА ПЛАНИРОВКИ
+        $layout_path = FileServiceForObjects::upload($request->file('layout'), '/layouts');
+
+        // СОЗДАНИЕ КВАРТИРЫ
+        $flat = Flat::create(array_merge(
+            [
+                'street_id' => $street->id,
+                'layout' => $layout_path
+            ],
+            $request->except('_token', 'images', 'layout')));
+
+        // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
+        $ad = Ad::create(array_merge(
+            [
+                'status_id' => 2,
+                'contract_id' => $request->contract_id,
+                'object_type' => 'rooms',
+                'object_id' => $flat->id,
+                'user_id' => auth()->id()
+            ],
+            $request->only('description', 'price')
+        ));
+
+        // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
+        if ($request->images) {
+            foreach ($request->files->all()['images'] as $file) {
+                $path = FileServiceForObjects::uploadRedirect($file, '/rooms');
+                $images = ImagesAd::create([
+                    'ad_id' => $ad->id,
+                    'image' => $path
+                ]);
+
+            }
+        } else {
+            $path = FileServiceForObjects::uploadRedirect(null, '');
+            $images = ImagesAd::create([
+                'ad_id' => $ad->id,
+                'image' => $path
+            ]);
+        }
+
+        $result = $flat;
+        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение.']) :
+            $request->session()->put(['error' => 'Не удалось подать объявление. Проверьте, чтобы этаж, на котором находится комната, не превышал общее количество этажей в доме.']);
+
+        return response()->json($result);
     }
 
     /**

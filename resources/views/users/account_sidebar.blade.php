@@ -1,23 +1,38 @@
+@php
+    use App\Models\Ad;
+    use App\Models\User;
+    use App\Models\ResidentialComplex;
+
+    $ads = Ad::where('user_id', auth()->user()->id)->get();
+@endphp
+
 <div class="main-info__navigation">
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/suggested.png') }}" alt="Предложенные">
         <div>
             <p>На рассмотрении</p>
-            <span>8</span>
+            <span>{{ count($ads->where('status_id', 2)) }}</span>
         </div>
     </a>
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/published.png') }}" alt="Опубликованные">
         <div>
             <p>Опубликованные</p>
-            <span>18</span>
+            <span>{{ count($ads->where('status_id', 1)) }}</span>
         </div>
     </a>
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/rejected.png') }}" alt="Отклоненные">
         <div>
             <p>Отклоненные</p>
-            <span>2</span>
+            <span>{{ count($ads->where('status_id', 4)) }}</span>
+        </div>
+    </a>
+    <a href="" class="navigation__link">
+        <img src="{{ asset('/media/icons/realtor_account/inactive.png') }}" alt="Скрытые">
+        <div>
+            <p>Скрытые</p>
+            <span>{{ count($ads->where('status_id', 4)) }}</span>
         </div>
     </a>
     <a href="" class="navigation__link">

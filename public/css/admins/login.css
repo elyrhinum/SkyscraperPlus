@@ -1,0 +1,13 @@
+body {
+    position: relative;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main-container {
+    position: absolute;
+
+    top: 200px;
+    left: 40%;
+}

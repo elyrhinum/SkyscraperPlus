@@ -23,6 +23,6 @@
             <span>E-mail: oktiabor.82@mail.ru</span>
         </div>
     </div>
-    <a href="{{ route('users.indexAdmin') }}">Перейти в панель администратора</a>
+    <a href="{{ route('users.loginAdminPanel') }}">Перейти в панель администратора</a>
     <p>2023 ВысоткаПлюс © Все права защищены</p>
 </footer>

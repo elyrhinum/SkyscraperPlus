@@ -16,7 +16,7 @@ class PlotTypeSeeder extends Seeder
     public function run()
     {
         DB::table('plot_types')->insert([
-            ['name' => 'Коттедж'],
+            ['name' => 'Участок с коттеджем'],
             ['name' => 'Дачный участок'],
         ]);
     }

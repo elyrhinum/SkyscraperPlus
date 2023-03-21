@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             StatusSeeder::class,
             StreetSeeder::class,
-            AdminSeeder::class
+            AdminSeeder::class,
+            HouseLandPlotCharacteristicsSeeder::class
         ]);
     }
 }

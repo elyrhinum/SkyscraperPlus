@@ -12,23 +12,10 @@ class HouseLandPlotCharacteristic extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'objects',
-        'terrace',
-        'bathhouse',
-        'parking_space',
-        'playground',
-        'sports_ground',
-        'security',
-        'sewerage',
-        'water_supply',
-        'gas',
-        'electricity',
-        'heating'
+        'id',
+        'name',
+        'is_landplot'
     ];
 
     // CONNECTIONS
-    public function landplot()
-    {
-        $this->belongsTo(LandPlot::class);
-    }
 }

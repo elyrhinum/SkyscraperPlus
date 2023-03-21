@@ -18,12 +18,12 @@ class Status extends Model
     // CONNECTIONS
     public function ads()
     {
-        return $this->hasMany(Ad::class);
+        return $this->belongsTo(Ad::class);
     }
 
     public function complexes()
     {
-        return $this->hasMany(ResidentialComplex::class);
+        return $this->belongsTo(ResidentialComplex::class);
     }
 
 }

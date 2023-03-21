@@ -1,19 +1,33 @@
 @extends('templates.app')
-<link rel="stylesheet" href="{{ asset('css/user_account.css') }}">
+<link rel="stylesheet" href="{{ asset('css/users/user_account.css') }}">
 @section('title', 'Аккаунт')
 @section('content')
     <h3>Личный аккаунт</h3>
 
-    <div class="container">
-        <div class="container__personal-info">
-            @foreach($users as $user)
-                <div class="personal-info__text">
-                    <h3>{{ $user->fullName }}</h3>
-                    <p>E-mail: {{ $user->email }}</p>
-                    <p>Телефон: {{ $user->telephone }}</p>
+    <div class="main-container pd">
+        <h3 id="main-header">Личный аккаунт</h3>
+
+        @include('inc.message')
+
+        <div class="main-info">
+            <div class="main-info__personal">
+                <img src="{{ auth()->user()->image }}" alt="{{ auth()->user()->shortName }}">
+                <div class="personal__blocks">
+                    <div class="blocks__info">
+                        <h3>{{ auth()->user()->fullName }}</h3>
+                        <div>
+                            <span>E-mail: {{ auth()->user()->email }}</span>
+                            <span>Телефон: {{ auth()->user()->telephone }}</span>
+                        </div>
+                    </div>
+
+                    <div class="blocks__links">
+
+                    </div>
                 </div>
-            @endforeach
+            </div>
+
+            @include('users.account_sidebar')
         </div>
     </div>
-
 @endsection

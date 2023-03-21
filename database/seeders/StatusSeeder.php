@@ -18,6 +18,8 @@ class StatusSeeder extends Seeder
         DB::table('statuses')->insert([
             ['name' => 'Опубликовано'],
             ['name' => 'Предолжено'],
+            ['name' => 'Отклонено'],
+            ['name' => 'Неактивно'],
         ]);
     }
 }

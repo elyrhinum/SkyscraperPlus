@@ -36,15 +36,18 @@
                 @auth
                     <div class="buttons">
                         <span class="navbar-text">
-                            <a class="btn btn-filled" href="{{ route('ads.pre-create') }}">+ Подать объявление</a>
+                            <a class="btn btn-filled" href="{{ route('ads.preCreate') }}">Подать объявление</a>
                         </span>
                         @if(auth()->user()->role_id == 1)
                             <span class="navbar-text" style="margin-left: 10px">
-                                <a class="btn btn-outlined" href="{{ route('users.accountUser') }}">Мой аккаунт</a>
+                                <a class="btn btn-outlined" href="{{ route('users.user.account') }}">Мой аккаунт</a>
                             </span>
                         @elseif(auth()->user()->role_id == 2)
+                            <span class="navbar-text">
+                            <a class="btn btn-filled" style="margin-left: 10px" href="{{ route('complexes.create') }}">Добавить ЖК</a>
+                        </span>
                             <span class="navbar-text" style="margin-left: 10px">
-                                <a class="btn btn-outlined" href="{{ route('users.accountRealtor') }}">Мой аккаунт</a>
+                                <a class="btn btn-outlined" href="{{ route('users.realtor.account') }}">Мой аккаунт</a>
                             </span>
                         @endif
                         <span class="navbar-text" style="margin-left: 10px">

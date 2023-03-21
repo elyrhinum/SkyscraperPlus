@@ -15,26 +15,6 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
-    // METHODS
-    public function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => $this->surname . " " . $this->name . " " . $this->patronymic
-        );
-    }
-
-    public function shortName(): Attribute
-    {
-        return Attribute::make(
-            get: fn() => strtoupper(substr($this->name, 0,1)) . '. ' . strtoupper(substr($this->patronymic, 0, 1)) . '. ' . $this->surname
-        );
-    }
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'role_id',
         'name',
@@ -47,21 +27,11 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
 
     ];
@@ -70,5 +40,18 @@ class User extends Authenticatable
     public function role()
     {
         return $this->hasOne(Role::class);
+    }
+
+    // METHODS
+    public function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->surname . " " . $this->name . " " . $this->patronymic
+        );
+    }
+
+    public function getShortNameAttribute()
+    {
+        return strtoupper(mb_substr($this->name, 0,1)) . '. ' . strtoupper(mb_substr($this->patronymic, 0, 1)) . '. ' . $this->surname;
     }
 }
