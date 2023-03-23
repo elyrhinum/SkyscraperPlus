@@ -16,32 +16,26 @@ class District extends Model
     // CONNECTIONS
     public function flat()
     {
-        return $this->belongsTo(Flat::class);
+        return $this->hasMany(Flat::class);
     }
 
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->hasMany(Room::class);
     }
 
     public function house()
     {
-        return $this->belongsTo(House::class);
+        return $this->hasMany(House::class);
     }
 
     public function landplot()
     {
-        return $this->belongsTo(LandPlot::class);
+        return $this->hasMany(LandPlot::class);
     }
 
     public function complexes()
     {
         return $this->hasMany(ResidentialComplex::class);
     }
-
-//    public function getComplex($id)
-//    {
-//        $complex = ResidentialComplex::find($id);
-//        return District::find($complex->district_id);
-//    }
 }

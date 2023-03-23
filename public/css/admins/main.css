@@ -16,6 +16,8 @@ body {
     height: 100%;
 
     background-color: #DCDCDC ;
+
+    font-size: 14px;
 }
 
 a {
@@ -33,6 +35,7 @@ h5, h3, .btn {
 
 .alert {
     min-width: 1310px;
+    margin-bottom: 10px !important;
 }
 
 .br {
@@ -46,21 +49,6 @@ h5, h3, .btn {
     align-items: flex-start;
 
     margin: 10px;
-}
-
-.main-container > h5, .title {
-    width: 100%;
-    padding: 20px;
-
-    background-color: white;
-    border-radius: 5px;
-}
-
-.title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
 }
 
 /*HEADER*/
@@ -85,11 +73,15 @@ header {
 }
 
 /*NAVIGATION BAR*/
+.header__navigation > ul > li {
+    cursor: pointer;
+}
+
 ul {
     padding: 0 !important;
 }
 
-ul > li {
+.navigation__ul-link {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -101,17 +93,23 @@ ul > li {
     font-size: 14px;
 }
 
-ul > li:hover {
+.navigation__ul-link:hover {
     background-color: #EEA444;
     border-radius: 5px;
     transition: .5s;
 }
 
-ul > li > img {
+.navigation__ul-link > img {
     width: 15px;
     height: 15px;
     object-fit: cover;
     margin-right: 10px;
+}
+
+.navigation__ul-title {
+    font-family: HelveticaNeueCyr;
+    font-weight: 500;
+    font-size: 16px;
 }
 
 #logo {
@@ -119,12 +117,6 @@ ul > li > img {
     height: fit-content;
 
     margin-bottom: 10px;
-}
-
-.list-title {
-    font-family: HelveticaNeueCyr;
-    font-weight: 500;
-    font-size: 16px;
 }
 
 /*BUTTONS*/
@@ -165,20 +157,47 @@ table {
 }
 
 th, td, tr {
-    padding: 5px;
+    font-size: 14px;
+    padding: 5px 10px;
 }
 
 th {
+    padding: 10px;
+    font-family: HelveticaNeueCyr;
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    text-align: center;
+}
+
+#title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 10px !important;
+
+    background-color: white;
+    border-radius: 5px;
+}
+
+#title > h5 {
+    margin-bottom: 0 !important;
 }
 
 .td-date {
     width: 13%;
-    text-align: center;
 }
 
-.td-btn , .object-id{
+.td-btn {
+    text-align: right;
+}
+
+.object-id {
+    width: 40px;
+}
+
+.td-centered, .object-id, .date-column {
     text-align: center;
 }
 

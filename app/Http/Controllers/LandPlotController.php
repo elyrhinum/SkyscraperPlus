@@ -51,7 +51,7 @@ class LandPlotController extends Controller
             [
                 'status_id' => 2,
                 'contract_id' => $request->contract_id,
-                'object_type' => 'landplots',
+                'object_type' => '\App\Models\LandPlot',
                 'object_id' => $landplot->id,
                 'user_id' => auth()->id()
             ],

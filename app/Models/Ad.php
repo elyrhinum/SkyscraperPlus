@@ -25,6 +25,11 @@ class Ad extends Model
     ];
 
     // CONNECTIONS
+    public function object()
+    {
+        return $this->morphTo();
+    }
+
     public function statuses()
     {
         return $this->hasMany(Status::class);
@@ -33,26 +38,6 @@ class Ad extends Model
     public function contract()
     {
         return $this->hasOne(ContractType::class);
-    }
-
-    public function flat()
-    {
-        return $this->hasOne(Flat::class);
-    }
-
-    public function room()
-    {
-        return $this->hasOne(Room::class);
-    }
-
-    public function house()
-    {
-        return $this->hasOne(House::class);
-    }
-
-    public function landplot()
-    {
-        return $this->hasOne(LandPlot::class);
     }
 
     public function images()
@@ -76,8 +61,27 @@ class Ad extends Model
         return Ad::where('status_id', 3);
     }
 
-    public static function onlyInactive()
+    public static function onlyHidden()
     {
         return Ad::where('status_id', 4);
+    }
+
+    public function dateOfCreating(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->created_at->format('d.m.Y')
+        );
+    }
+
+    public function dateOfUpdating(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->updated_at->format('d.m.Y')
+        );
+    }
+
+    public function getNameOfAd()
+    {
+        return $this->objects()->district->name . ', ' . $this->objects()->street->name . ', ' . $this->objects()->street_number;
     }
 }

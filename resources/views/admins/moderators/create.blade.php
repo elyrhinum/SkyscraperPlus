@@ -1,11 +1,15 @@
 @extends('templates.admin')
 <link rel="stylesheet" href="{{ asset('css/admins/moderators/create.css') }}">
-@section('title', 'Список модераторов')
+@section('title', 'Добавление модератора')
 @section('content')
     <div class="main-container">
-        <h5>Регистрация модератора</h5>
+        <div id="title">
+            <h5>Добавление модератора</h5>
+            <a href="{{ route('admins.moderators.index') }}" class="btn btn-filled">Назад</a>
+        </div>
 
-        <form action="{{ route('moderators.store') }}" method="post">
+
+        <form action="{{ route('admins.moderators.store') }}" method="post">
             @csrf
 
             <div class="inputs input-name">
@@ -75,7 +79,7 @@
 
             <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-            <button class="btn btn-filled" id="btn-create-moder">Зарегистрировать</button>
+            <button class="btn btn-filled" id="btn-create-moder">Добавить</button>
         </form>
     </div>
 @endsection

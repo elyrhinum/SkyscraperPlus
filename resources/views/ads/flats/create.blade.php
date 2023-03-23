@@ -38,7 +38,7 @@
                     <div class="labels">
                         <p class="residential-complexes__title">Жилой комплекс</p>
                         <select class="form-select residential-complexes__select"
-                                id="complex_id" name="complex_id">
+                                id="residential_complex_id" name="residential_complex_id">
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
@@ -208,7 +208,8 @@
                     {{--YEAR OF BUILDING--}}
                     <div id="building-year" class="labels">
                         <p class="building-year__title">Год постройки</p>
-                        <input type="number" name="building_year" id="building_year" class="form-control" min="1337">
+                        <input type="number" name="building_year" id="building_year" class="form-control" min="1700">
+                        <p id="year-error"></p>
                     </div>
 
                     {{--BUILDING TYPE--}}
@@ -309,7 +310,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/image-uploading.js') }}"></script>
+    <script src="{{ asset('/js/images-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),
@@ -319,10 +320,91 @@
             floors = document.getElementById('floors'),
             floorError = document.getElementById('floor-error'),
             submitError = document.getElementById('submit-error'),
-            complexSelect = document.getElementById('complex_id'),
+            complexSelect = document.getElementById('residential_complex_id'),
             district = document.getElementById('district_id'),
-            renderSelect = document.getElementById('rendering-select');
+            renderSelect = document.getElementById('rendering-select'),
+            buildingYear = document.getElementById('building_year'),
+            yearError = document.getElementById('year-error');
 
+        layout.addEventListener('change', (e) => {
+            layoutPrev.innerHTML = ''
+            let image = document.createElement('img')
+            image.style.display = 'block'
+            image.style.width = '150px'
+            image.style.height = '150px'
+            image.style.objectFit = 'cover'
+            image.src = URL.createObjectURL(e.target.files[0])
+            image.alt = "img"
+            layoutPrev.append(image)
+        })
+
+        // ПРОВЕРКА НА СОВМЕСТИМОСТЬ ЭТАЖЕЙ
+        floor.addEventListener('input', (e) => {
+            const floors = document.getElementById('floors');
+
+            if (e.target.value > floors.value) {
+                floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
+                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их'
+                btnSubmit.disabled = true;
+            } else {
+                floorError.textContent = '';
+                submitError.textContent = '';
+                btnSubmit.disabled = false;
+            }
+        });
+
+        floors.addEventListener('input', (e) => {
+            const floor = document.getElementById('floor');
+
+            if (e.target.value < floor.value) {
+                floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
+                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их';
+                btnSubmit.disabled = true;
+            } else {
+                floorError.textContent = '';
+                submitError.textContent = '';
+                btnSubmit.disabled = false;
+            }
+        });
+
+        // ПРОВЕРКА НА СОВПАДЕНИЕ РАЙОНА ЖИЛОГО КОМПЛЕКСА И ОБЪЕКТА
+        complexSelect.addEventListener('input', async () => {
+            const complex_district = complexSelect.value;
+
+            if (complex_district !== 'Не выбрано') {
+                let res = await districtPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
+                renderSelect.inerrHTML = '';
+                renderSelect.innerHTML = `<select class="form-select districts__select"
+                                id="district_id" name="district_id">
+                <option value="${ res.id}">${ res.name }</option>
+                </select>`;
+            } else {
+                renderSelect.inerrHTML = '';
+                renderSelect.innerHTML = `<select class="form-select districts__select"
+                                    id="district_id" name="district_id">
+                                @foreach($districts as $district)
+                <option value="{{ $district->id }}"
+                                        {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                @endforeach
+                </select>`;
+            }
+        });
+
+        // ПРОВЕРКА НА ПРЕВЫШЕНИЕ НЫНЕШНЕГО ГОДА
+        buildingYear.addEventListener('input', () => {
+            const year = new Date().getFullYear(),
+                buildingYear = document.getElementById('building_year');
+
+            if (buildingYear.value < 1700 || buildingYear.value > year) {
+                btnSubmit.disabled = true;
+                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего'
+            } else {
+                yearError.textContent = '';
+                btnSubmit.disabled = false;
+            }
+        });
+
+        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault();
             const formData = getFilesFormData(filesStore);
@@ -351,67 +433,5 @@
                 }
             }
         })
-
-        layout.addEventListener('change', (e) => {
-            layoutPrev.innerHTML = ''
-            let image = document.createElement('img')
-            image.style.display = 'block'
-            image.style.width = '150px'
-            image.style.height = '150px'
-            image.style.objectFit = 'cover'
-            image.src = URL.createObjectURL(e.target.files[0])
-            image.alt = "img"
-            layoutPrev.append(image)
-        })
-
-        // ПРОВЕРКА НА СОВМЕСТИМОСТЬ ЭТАЖЕЙ
-        floor.addEventListener('input', (e) => {
-            const floors = document.getElementById('floors');
-
-            if (e.target.value > floors.value) {
-                floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
-                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их'
-                btnSubmit.disabled = true;
-            } else {
-                floorError.textContent = '';
-                btnSubmit.disabled = false;
-            }
-        });
-
-        floors.addEventListener('input', (e) => {
-            const floor = document.getElementById('floor');
-
-            if (e.target.value < floor.value) {
-                floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
-                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их'
-                btnSubmit.disabled = true;
-            } else {
-                floorError.textContent = '';
-                btnSubmit.disabled = false;
-            }
-        });
-
-        // ПРОВЕРКА НА СОВПАДЕНИЕ РАЙОНА ЖИЛОГО КОМПЛЕКСА И ОБЪЕКТА
-        complexSelect.addEventListener('input', async () => {
-            const complex_district = complexSelect.value;
-
-            if (complex_district !== 'Не выбрано') {
-                let res = await districtPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
-                renderSelect.inerrHTML = '';
-                renderSelect.innerHTML = `<select class="form-select districts__select"
-                                id="district_id" name="district_id">
-                <option value="${ res.id}">${ res.name }</option>
-                </select>`;
-            } else {
-                renderSelect.inerrHTML = '';
-                renderSelect.innerHTML = `<select class="form-select districts__select"
-                                    id="district_id" name="district_id">
-                                @foreach($districts as $district)
-                <option value="{{ $district->id }}"
-                                        {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
-                                @endforeach
-                </select>`;
-            }
-        });
     </script>
 @endpush

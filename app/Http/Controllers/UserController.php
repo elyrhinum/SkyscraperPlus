@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\FileServiceForRealtors;
-use App\Http\Requests\ModerSignUpRequest;
+use App\Http\Requests\ModeratorSignUpRequest;
+use App\Http\Requests\ModeratorUpdateRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Models\Ad;
 use App\Models\ResidentialComplex;
@@ -15,53 +16,34 @@ use function PHPUnit\Framework\isFalse;
 
 class UserController extends Controller
 {
-    // METHODS TO ACCOUNTS AND ADMIN METHODS
-    public function accountUser()
+    // METHODS TO GET ACCOUNTS
+    public function userAccount()
     {
         return view('users.user_account');
     }
 
-    public function accountRealtor()
+    public function realtorAccount()
     {
-        return view('users.realtor_account');
-    }
-
-    public function indexAdminPanel()
-    {
-        return view('admins.index', [
-            'ads' => Ad::all(),
-            'complexes' => ResidentialComplex::all()
+        return view('users.realtor_account', [
+            'suggested_ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->get(),
+            'published_ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->get(),
+            'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->get(),
         ]);
     }
 
-    public function moderatorsIndex()
-    {
-        return view('moderators.index', ['moderators' => User::where('role_id', 4)->get()]);
-    }
-
-    // CREATE METHODS
+    // CREATE METHOD
     public function create()
     {
         return view('users.create');
     }
 
-    public function createModerator()
-    {
-        return view('moderators.create');
-    }
-
-    // LOGIN METHODS
+    // LOGIN METHOD
     public function login()
     {
         return view('users.login');
     }
 
-    public function loginAdminPanel()
-    {
-        return view('admins.login');
-    }
-
-    // VERIFICATION METHODS
+    // VERIFICATION METHOD
     public function verification(Request $request)
     {
         if (Auth::attempt($request->only(['login', 'password']))) {
@@ -72,17 +54,6 @@ class UserController extends Controller
             } else if (auth()->user()->role_id == 2) {
                 return to_route('users.realtor.account');
             }
-        }
-        return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
-    }
-
-    public function verificationAdminPanel(Request $request)
-    {
-        if (Auth::attempt($request->only(['login', 'password']))) {
-            $request->session()->regenerate();
-
-            return to_route('admins.index');
-
         }
         return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
     }
@@ -127,21 +98,13 @@ class UserController extends Controller
         return to_route('users.realtor.account');
     }
 
-    public function storeModerator(ModerSignUpRequest $request)
-    {
-        User::create(array_merge(
-            ['password' => Hash::make($request->password), 'role_id' => 4],
-            $request->only(['name', 'surname', 'patronymic', 'login'])
-        ));
-
-        return to_route('moderators.index');
-    }
-
+    // EDIT METHODS
     public function editRealtor(User $realtor)
     {
         return view('users.realtor_edit', ['realtor' => $realtor]);
     }
 
+    // UPDATE METHODS
     public function updateRealtor(Request $request, User $realtor)
     {
         $path = FileServiceForRealtors::update('/realtors', $realtor->image, $request->file('image'));

@@ -17,10 +17,7 @@
                         <a class="nav-link" href="#">Аренда</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rcs.index') }}">Жилые комплексы</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Риелторы</a>
+                        <a class="nav-link" href="#">Жилые комплексы</a>
                     </li>
                 </ul>
                 @guest

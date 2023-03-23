@@ -1,36 +1,32 @@
-/*CARD CONTAINER*/
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-
-    margin-top: 10px !important;
+.title {
+    margin-bottom: 10px !important;
 }
 
-.cards__card {
+/*TABLE*/
+table {
+    width: 100%;
     background-color: white;
-    padding: 20px !important;
-
     border-radius: 5px;
-
-    min-width: 270px;
 }
 
-.card__header > p {
-    font-family: HelveticaNeueCyr;
-    font-size: 16px;
-    font-weight: 500;
+th, td, tr {
+    padding: 5px;
 }
 
-.card__footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-top: 10px !important;
+th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
-.card__footer > button {
-    margin: 0 !important;
+.td-date {
+    width: 13%;
+    text-align: center;
+}
+
+.object-id {
+    width: 40px;
+}
+
+.td-btn, .object-id {
+    text-align: center;
 }

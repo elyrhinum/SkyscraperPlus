@@ -39,10 +39,15 @@ class User extends Authenticatable
     // CONNECTIONS
     public function role()
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
     // METHODS
+    public function hasRole()
+    {
+        return in_array($this->role->name, ['Администратор', 'Модератор']);
+    }
+
     public function fullName(): Attribute
     {
         return Attribute::make(
@@ -52,6 +57,10 @@ class User extends Authenticatable
 
     public function getShortNameAttribute()
     {
-        return strtoupper(mb_substr($this->name, 0,1)) . '. ' . strtoupper(mb_substr($this->patronymic, 0, 1)) . '. ' . $this->surname;
+        if ($this->patronymic != null)
+            return strtoupper(mb_substr($this->name, 0,1)) . '. ' . strtoupper(mb_substr($this->patronymic, 0, 1)) . '. ' . $this->surname;
+        else
+            return strtoupper(mb_substr($this->name, 0,1)) . '. ' . $this->surname;
+
     }
 }

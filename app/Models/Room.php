@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Room extends Model
 {
@@ -12,7 +13,7 @@ class Room extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'complex_id',
+        'residential_complex_id',
         'district_id',
         'street_id',
         'repair_id',
@@ -23,4 +24,15 @@ class Room extends Model
         'area',
         'layout'
     ];
+
+    // CONNECTIONS
+    public function ad()
+    {
+        $this->morphOne(Ad::class,  'object');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

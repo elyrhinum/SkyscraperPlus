@@ -3,7 +3,7 @@
 @section('title', 'Просмотр жилого комплекса')
 @section('content')
     <div class="main-container">
-        <div class="container__header">
+        <div id="title">
             <h5>Жилой комплекс "{{ $complex->name }}"</h5>
         </div>
 
@@ -16,15 +16,6 @@
                             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{ $key }}" class="active"
                                     aria-current="true" aria-label="Slide {{$key}}"></button>
                         @endforeach
-
-                        {{--                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"--}}
-                        {{--                        aria-label="Slide 2"></button>--}}
-                        {{--                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"--}}
-                        {{--                        aria-label="Slide 3"></button>--}}
-                        {{--                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"--}}
-                        {{--                        aria-label="Slide 4"></button>--}}
-                        {{--                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"--}}
-                        {{--                        aria-label="Slide 5"></button>--}}
                     </div>
                     <div class="carousel-inner">
                         @foreach($complex->images as $key=>$item)
@@ -49,7 +40,7 @@
                 {{--INFORMATION--}}
                 <div class="grid__info">
                     <h5>{{ $complex->name }}</h5>
-                    <p>{{ $complex->description }}</p>
+                    <p>Класс: {{ $complex->class->name }}</p>
                 </div>
             </div>
 

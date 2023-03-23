@@ -65,6 +65,7 @@
                 <label for="image" class="label-image">
                     <p>ЗАГРУЗИТЕ ФОТОГРАФИЮ</p>
                     <input type="file" name="image" id="image"
+                           accept="image/jpg, image/jpeg, image/png"
                            class="form-control image @error('image') is-invalid @enderror">
                     <div id="image-prev">
                         <img src="{{ $realtor->image }}" alt="{{ $realtor->name }}">

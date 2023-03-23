@@ -43,7 +43,6 @@ function handleChange(e) {
     if (filesStore.length > 10) {
         imagesError.textContent = 'Изображений должно быть меньше 10!';
         filesStore.splice(10, filesStore.length - 10);
-        return;
     }
 
     console.log(filesStore)

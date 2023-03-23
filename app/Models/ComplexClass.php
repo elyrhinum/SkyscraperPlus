@@ -18,6 +18,6 @@ class ComplexClass extends Model
     // CONNECTIONS
     public function complex()
     {
-        return $this->belongsTo(ResidentialComplex::class);
+        return $this->hasMany(ResidentialComplex::class);
     }
 }

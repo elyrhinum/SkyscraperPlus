@@ -177,10 +177,14 @@
                 </div>
 
                 <div class="inputs input-image">
-                    <label for="name">Фотография
-                        <input type="file" name="image"
-                               class="form-control image @error('image') is-invalid @enderror">
-                        </label>
+                    <p>Фотография</p>
+                    <label for="image" class="label-image">
+                        <p>ЗАГРЗУИТЕ ФОТОГРАФИЮ</p>
+                        <input type="file" name="image" id="image"
+                            accept="image/jpg, image/jpeg, image/png"
+                            class="form-control image @error('image') is-invalid @enderror">
+                        <p id="image-prev"></p>
+                    </label>
                         @error('image')
                 <span>{{ $message }}</span>
                         @enderror
@@ -266,8 +270,25 @@
             let currentBody = tabs[currentHeader.dataset.target];
             tabBody.innerHTML = `<div>${currentBody.body}</div>`;
 
-            const element_1 = document.querySelector(".telephone");
+            const element_1 = document.querySelector(".telephone"),
+                imageInput = document.getElementById('image'),
+                imagePrev = document.getElementById('image-prev');
+
+            // TELEPHONE MASK
             telephoneMask(element_1);
+
+            // IMAGE PREVIEW
+            imageInput.addEventListener('change', (e) => {
+                imagePrev.innerHTML = ''
+                let image = document.createElement('img')
+                image.style.display = 'block'
+                image.style.width = '350px'
+                image.style.height = '350px'
+                image.style.objectFit = 'cover'
+                image.src = URL.createObjectURL(e.target.files[0])
+                image.alt = "img"
+                imagePrev.append(image)
+            })
         }
 
         tabs.forEach(tab => {

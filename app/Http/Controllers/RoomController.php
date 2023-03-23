@@ -48,19 +48,29 @@ class RoomController extends Controller
         $layout_path = FileServiceForObjects::upload($request->file('layout'), '/layouts');
 
         // СОЗДАНИЕ КОМНАТЫ
-        $room = Room::create(array_merge(
-            [
-                'street_id' => $street->id,
-                'layout' => $layout_path
-            ],
-            $request->except('_token', 'images', 'layout')));
+        if($request->residential_complex_id != 'Не выбрано') {
+            $room = Room::create(array_merge(
+                [
+                    'street_id' => $street->id,
+                    'layout' => $layout_path
+                ],
+                $request->except('_token', 'images', 'layout')));
+        } else {
+            $room = Room::create(array_merge(
+                [
+                    'street_id' => $street->id,
+                    'layout' => $layout_path
+                ],
+                $request->except('_token', 'images', 'layout', 'residential_complex_id')));
+        }
+
 
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
                 'status_id' => 2,
                 'contract_id' => $request->contract_id,
-                'object_type' => 'rooms',
+                'object_type' => '\App\Models\Room',
                 'object_id' => $room->id,
                 'user_id' => auth()->id()
             ],

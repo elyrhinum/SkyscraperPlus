@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ModerSignUpRequest extends FormRequest
+class ModeratorUpdateRequest extends FormRequest
 {
     public function rules()
     {
@@ -12,8 +12,7 @@ class ModerSignUpRequest extends FormRequest
             'name' => ['required', 'regex:/^[а-яёА-ЯЁ\s\-]+$/iu'],
             'surname' => ['required', 'regex:/^[а-яёА-ЯЁ\s\-]+$/iu'],
             'patronymic' => ['regex:/^[а-яёА-ЯЁ\s\-]+$/iu', 'nullable'],
-            'login' => ['required', 'unique:users', 'regex:/^[a-z\d\-]+$/i'],
-            'password' => ['required', 'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!&#?])[0-9a-zA-Z!#&?]{6,}$/', 'confirmed']
+            'login' => ['required', 'regex:/^[a-z\d\-]+$/i']
         ];
     }
 
@@ -23,7 +22,6 @@ class ModerSignUpRequest extends FormRequest
             'required'=>'Поле ":attribute" необходимо заполнить',
             'unique'=>':attribute должно(-а) быть уникальным',
             'regex'=>':attribute не соответствует шаблону',
-            'confirmed'=>'Пароли не совпадают'
         ];
     }
 
@@ -33,7 +31,6 @@ class ModerSignUpRequest extends FormRequest
             'surname'=>'Фамилия',
             'patronymic'=>'Отчество',
             'login'=>'Логин',
-            'password'=>'Пароль'
         ];
     }
 }

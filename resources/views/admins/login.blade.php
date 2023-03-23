@@ -29,7 +29,7 @@
 </head>
 <body style="background-image: url({{asset('/media/images/admin_login_banner.jpg')}});">
 <div class="main-container">
-    <form action="{{ route('users.verificationAdminPanel') }}" method="post">
+    <form action="{{ route('admins.verification') }}" method="post">
         @csrf
 
         <h3>Войдите в аккаунт</h3>

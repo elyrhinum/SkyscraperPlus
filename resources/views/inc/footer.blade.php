@@ -9,7 +9,7 @@
                     <a class="nav-link" href="#">Аренда</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('rcs.index') }}">Жилые комплексы</a>
+                    <a class="nav-link" href="#">Жилые комплексы</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="">Риелторы</a>
@@ -23,6 +23,6 @@
             <span>E-mail: oktiabor.82@mail.ru</span>
         </div>
     </div>
-    <a href="{{ route('users.loginAdminPanel') }}">Перейти в панель администратора</a>
+    <a href="{{ route('admins.login') }}">Перейти в панель администратора</a>
     <p>2023 ВысоткаПлюс © Все права защищены</p>
 </footer>

@@ -11,41 +11,44 @@
         <img src="{{ asset('/media/icons/realtor_account/suggested.png') }}" alt="Предложенные">
         <div>
             <p>На рассмотрении</p>
-            <span>{{ count($ads->where('status_id', 2)) }}</span>
+            @if(count($ads->where('status_id', 2)) > 0)
+                <span>{{ count($ads->where('status_id', 2)) }}</span>
+            @endif
         </div>
     </a>
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/published.png') }}" alt="Опубликованные">
         <div>
             <p>Опубликованные</p>
-            <span>{{ count($ads->where('status_id', 1)) }}</span>
+            @if(count($ads->where('status_id', 1)) > 0)
+                <span>{{ count($ads->where('status_id', 1)) }}</span>
+            @endif
         </div>
     </a>
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/rejected.png') }}" alt="Отклоненные">
         <div>
             <p>Отклоненные</p>
-            <span>{{ count($ads->where('status_id', 4)) }}</span>
-        </div>
-    </a>
-    <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/realtor_account/inactive.png') }}" alt="Скрытые">
-        <div>
-            <p>Скрытые</p>
-            <span>{{ count($ads->where('status_id', 4)) }}</span>
+            @if(count($ads->where('status_id', 3)) > 0)
+                <span>{{ count($ads->where('status_id', 3)) }}</span>
+            @endif
         </div>
     </a>
     <a href="" class="navigation__link">
         <img src="{{ asset('/media/icons/realtor_account/saved.png') }}" alt="Избранное">
         <div>
             <p>Избранное</p>
-            <span>56</span>
         </div>
     </a>
 </div>
 
 <style>
     .main-info__navigation {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-content: center;
+
         background-color: white;
         border-radius: 5px;
         padding: 15px;
@@ -67,7 +70,6 @@
         border-radius: 5px;
 
         padding: 8px;
-        margin-bottom: 10px;
     }
 
     .navigation__link > div {
@@ -85,6 +87,8 @@
     .navigation__link > div > span {
         font-size: 10px;
         opacity: 50%;
+
+        margin-top: 1px !important;
     }
 
     .navigation__link > img {

@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FlatController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\LandPlotController;
-use App\Http\Controllers\RealtorController;
 use App\Http\Controllers\ResidentialComplexController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
@@ -21,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 // INDEX PAGE
 Route::controller(AdController::class)->group(function () {
     Route::get('/', 'index')->name('ads.index');
@@ -29,67 +28,11 @@ Route::controller(AdController::class)->group(function () {
 // USERS ROUTES
 Route::prefix('users')->name('users.')->group(function () {
     Route::controller(UserController::class)->group(function () {
-        // SIGNUP ROUTE
         Route::get('/signup', 'create')->name('create');
-
-        // LOGIN ROUTES
         Route::get('/login/users', 'login')->name('login');
-        Route::get('/login/admins', 'loginAdminPanel')->name('loginAdminPanel');
-
-        // VERIFICATION ROUTES
-        Route::post('/login/users/verification', 'verification')->name('verification');
-        Route::post('/login/admins/verification', 'verificationAdminPanel')->name('verificationAdminPanel');
-
-        // STORE USERS ROUTE
+        Route::post('/login/verification', 'verification')->name('verification');
         Route::post('/signup/users/store', 'storeUser')->name('storeUser');
-
-        // STORE REALTORS ROUTE
         Route::post('/signup/realtors/store', 'storeRealtor')->name('storeRealtor');
-    });
-});
-
-//// ADMIN ROUTES
-Route::middleware('can:admin')->group(function () {
-    Route::controller(UserController::class)->group(function () {
-        // MODERATORS ROUTES
-        Route::get('/moderators', 'moderatorsIndex')->name('moderators.index');
-        Route::get('/signup/moderators', 'createModerator')->name('moderators.create');
-        Route::post('/signup/moderators/store', 'storeModerator')->name('moderators.store');
-        Route::get('/moderators/edit', 'editModerator')->name('moderators.edit');
-        Route::post('/moderators/update', 'updateModerator')->name('moderators.update');
-    });
-});
-
-// MODERATOR AND ADMIN ROUTES
-Route::middleware('can:moderator')->group(function () {
-    Route::controller(UserController::class)->group(function () {
-        // TO INDEX ROUTE
-        Route::get('/index/admins', 'indexAdminPanel')->name('admins.index');
-    });
-
-    // ADS ROUTES
-    Route::prefix('ads')->name('ads.')->group(function () {
-        Route::controller(AdController::class)->group(function () {
-            Route::get('/ads/suggested', 'onlySuggested')->name('suggested');
-            Route::get('/ads/published', 'onlyPublished')->name('published');
-            Route::get('/ads/inactive', 'onlyInactive')->name('inactive');
-        });
-    });
-
-    // COMPLEXES ROUTES
-    Route::prefix('complexes')->name('complexes.')->group(function () {
-        Route::controller(ResidentialComplexController::class)->group(function () {
-            // GET COMPLEXES BY STATUS
-            Route::get('/suggested', 'suggested')->name('suggested');
-            Route::get('/published', 'published')->name('published');
-
-            // SHOW ROUTE
-            Route::get('/show/{complex}', 'showAdminPanel')->name('show');
-
-            // STATUS ROUTES
-            Route::get('/cancel', 'cancel')->name('cancel');
-            Route::get('/confirm', 'confirm')->name('confirm');
-        });
     });
 });
 
@@ -101,10 +44,10 @@ Route::middleware('auth')->group(function () {
             Route::get('/logout/users', 'logout')->name('logout');
 
             // USERS ROUTES
-            Route::get('/account/users', 'accountUser')->name('user.account');
+            Route::get('/account/users', 'userAccount')->name('user.account');
 
             // REALTORS ROUTES
-            Route::get('/account/realtors', 'accountRealtor')->name('realtor.account');
+            Route::get('/account/realtors', 'realtorAccount')->name('realtor.account');
             Route::get('/account/realtors/edit/{realtor}', 'editRealtor')->name('realtor.edit');
             Route::post('/account/realtors/update/{realtor}', 'updateRealtor')->name('realtor.update');
         });
@@ -163,8 +106,69 @@ Route::middleware('auth')->group(function () {
 });
 
 // RESIDENTIAL COMPLEX ROUTES
-Route::prefix('rcs')->name('rcs.')->group(function () {
+Route::prefix('complexes')->name('complexes.')->group(function () {
     Route::controller(ResidentialComplexController::class)->group(function () {
         Route::get('/complex', 'index')->name('index');
+    });
+});
+
+// MODERATORS AND ADMINS ROUTES
+Route::prefix('admins')->name('admins.')->group(function () {
+    Route::controller(\App\Http\Controllers\admins\UserController::class)->group(function () {
+        Route::get('/login', 'login')->name('login');
+        Route::post('/login/verification', 'verification')->name('verification');
+    });
+
+    Route::middleware('role')->group(function () {
+        Route::controller(\App\Http\Controllers\admins\UserController::class)->group(function () {
+            // VERIFICATION AND INDEX ROUTES
+            Route::get('/index', 'index')->name('index');
+        });
+
+        // ADMIN ROUTES
+        Route::middleware('can:admin')->group(function () {
+            Route::controller(\App\Http\Controllers\admins\UserController::class)->group(function () {
+                // MODERATORS ROUTES
+                Route::get('/moderators', 'moderatorIndex')->name('moderators.index');
+                Route::get('/signup/moderators', 'create')->name('moderators.create');
+                Route::post('/signup/moderators/store', 'store')->name('moderators.store');
+                Route::get('/moderators/edit/{moderator}', 'edit')->name('moderators.edit');
+                Route::post('/moderators/update/{moderator}', 'update')->name('moderators.update');
+                Route::get('/moderator/delete', 'delete')->name('moderator.delete');
+            });
+        });
+
+        // ADS ROUTES
+        Route::prefix('ads')->name('ads.')->group(function () {
+            Route::controller(\App\Http\Controllers\admins\AdController::class)->group(function () {
+                // GET ADS BY STATUS
+                Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
+                Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
+                Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
+
+                // STATUS ROUTES
+                Route::get('/cancel', 'cancel')->name('cancel');
+                Route::get('/confirm', 'confirm')->name('confirm');
+                Route::get('/hide', 'hide')->name('hide');
+            });
+        });
+
+        // COMPLEXES ROUTES
+        Route::prefix('complexes')->name('complexes.')->group(function () {
+            Route::controller(\App\Http\Controllers\admins\ResidentialComplexController::class)->group(function () {
+                // GET COMPLEXES BY STATUS
+                Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
+                Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
+                Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
+
+                // SHOW ROUTE
+                Route::get('/show/{complex}', 'show')->name('show');
+
+                // STATUS CHANGING ROUTES
+                Route::get('/cancel', 'cancel')->name('cancel');
+                Route::get('/confirm', 'confirm')->name('confirm');
+                Route::get('/hide', 'hide')->name('hide');
+            });
+        });
     });
 });

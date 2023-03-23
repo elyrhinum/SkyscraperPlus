@@ -12,7 +12,7 @@ class ImagesComplex extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'complex_id',
+        'residential_complex_id',
         'image'
     ];
 

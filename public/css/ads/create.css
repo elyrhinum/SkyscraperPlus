@@ -78,7 +78,8 @@ form {
 #bathrooms_amount,
 #street_number,
 #number,
-#entrance {
+#entrance,
+#building_area {
     width: 70px;
 }
 
@@ -144,12 +145,12 @@ form {
     gap: 10px;
 }
 
-#images-error, #floor-error, #submit-error {
+#images-error, #floor-error, #submit-error, #year-error {
     color: red;
     margin-bottom: 0 !important;
 }
 
-#floor-error {
+#floor-error , #year-error {
     font-size: 12px;
     width: 360px;
 }

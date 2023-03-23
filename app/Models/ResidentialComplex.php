@@ -21,7 +21,7 @@ class ResidentialComplex extends Model
     // CONNECTIONS
     public function class()
     {
-        return $this->hasOne(ComplexClass::class);
+        return $this->belongsTo(ComplexClass::class);
     }
 
     public function statuses()
@@ -48,6 +48,11 @@ class ResidentialComplex extends Model
     public static function onlyPublished()
     {
         return ResidentialComplex::where('status_id', 1);
+    }
+
+    public static function onlyHidden()
+    {
+        return ResidentialComplex::where('status_id', 4);
     }
 
     public function dateOfCreating(): Attribute

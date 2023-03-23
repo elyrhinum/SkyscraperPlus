@@ -46,19 +46,29 @@ class FlatController extends Controller
         $layout_path = FileServiceForObjects::upload($request->file('layout'), '/layouts');
 
         // СОЗДАНИЕ КВАРТИРЫ
-        $flat = Flat::create(array_merge(
-            [
-                'street_id' => $street->id,
-                'layout' => $layout_path
-            ],
-            $request->except('_token', 'images', 'layout')));
+        if($request->residential_complex_id != 'Не выбрано') {
+            $flat = Flat::create(array_merge(
+                [
+                    'street_id' => $street->id,
+                    'layout' => $layout_path
+                ],
+                $request->except('_token', 'images', 'layout')));
+        } else {
+            $flat = Flat::create(array_merge(
+                [
+                    'street_id' => $street->id,
+                    'layout' => $layout_path
+                ],
+                $request->except('_token', 'images', 'layout', 'residential_complex_id')));
+        }
+
 
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
                 'status_id' => 2,
                 'contract_id' => $request->contract_id,
-                'object_type' => 'rooms',
+                'object_type' => '\App\Models\Flat',
                 'object_id' => $flat->id,
                 'user_id' => auth()->id()
             ],

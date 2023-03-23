@@ -135,7 +135,8 @@
                     {{--YEAR OF BUILDING THE HOUSE--}}
                     <div id="building-year" class="labels">
                         <p class="building-year__title">Год постройки</p>
-                        <input type="number" name="building_year" id="building_year" class="form-control" min="1337">
+                        <input type="number" name="building_year" id="building_year" class="form-control" min="1700">
+                        <p id="year-error"></p>
                     </div>
 
                     {{--HOUSE MATERIAL--}}
@@ -267,11 +268,28 @@
     </div>
 @endsection
 @push('script')
-    <script src="{{ asset('/js/image-uploading.js') }}"></script>
+    <script src="{{ asset('/js/images-uploading.js') }}"></script>
 
     <script>
-        const btnSubmit = document.querySelector(".btn-submit");
+        const btnSubmit = document.querySelector(".btn-submit"),
+            buildingYear = document.getElementById('building_year'),
+            yearError = document.getElementById('year-error');
 
+        // ПРОВЕРКА НА ПРЕВЫШЕНИЕ НЫНЕШНЕГО ГОДА
+        buildingYear.addEventListener('input', () => {
+            const year = new Date().getFullYear(),
+                buildingYear = document.getElementById('building_year');
+
+            if (buildingYear.value < 1700 || buildingYear.value > year) {
+                btnSubmit.disabled = true;
+                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего'
+            } else {
+                yearError.textContent = '';
+                btnSubmit.disabled = false;
+            }
+        });
+
+        // ОТПРАВКА ИЗОБРАЖЕНИЙ
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);

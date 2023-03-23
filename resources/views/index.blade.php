@@ -80,9 +80,4 @@
     <div class="rcs-list pd">
         <h3>Жилые комплексы</h3>
     </div>
-
-    <!-- LIST OF REALTORS -->
-    <div class="realtors-list pd">
-        <h3>Наши риелторы</h3>
-    </div>
 @endsection

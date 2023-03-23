@@ -21,11 +21,48 @@
                         </div>
                     </div>
                 </div>
-                <a href="{{ route('users.realtor.edit', auth()->user()) }}" class="btn btn-filled">Редактировать данные</a>
+                <div class="main-info__button">
+                    <a href="{{ route('users.realtor.edit', auth()->user()) }}" class="btn btn-filled">Редактировать</a>
+                </div>
             </div>
 
             {{--SIDEBAR WITH LINKS--}}
             @include('users.account_sidebar')
+        </div>
+
+        {{--LAST THREE SUGGESTED ADS--}}
+        <div class="last-suggested-ads">
+            <h5 class="title">Последние предложенные объявления</h5>
+
+            <div class="last-suggested-ads__inner">
+                @foreach($suggested_ads as $ad)
+                <div class="ad">
+{{--                    <p class="ad__header">{{ $ad->getNameOfAd }}</p>--}}
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        {{--LAST THREE PUBLISHED ADS--}}
+        <div class="last-published-ads">
+            <h5 class="title">Последние опубликованные объявления</h5>
+
+            @foreach($published_ads as $ad)
+                <div class="ad">
+
+                </div>
+            @endforeach
+        </div>
+
+        {{--LAST THREE CANCELLED ADS--}}
+        <div class="last-cancelled-ads">
+            <h5 class="title">Последние отклоненные объявления</h5>
+
+            @foreach($cancelled_ads as $ad)
+                <div class="ad">
+
+                </div>
+            @endforeach
         </div>
     </div>
 

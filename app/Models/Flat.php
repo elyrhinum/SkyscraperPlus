@@ -4,28 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Flat extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'rc_id',
+        'residential_complex_id',
         'district_id',
         'street_id',
         'repair_id',
-        'description',
-        'building_number',
+        'street_number',
         'entrance',
         'floor',
-        'flat_number',
-        'images',
+        'number',
         'layout'
     ];
 
     // CONNECTIONS
     public function ad()
     {
-        return $this->belongsTo(Ad::class);
+        return $this->morphOne(Ad::class, 'object');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
     }
 }

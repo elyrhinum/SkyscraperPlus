@@ -1,6 +1,6 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/pre-create.css') }}">
-@section('title', 'Выбор на какой объект недвижимости будет подаваться объявление')
+@section('title', 'Выбор объекта недвижимости')
 @section('content')
     <div class="main-container pd">
 {{--        HEADERS WITH INSTRUCTIONS--}}

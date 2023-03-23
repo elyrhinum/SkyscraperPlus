@@ -55,7 +55,7 @@ class HouseController extends Controller
             [
                 'status_id' => 2,
                 'contract_id' => $request->contract_id,
-                'object_type' => 'houses',
+                'object_type' => '\App\Models\House',
                 'object_id' => $house->id,
                 'user_id' => auth()->id()
             ],

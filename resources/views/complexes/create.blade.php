@@ -90,7 +90,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/image-uploading.js') }}"></script>
+    <script src="{{ asset('/js/images-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
@@ -117,9 +117,9 @@
             let res = await postJSON('{{ route("complexes.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
                 if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.accountUser') }}";
+                    location = "{{ route('users.user.account') }}";
                 } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.accountRealtor') }}";
+                    location = "{{ route('users.realtor.account') }}";
                 }
             }
         })

@@ -20,6 +20,7 @@
 </head>
 <body>
 
+{{--VARS FOR AMOUNT OF ADS AND COMPLEXES IN HEADER--}}
 @php
     use App\Models\Ad;
     use App\Models\User;
@@ -38,78 +39,88 @@
         </a>
         <div class="header__navigation">
             <ul>
-                <p class="list-title">Объявления</p>
+                <p class="navigation__ul-title">Объявления</p>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые объявления">
-                    <div>
-                        <a href="{{ route('ads.suggested') }}">Новые объявления</a>
-                        <sup>{{ count($ads->where('status_id', 2)) }}</sup>
-                    </div>
+                    <a href="{{ route('admins.ads.onlySuggested') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые объявления">
+                        <div>
+                            <span>Новые объявления</span>
+                            <sup>{{ count($ads->where('status_id', 2)) }}</sup>
+                        </div>
+                    </a>
                 </li>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/published.png') }}" alt="Опубликованные объявления">
-                    <div>
-                        <a href="{{ route('ads.published') }}">Опубликованные объявления</a>
-                        <sup>{{ count($ads->where('status_id', 1)) }}</sup>
-                    </div>
+                    <a href="{{ route('admins.ads.onlyPublished') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/published.png') }}" alt="Опубликованные объявления">
+                        <div>
+                            <span>Опубликованные объявления</span>
+                            <sup>{{ count($ads->where('status_id', 1)) }}</sup>
+                        </div>
+                    </a>
                 </li>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/all.png') }}" alt="Все объявления">
-                    <a href="">Все объявления</a>
+                    <a href="" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/streets.png') }}" alt="Улицы">
+                        <span>Улицы</span>
+                    </a>
                 </li>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/streets.png') }}" alt="Улицы">
-                    <a href="">Улицы</a>
-                </li>
-                <li>
-                    <img src="{{ asset('/media/icons/admin/districts.png') }}" alt="Районы">
-                    <a href="">Районы</a>
+                    <a href="" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/districts.png') }}" alt="Районы">
+                        <span>Районы</span>
+                    </a>
                 </li>
             </ul>
             <ul>
-                <p class="list-title">Жилые комплексы</p>
+                <p class="navigation__ul-title">Жилые комплексы</p>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые жилые комплексы">
-                    <div>
-                        <a href="{{ route('complexes.suggested') }}">Новые жилые комплексы</a>
-                        <sup>{{ count($complexes->where('status_id', 2)) }}</sup>
-                    </div>
+                    <a href="{{ route('admins.complexes.onlySuggested') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые жилые комплексы">
+                        <div>
+                            <span>Новые жилые комплексы</span>
+                            <sup>{{ count($complexes->where('status_id', 2)) }}</sup>
+                        </div>
+                    </a>
                 </li>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/published.png') }}" alt="Опубликованные жилые комплексы">
-                    <div>
-                        <a href="{{ route('complexes.published') }}">Опубликованные жилые комплексы</a>
-                        <sup>{{ count($complexes->where('status_id', 1)) }}</sup>
-                    </div>
+                    <a href="{{ route('admins.complexes.onlyPublished') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/published.png') }}" alt="Опубликованные жилые комплексы">
+                        <div>
+                            <span>Опубликованные жилые комплексы</span>
+                            <sup>{{ count($complexes->where('status_id', 1)) }}</sup>
+                        </div>
+                    </a>
                 </li>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/inactive.png') }}" alt="Неактивные жилые комплексы">
-                    <div>
-                        <a href="">Неактивные жилые комплексы</a>
-                        <sup>{{ count($complexes->where('status_id', 3)) }}</sup>
-                    </div>
-                </li>
-                <li>
-                    <img src="{{ asset('/media/icons/admin/all.png') }}" alt="Все жилые комплексы">
-                    <a href="">Все жилые комплексы</a>
+                    <a href="{{ route('admins.complexes.onlyHidden') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/inactive.png') }}" alt="Неактивные жилые комплексы">
+                        <div>
+                            <span>Неактивные жилые комплексы</span>
+                            <sup>{{ count($complexes->where('status_id', 4)) }}</sup>
+                        </div>
+                    </a>
                 </li>
             </ul>
             @if(auth()->user()->role_id == 3)
                 <ul>
-                    <p class="list-title">Модераторы</p>
+                    <p class="navigation__ul-title">Модераторы</p>
                     <li>
-                        <img src="{{ asset('/media/icons/admin/moderators.png') }}" alt="Новые жилые комплексы">
-                        <div>
-                            <a href="{{ route('moderators.index') }}">Список модераторов</a>
-                            <sup>{{ count($moderators->where('role_id', 4)) }}</sup>
-                        </div>
+                        <a href="{{ route('admins.moderators.index') }}" class="navigation__ul-link">
+                            <img src="{{ asset('/media/icons/admin/moderators.png') }}" alt="Новые жилые комплексы">
+                            <div>
+                                <span>Список модераторов</span>
+                                <sup>{{ count($moderators->where('role_id', 4)) }}</sup>
+                            </div>
+                        </a>
                     </li>
                 </ul>
             @endif
             <ul>
                 <li>
-                    <img src="{{ asset('/media/icons/admin/logout.png') }}" alt="Выйти">
-                    <a href="{{ route('users.logout') }}">Выйти</a>
+                    <a href="{{ route('users.logout') }}" class="navigation__ul-link">
+                        <img src="{{ asset('/media/icons/admin/logout.png') }}" alt="Выйти">
+                        <span>Выйти</span>
+                    </a>
                 </li>
             </ul>
         </div>

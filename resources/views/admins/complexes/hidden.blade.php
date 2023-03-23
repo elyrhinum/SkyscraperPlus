@@ -1,8 +1,9 @@
 @extends('templates.admin')
-@section('title', 'Предложенные жилые комплексы')
+@section('title', 'Скрытые жилые комплексы')
 @section('content')
     <div class="main-container">
-        <h5 id="title">Заявления на добавление жилого комплекса в каталог</h5>
+        <h5 id="title">Скрытые жилые комплексы</h5>
+
         {{--MESSAGE--}}
         @include('inc.message')
 
@@ -17,7 +18,7 @@
                 <th></th>
             </tr>
             @foreach($objects as $object)
-                <tr class="table__block">
+                <tr>
                     <td class="br object-id">{{ $object->id }}</td>
                     <td>{{ $object->name }}</td>
                     <td>{{ $object->district->name }}</td>
@@ -27,14 +28,12 @@
                         {{--SHOW BUTTON--}}
                         <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
 
-                        {{--CONFIRM BUTTON--}}
-                        <a href="" class="btn btn-filled btn-publish"
-                           data-bs-toggle="modal"
-                           data-bs-target="#staticBackdrop" onclick="getId({{ $object->id }})">Добавить в каталог</a>
-
-                        {{--CANCEL BUTTON--}}
-                        <button class="btn btn-danger btn-cancel"
-                                data-id="{{ $object->id }}">Отклонить
+                        {{--MAKE INACTIVE BUTTON--}}
+                        <button class="btn btn-filled btn-confirm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop"
+                                data-id="{{ $object->id }}"
+                                onclick="getId({{ $object->id }})">Вернуть в каталог
                         </button>
                     </td>
                 </tr>
@@ -48,18 +47,18 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Добавить жилой комплекс в каталог</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Скрыть жилой комплекс из каталога</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Вы действительно хотите добавить жилой комплекс в каталог?</p>
+                    <p>Вы действительно хотите скрыть жилой комплекс из каталога?</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
                     <form action="{{ route('admins.complexes.confirm') }}">
                         <input type="hidden" id="modal-object-id" name="id">
-                        <button class="btn btn-filled" id="btn-confirm">Добавить</button>
+                        <button class="btn btn-danger">Вернуть в каталог</button>
                     </form>
                 </div>
             </div>
@@ -70,7 +69,7 @@
 @push('script')
     <script>
         // MODAL WINDOW
-        const myModal = document.querySelectorAll('.btn-publish'),
+        const myModal = document.querySelectorAll('.btn-confirm'),
             myInput = document.getElementById('myInput');
 
         function getId(id) {

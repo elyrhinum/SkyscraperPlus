@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class LandPlot extends Model
 {
@@ -25,6 +26,16 @@ class LandPlot extends Model
     ];
 
     // CONNECTIONS
+    public function ad()
+    {
+        return $this->morphOne(Ad::class, 'object');
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
     public function characteristics()
     {
         $this->morphMany(ObjectAndCharacteristics::class, 'object');
