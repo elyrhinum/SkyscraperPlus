@@ -25,9 +25,9 @@ class UserController extends Controller
     public function realtorAccount()
     {
         return view('users.realtor_account', [
-            'suggested_ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->get(),
-            'published_ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->get(),
-            'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->get(),
+            'suggested_ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
+            'published_ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
+            'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
         ]);
     }
 

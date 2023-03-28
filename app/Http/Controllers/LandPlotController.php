@@ -42,24 +42,22 @@ class LandPlotController extends Controller
         $street = Street::firstOrCreate(['name' => request('street')]);
 
         // СОЗДАНИЕ ЗЕМЕЛЬНОГО УЧАСТКА
-        $landplot = LandPlot::create(array_merge(
-            ['street_id' => $street->id],
-            $request->except('_token', 'images')));
+        $landplot = LandPlot::create($request->except('_token', 'images'));
 
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
+                'street_id' => $street->id,
                 'status_id' => 2,
-                'contract_id' => $request->contract_id,
                 'object_type' => '\App\Models\LandPlot',
                 'object_id' => $landplot->id,
                 'user_id' => auth()->id()
             ],
-            $request->only('description', 'price')
+            $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
         // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
-        if($request->images) {
+        if ($request->images) {
             foreach ($request->files->all()['images'] as $file) {
                 $path = FileServiceForObjects::uploadRedirect($file, '/landplots');
                 $images = ImagesAd::create([
@@ -77,8 +75,8 @@ class LandPlotController extends Controller
         }
 
         // ЗАПОЛНЕНИЕ ХАРАКТЕРИСТИК
-        if($request->checkboxes) {
-            foreach($request->checkboxes as $cb) {
+        if ($request->checkboxes) {
+            foreach ($request->checkboxes as $cb) {
                 $characteristics = ObjectAndCharacteristics::create([
                     'object_id' => $landplot->id,
                     'object_type' => 'land_plots',
@@ -87,10 +85,9 @@ class LandPlotController extends Controller
             }
         }
 
-
         $result = $landplot;
-        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение.']) :
-            $request->session()->put(['error' => 'Не удалось подать объявление.']);
+        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
     }

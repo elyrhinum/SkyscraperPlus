@@ -14,8 +14,6 @@ class House extends Model
 
     protected $fillable = [
         'type_id',
-        'district_id',
-        'street_id',
         'street_number',
         'plot_number',
         'building_number',
@@ -41,9 +39,9 @@ class House extends Model
         $this->morphOne(Ad::class, 'object');
     }
 
-    public function district()
+    public function plotType()
     {
-        return $this->belongsTo(District::class);
+        return $this->belongsTo(PlotType::class);
     }
 
     public function characteristics()

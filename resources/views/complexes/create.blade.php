@@ -1,71 +1,75 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/create.css') }}">
-<link rel="stylesheet" href="{{ asset('css/complexes/create.css') }}">
-@section('title', 'Добавить жилой комплекс')
+@section('title', 'Добавить новый жилой комплекс')
 @section('content')
     <div class="main-container pd">
-        {{--HEADERS WITH INSTRUCTIONS--}}
+        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
         <div class="headers">
-            <h3>Добавить жилой комплекс</h3>
+            <h3>Добавить новый жилой комплекс</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                объявление добавление нового жилого комплекса.</p>
+                заявление на добавление нового жилого комплекса.</p>
             <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--FORM--}}
+        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--ADDRESS--}}
+                {{--МЕСТОПОЛОЖЕНИЕ--}}
                 <fieldset>
                     <h5>Район жилого комплекса</h5>
 
-                    {{--DISTRICTS--}}
+                    {{--РАЙОН--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <select class="form-select districts__select"
                                 name="district_id">
                             @foreach($districts as $district)
                                 <option value="{{ $district->id }}"
-                                    {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                    {{ old('district') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </fieldset>
 
-                {{--RESIDENTIAL COMPLEX NAME--}}
+                {{--ИНФОРМАЦИЯ О ЖИЛОМ КОМПЛЕКСЕ--}}
                 <fieldset>
-                    <h5>Информация о жилом комплексе</h5>
+                    <h5 id="complex-info-title">Информация о жилом комплексе</h5>
 
                     {{--NAME--}}
-                    <div id="complex-name" class="labels">
-                        <p class="complex-name__title">Наименование <span class="sign-required">*</span></p>
-                        <input type="text" name="name" id="name" class="form-control" min="1" required>
+                    <div id="complex-name">
+                        <p>Если наименование состоит из английского алфавита, то необходимо в скобках написать его транскрипцию</p>
+                        <div class="labels">
+                            <p class="complex-name__title">Наименование <span class="sign-required">*</span></p>
+                            <input type="text" name="name" id="name" class="form-control"
+                                   {{ old('name') }} min="1" placeholder="Name (Нейм)" required>
+                        </div>
                     </div>
-                    {{--CLASSES--}}
+
+                    {{--КЛАСС ЖИЛОГО КОМПЛЕКСА--}}
                     <div id="complex-classes" class="labels">
                         <p class="complex-classes__title">Класс <span class="sign-required">*</span></p>
                         <select class="form-select complex-classes__select"
                                 name="class_id" required>
                             @foreach($classes as $class)
                                 <option value="{{ $class->id }}"
-                                    {{ old('class') == $class->name ? 'selected' : '' }}>{{ $class->name }}</option>
+                                    {{ old('class') == $class->id ? 'selected' : '' }}>{{ $class->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
                 </fieldset>
 
-                {{--DESCRIPTION AND IMAGES--}}
+                {{--ОПИСАНИЕ И ИЗОБРАЖЕНИЯ--}}
                 <fieldset>
-                    {{--DESCRIPTION--}}
+                    {{--ОПИСАНИЕ--}}
                     <div id="complex-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
                                   placeholder="Опишите все детали: какая отделка в квартирах, какие стены, полы и так далее."></textarea>
                     </div>
 
-                    {{--IMAGES--}}
+                    {{--ИЗОБРАЖЕНИЯ--}}
                     <div id="complex-images">
                         <h5>Фотографии</h5>
                         <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
@@ -90,11 +94,12 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/images-uploading.js') }}"></script>
+    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
 
+        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);

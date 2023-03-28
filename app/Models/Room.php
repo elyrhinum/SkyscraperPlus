@@ -14,8 +14,6 @@ class Room extends Model
 
     protected $fillable = [
         'residential_complex_id',
-        'district_id',
-        'street_id',
         'repair_id',
         'street_number',
         'entrance',
@@ -29,10 +27,5 @@ class Room extends Model
     public function ad()
     {
         $this->morphOne(Ad::class,  'object');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class);
     }
 }

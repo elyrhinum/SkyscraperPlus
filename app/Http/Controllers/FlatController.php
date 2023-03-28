@@ -10,7 +10,6 @@ use App\Models\Flat;
 use App\Models\ImagesAd;
 use App\Models\RepairType;
 use App\Models\ResidentialComplex;
-use App\Models\Room;
 use App\Models\Street;
 use Illuminate\Http\Request;
 
@@ -46,19 +45,13 @@ class FlatController extends Controller
         $layout_path = FileServiceForObjects::upload($request->file('layout'), '/layouts');
 
         // СОЗДАНИЕ КВАРТИРЫ
-        if($request->residential_complex_id != 'Не выбрано') {
+        if ($request->residential_complex_id != 'Не выбрано') {
             $flat = Flat::create(array_merge(
-                [
-                    'street_id' => $street->id,
-                    'layout' => $layout_path
-                ],
+                ['layout' => $layout_path],
                 $request->except('_token', 'images', 'layout')));
         } else {
             $flat = Flat::create(array_merge(
-                [
-                    'street_id' => $street->id,
-                    'layout' => $layout_path
-                ],
+                ['layout' => $layout_path],
                 $request->except('_token', 'images', 'layout', 'residential_complex_id')));
         }
 
@@ -66,13 +59,13 @@ class FlatController extends Controller
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
+                'street_id' => $street->id,
                 'status_id' => 2,
-                'contract_id' => $request->contract_id,
                 'object_type' => '\App\Models\Flat',
                 'object_id' => $flat->id,
                 'user_id' => auth()->id()
             ],
-            $request->only('description', 'price')
+            $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
         // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
@@ -94,8 +87,8 @@ class FlatController extends Controller
         }
 
         $result = $flat;
-        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение.']) :
-            $request->session()->put(['error' => 'Не удалось подать объявление. Проверьте, чтобы этаж, на котором находится комната, не превышал общее количество этажей в доме.']);
+        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
     }
@@ -103,7 +96,7 @@ class FlatController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -114,7 +107,7 @@ class FlatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -125,8 +118,8 @@ class FlatController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -137,7 +130,7 @@ class FlatController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

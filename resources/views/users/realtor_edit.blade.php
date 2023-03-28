@@ -106,8 +106,8 @@
             imagePrev.innerHTML = ''
             let image = document.createElement('img')
             image.style.display = 'block'
-            image.style.width = '150px'
-            image.style.height = '150px'
+            image.style.width = '350px'
+            image.style.height = '350px'
             image.style.objectFit = 'cover'
             image.src = URL.createObjectURL(e.target.files[0])
             image.alt = "img"

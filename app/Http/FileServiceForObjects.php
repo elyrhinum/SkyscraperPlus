@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileServiceForObjects
 {
-    public static function upload($file, $dir = '/', $default = 'default/default.jpg')
+    public static function upload($file, $dir = '/', $default = 'default/default.png')
     {
         if ($file != null) {
             $path = $file->store($dir, 'public');
@@ -17,7 +17,7 @@ class FileServiceForObjects
         return url('/storage/' . $path);
     }
 
-    public static function uploadRedirect($file, $dir = '/', $default = 'default/default.jpg')
+    public static function uploadRedirect($file, $dir = '/', $default = 'default/default.png')
     {
         if ($file != null) {
             $path = $file->move('storage' . $dir, $file->getClientOriginalName());
@@ -31,7 +31,7 @@ class FileServiceForObjects
     {
         $path = '/public/' . $dir . pathinfo($url, PATHINFO_BASENAME);
 
-        if (Storage::exists($path) || $path == '/public/products/default.jpg') {
+        if (Storage::exists($path) || $path == '/public/products/default.png') {
             return Storage::delete($path);
         }
         return false;
@@ -39,7 +39,7 @@ class FileServiceForObjects
 
     public static function update($dir, $old, $new = '')
     {
-        if ($new != '' && $old != 'default/default.jpg') {
+        if ($new != '' && $old != 'default/default.png') {
             FileServiceForObjects::delete($old, $dir);
             return FileServiceForObjects::upload($new, $dir);
         }

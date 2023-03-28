@@ -37,7 +37,9 @@ function handleChange(e) {
     }
 
     [...e.target.files].forEach(item => {
-        filesStore.push(item);
+        if (item.size / 1024 > 10) {
+            filesStore.push(item);
+        }
     })
 
     if (filesStore.length > 10) {
@@ -50,33 +52,28 @@ function handleChange(e) {
     cont.textContent = '';
 
     filesStore.forEach((item, key) => {
-        if (item.size / 1024 > 10) {
-            let divImg = document.createElement('div');
-            divImg.classList.add('images-block');
-            let image = document.createElement('img');
-            image.style.display = 'block';
-            image.style.width = '150px';
-            image.style.height = '150px';
-            image.style.objectFit = 'cover';
-            image.src = URL.createObjectURL(item);
-            image.alt = 'Изображение';
-            divImg.append(image);
+        let divImg = document.createElement('div');
+        divImg.classList.add('images-block');
+        let image = document.createElement('img');
+        image.style.display = 'block';
+        image.style.width = '150px';
+        image.style.height = '150px';
+        image.style.objectFit = 'cover';
+        image.src = URL.createObjectURL(item);
+        image.alt = 'Изображение';
+        divImg.append(image);
 
-            let btnDel = document.createElement('p');
-            btnDel.textContent = "×";
-            btnDel.dataset.index = key;
-            divImg.append(btnDel);
-            cont.append(divImg);
+        let btnDel = document.createElement('p');
+        btnDel.textContent = "×";
+        btnDel.dataset.index = key;
+        divImg.append(btnDel);
+        cont.append(divImg);
 
-            btnDel.addEventListener('click', e => {
-                filesStore.splice(e.target.dataset.index, 1);
-                console.log(filesStore)
-                divImg.remove();
-            });
-
-        } else {
-            alert('Изображение больше 10 МБ');
-        }
+        btnDel.addEventListener('click', e => {
+            filesStore.splice(e.target.dataset.index, 1);
+            console.log(filesStore)
+            divImg.remove();
+        });
     })
     e.target.value = '';
 }

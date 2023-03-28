@@ -16,17 +16,12 @@ class Street extends Model
     ];
 
     // CONNECTIONS
-    public function flat()
+    public function ads()
     {
-        return $this->hasMany(Flat::class);
+        return $this->hasMany(Ad::class);
     }
 
-    public function room()
-    {
-        return $this->hasMany(Room::class);
-    }
-
-    public function rc()
+    public function complexes()
     {
         return $this->hasMany(ResidentialComplex::class);
     }

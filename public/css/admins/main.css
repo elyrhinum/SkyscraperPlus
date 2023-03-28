@@ -34,7 +34,7 @@ h5, h3, .btn {
 }
 
 .alert {
-    min-width: 1310px;
+    width: 100%;
     margin-bottom: 10px !important;
 }
 
@@ -79,6 +79,12 @@ header {
 
 ul {
     padding: 0 !important;
+}
+
+.span-count {
+    font-size: 12px;
+    opacity: .5;
+    margin-left: 10px;
 }
 
 .navigation__ul-link {
@@ -197,11 +203,11 @@ th {
     width: 40px;
 }
 
-.td-centered, .object-id, .date-column {
+.centered, .object-id, .date-column {
     text-align: center;
 }
 
-/*MODAL WINDOW    */
+/*MODAL WINDOW*/
 .modal-body > p {
     margin-bottom: 10px !important;
 }

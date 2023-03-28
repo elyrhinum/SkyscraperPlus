@@ -1,0 +1,32 @@
+.title {
+    margin-bottom: 10px !important;
+}
+
+/*TABLE*/
+table {
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+}
+
+th, td, tr {
+    padding: 5px;
+}
+
+th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.td-date {
+    width: 13%;
+    text-align: center;
+}
+
+.object-id {
+    width: 40px;
+}
+
+.td-btn, .object-id {
+    text-align: center;
+}

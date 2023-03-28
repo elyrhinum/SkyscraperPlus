@@ -1,0 +1,27 @@
+.main-container > h5 {
+    margin: 10px 0 20px 0 !important;
+}
+
+/*UPDATES*/
+.updates > div {
+    width: 250px;
+    height: 200px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.updates__ads > div {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+
+    width: 80%;
+}
+
+.ads__count {
+    font-size: 64px;
+    font-weight: 600;
+    color: #EEA444;
+    text-align: right;
+}

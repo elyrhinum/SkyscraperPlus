@@ -4,10 +4,10 @@
     <div class="main-container">
         <h5 id="title">Скрытые жилые комплексы</h5>
 
-        {{--MESSAGE--}}
+        {{--СООБЩЕНИЕ--}}
         @include('inc.message')
 
-        {{--BLOCKS WITH COMPLEXES--}}
+        {{--ТАБЛИЦА--}}
         <table>
             <tr>
                 <th class="br">ID</th>
@@ -17,7 +17,7 @@
                 <th class="date-column">Дата обновления</th>
                 <th></th>
             </tr>
-            @foreach($objects as $object)
+            @forelse($objects as $object)
                 <tr>
                     <td class="br object-id">{{ $object->id }}</td>
                     <td>{{ $object->name }}</td>
@@ -25,10 +25,10 @@
                     <td class="date-column">{{ $object->dateOfCreating }}</td>
                     <td class="date-column">{{ $object->dateOfUpdating }}</td>
                     <td class="td-btn">
-                        {{--SHOW BUTTON--}}
+                        {{--КНОПКА ДЛЯ ПРОСМОТРА--}}
                         <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
 
-                        {{--MAKE INACTIVE BUTTON--}}
+                        {{--КНОПКА ДЛЯ СКРЫТИЯ--}}
                         <button class="btn btn-filled btn-confirm"
                                 data-bs-toggle="modal"
                                 data-bs-target="#staticBackdrop"
@@ -37,11 +37,15 @@
                         </button>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr class="centered">
+                    <td colspan="6">Нет заявлений на добавление жилого комплекса</td>
+                </tr>
+            @endforelse
         </table>
     </div>
 
-    {{--MODAL WINDOW--}}
+    {{--МОДАЛЬНОЕ ОКНО ДЛЯ СКРЫТИЯ ЖИЛОГО КОМПЛЕКСА--}}
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
@@ -68,10 +72,7 @@
 
 @push('script')
     <script>
-        // MODAL WINDOW
-        const myModal = document.querySelectorAll('.btn-confirm'),
-            myInput = document.getElementById('myInput');
-
+        // ПЕРЕДАЧА ID ДЛЯ ОПУБЛИКОВАНИЯ ОБЪЯВЛЕНИЯ
         function getId(id) {
             document.getElementById("modal-object-id").value = id
         }

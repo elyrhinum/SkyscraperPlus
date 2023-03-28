@@ -52,7 +52,7 @@
                     <p>Вы действительно хотите удалить модератора?</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
                     <form action="{{ route('admins.moderator.delete') }}">
                         <input type="hidden" id="modal-object-id" name="id">

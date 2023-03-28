@@ -14,8 +14,6 @@ class Flat extends Model
 
     protected $fillable = [
         'residential_complex_id',
-        'district_id',
-        'street_id',
         'repair_id',
         'street_number',
         'entrance',
@@ -28,10 +26,5 @@ class Flat extends Model
     public function ad()
     {
         return $this->morphOne(Ad::class, 'object');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class);
     }
 }

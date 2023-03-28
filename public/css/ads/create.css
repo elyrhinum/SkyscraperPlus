@@ -4,6 +4,10 @@ h5 {
     margin-bottom: 20px !important;
 }
 
+#complex-info-title {
+    margin-bottom: 5px !important;
+}
+
 #plot-images > h5,
 #set-price > h5,
 #type > h5,
@@ -72,6 +76,9 @@ form {
 #kitchen_area,
 #ceiling_height,
 #floor,
+#floors,
+#bedrooms,
+#bathrooms,
 #building-floors,
 #building_year,
 #living_rooms_amount,
@@ -107,6 +114,7 @@ form {
 #plot-description,
 #room-description,
 #flat-description,
+#complex-description,
 #layout-image {
     margin-bottom: 30px !important;
 }

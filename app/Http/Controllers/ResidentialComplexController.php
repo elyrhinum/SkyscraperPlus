@@ -12,13 +12,13 @@ use Illuminate\Http\Request;
 
 class ResidentialComplexController extends Controller
 {
-    // INDEX METHOD
+    // МЕТОД ДЛЯ ИНДЕКСНОЙ СТРАНИЦЫ
     public function index()
     {
         return view('complexes.index');
     }
 
-    // REDIRECT TO CREATE
+    // МЕТОД ДЛЯ ПЕРЕНАПРАВЛЕНИЯ НА СТРАНИЦУ СОЗДАНИЯ
     public function create()
     {
         return view('complexes.create', [
@@ -27,15 +27,15 @@ class ResidentialComplexController extends Controller
         ]);
     }
 
-    // STORE METHOD
+    // МЕТОД НА СОЗДАНИЕ ОБЪЕКТА
     public function store(Request $request)
     {
-        // CREATING RESIDENTIAL COMPLEX
+        // СОЗДАНИЕ ЖИЛОГО КОМПЛЕКСА
         $complex = ResidentialComplex::create(array_merge(
             ['status_id' => 2],
             $request->except('_token', 'images')));
 
-        // UPLOADING IMAGES
+        // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
         if ($request->images) {
             foreach ($request->files->all()['images'] as $file) {
                 $path = FileServiceForObjects::uploadRedirect($file, '/complexes');
@@ -48,19 +48,19 @@ class ResidentialComplexController extends Controller
         } else {
             $path = FileServiceForObjects::uploadRedirect(null, '');
             $images = ImagesComplex::create([
-                'complex_id' => $complex->id,
+                'residential_complex_id' => $complex->id,
                 'image' => $path
             ]);
         }
 
         $result = $complex;
-        $result ? $request->session()->put(['success' => 'Запрос на добавление жилого комплекса в каталог отправлен на рассмотрение']) :
-            $request->session()->put(['error' => 'Не удалось отправить запрос на добавление жилого комплекса в каталог']);
+        $result ? $request->session()->put(['success' => 'Заявление на добавление нового жилого комплекса отправлено на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось отправить заявление на добавление нового жилого комплекса']);
 
         return response()->json($result);
     }
 
-    // SHOW METHOD
+    // МЕТОД ДЛЯ ПРОСМОТРА
     public function show(ResidentialComplex $complex)
     {
         return view('complexes.show', [
@@ -68,7 +68,7 @@ class ResidentialComplexController extends Controller
         ]);
     }
 
-    // METHOD TO GET DISTRICT BY COMPLEX
+    // МЕТОД ДЛЯ ПОЛУЧЕНИЯ РАЙОНА КОМПЛЕКСА
     public function getDistrictByComplex(Request $request)
     {
         $complex = ResidentialComplex::find($request->data);

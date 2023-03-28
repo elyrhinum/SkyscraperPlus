@@ -36,6 +36,20 @@ Route::prefix('users')->name('users.')->group(function () {
     });
 });
 
+// ADS ROUTES
+Route::prefix('ads')->name('ads.')->group(function () {
+    Route::controller(AdController::class)->group(function () {
+        Route::get('/filtration', 'filtration')->name('filtration');
+    });
+});
+
+// RESIDENTIAL COMPLEXES ROUTES
+Route::prefix('complexes')->name('complexes.')->group(function () {
+    Route::controller(ResidentialComplexController::class)->group(function () {
+        Route::get('/complex', 'index')->name('index');
+    });
+});
+
 // ONLY AUTH USERS
 Route::middleware('auth')->group(function () {
     // USERS ROUTES
@@ -56,8 +70,11 @@ Route::middleware('auth')->group(function () {
     // ADS ROUTES
     Route::prefix('ads')->name('ads.')->group(function () {
         Route::controller(AdController::class)->group(function () {
-            // CREATING ROUTES
+            // ROUTE TO PRE-CREATE VIEW
             Route::get('/pre-create', 'preCreate')->name('preCreate');
+
+            // UPDATE ADS ROUTES
+            Route::get('/edit/{ad}', 'edit')->name('edit');
         });
     });
 
@@ -105,13 +122,6 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// RESIDENTIAL COMPLEX ROUTES
-Route::prefix('complexes')->name('complexes.')->group(function () {
-    Route::controller(ResidentialComplexController::class)->group(function () {
-        Route::get('/complex', 'index')->name('index');
-    });
-});
-
 // MODERATORS AND ADMINS ROUTES
 Route::prefix('admins')->name('admins.')->group(function () {
     Route::controller(\App\Http\Controllers\admins\UserController::class)->group(function () {
@@ -144,7 +154,10 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 // GET ADS BY STATUS
                 Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
-                Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
+                Route::get('/onlyCancelled', 'onlyCancelled')->name('onlyCancelled');
+
+                // SHOW ROUTE
+                Route::get('/show/{ad}', 'show')->name('show');
 
                 // STATUS ROUTES
                 Route::get('/cancel', 'cancel')->name('cancel');
@@ -160,6 +173,10 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
                 Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
+                Route::get('/onlyCancelled', 'onlyCancelled')->name('onlyCancelled');
+
+                // ROUTE TO HIDE METHOD
+                Route::get('/hideShow/{complex}', 'hideShow')->name('hideShow');
 
                 // SHOW ROUTE
                 Route::get('/show/{complex}', 'show')->name('show');
@@ -168,6 +185,26 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 Route::get('/cancel', 'cancel')->name('cancel');
                 Route::get('/confirm', 'confirm')->name('confirm');
                 Route::get('/hide', 'hide')->name('hide');
+            });
+        });
+
+        // STREETS ROUTES
+        Route::prefix('streets')->name('streets.')->group(function () {
+            Route::controller(\App\Http\Controllers\admins\StreetController::class)->group(function() {
+                Route::get('/index', 'index')->name('index');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+                Route::get('/delete', 'delete')->name('delete');
+            });
+        });
+
+        // DISTRICTS ROUTES
+        Route::prefix('districts')->name('districts.')->group(function () {
+            Route::controller(\App\Http\Controllers\admins\DistrictController::class)->group(function() {
+                Route::get('/index', 'index')->name('index');
+                Route::post('/store', 'store')->name('store');
+                Route::post('/update', 'update')->name('update');
+                Route::get('/delete', 'delete')->name('delete');
             });
         });
     });

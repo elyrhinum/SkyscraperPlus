@@ -3,19 +3,19 @@
 @section('title', 'Подать объявление о комнате')
 @section('content')
     <div class="main-container pd">
-        {{--HEADERS WITH INSTRUCTIONS--}}
+        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
         <div class="headers">
-            <h3>Подать новое объявление о комнате</h3>
+            <h3>Подать объявление о комнате</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
                 объявление на рассмотрение модераторам.</p>
             <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--FORM--}}
+        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--CONTRACT TYPES--}}
+                {{--ТИПЫ ДОГОВОРА--}}
                 <div id="contract-types">
                     <h5>Вид договора</h5>
 
@@ -25,13 +25,13 @@
                                 name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->name ? 'selected' : '' }}>{{ $contract->name }}</option>
+                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>{{ $contract->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--RESIDENTIAL COMPLEXES--}}
+                {{--ЖИЛОЙ КОМПЛЕКС--}}
                 <div id="residential-complexes">
                     <h5>Жилой комплекс</h5>
 
@@ -42,17 +42,17 @@
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
-                                    {{ old('complex') == $complex->name ? 'selected' : '' }}>{{ $complex->name }}</option>
+                                    {{ old('complex') == $complex->id ? 'selected' : '' }}>{{ $complex->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--ADDRESS--}}
+                {{--МЕСТОПОЛОЖЕНИЕ--}}
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--DISTRICTS--}}
+                    {{--РАЙОН--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <div id="rendering-select">
@@ -60,18 +60,19 @@
                                     id="district_id" name="district_id">
                                 @foreach($districts as $district)
                                     <option value="{{ $district->id }}"
-                                        {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                        {{ old('district') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                     </div>
 
-                    {{--STREETS--}}
+                    {{--УЛИЦА--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
-                        <input type="text" list="streets-list" class="form-select" name="street" required
-                               placeholder="В формате ул. Гагарина или пр. Ленина">
+                        <input type="text" list="streets-list" class="form-select" name="street"
+                               placeholder="В формате ул. Гагарина или пр. Ленина"
+                               {{ old('street') }} required>
                         <datalist id="streets-list">
                             @foreach($streets as $street)
                                 <option>{{ $street->name }}</option>
@@ -79,93 +80,96 @@
                         </datalist>
                     </div>
 
-                    {{--STREET NUBMER--}}
+                    {{--НОМЕР УЛИЦЫ--}}
                     <div id="street-number" class="labels">
                         <p class="building-number__title">Номер улицы <span class="sign-required">*</span></p>
-                        <input type="number" name="street_number" id="street_number" class="form-control" min="1"
-                               required>
+                        <input type="number" name="street_number" id="street_number" class="form-control"
+                               min="1" {{ old('street_number') }} required>
                     </div>
 
-                    {{--ENTRANCE--}}
+                    {{--ПОДЪЕЗД--}}
                     <div id="entrance-number" class="labels">
                         <p class="entrance-number__title">Номер подъезда <span class="sign-required">*</span></p>
-                        <input type="number" name="entrance" id="entrance" class="form-control" min="1"
-                               required>
+                        <input type="number" name="entrance" id="entrance" class="form-control"
+                               min="1" {{ old('entrance') }} required>
                     </div>
 
-                    {{--FLOORS--}}
+                    {{--ИНФОРМАЦИЯ ОБ ЭТАЖАХ--}}
                     <div id="building-floors" class="labels">
                         <p class="floors__title">Этаж <span class="sign-required">*</span></p>
                         <div>
                             <input type="number" name="floor" id="floor" class="form-control" min="1"
-                                   required>
+                                   {{ old('floor') }} required>
                             <p>из</p>
                             <input type="number" name="floors" id="floors" class="form-control" min="1"
-                                   required>
+                                   {{ old('floors') }} required>
                         </div>
                         <p id="floor-error"></p>
                     </div>
 
-                    {{--ROOM NUBMER--}}
+                    {{--НОМЕР КОМНАТЫ--}}
                     <div id="number" class="labels">
                         <p class="number__title">Номер комнаты <span class="sign-required">*</span></p>
-                        <input type="number" name="number" id="number" class="form-control" min="1"
-                               required>
+                        <input type="number" name="number" id="number" class="form-control"
+                               min="1" {{ old('number') }} required>
                     </div>
                 </fieldset>
 
-                {{--ABOUT ROOM--}}
+                {{--ИНФОРМАЦИЯ ОБ ОБЪЕКТЕ НЕДВИЖИМОСТИ--}}
                 <fieldset>
                     <h5>Информация об объекте</h5>
 
-                    {{--AREA--}}
+                    {{--ПЛОЩАДЬ КОМНАТЫ--}}
                     <div id="room-area" class="labels">
                         <p class="room-area__title">Площадь комнаты <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="area" id="area" class="form-control" min="1" required>
+                            <input type="number" name="area" id="area" class="form-control"
+                                   min="1" {{ old('area') }} required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--LIVING AREA--}}
+                    {{--ЖИЛАЯ ПЛОЩАДЬ--}}
                     <div id="living-area" class="labels">
                         <p class="living-area__title">Жилая площадь <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="living_area" id="living_area" class="form-control" min="1"
-                                   required>
+                            <input type="number" name="living_area" id="living_area" class="form-control"
+                                   {{ old('living_area') }} min="1" required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--TOTAL AREA--}}
+                    {{--ОБЩАЯ ПЛОЩАДЬ--}}
                     <div id="total-area" class="labels">
                         <p class="total-area__title">Общая площадь <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="total_area" id="total_area" class="form-control" min="1"
-                                   required>
+                            <input type="number" name="total_area" id="total_area" class="form-control"
+                                   {{ old('total_area') }} min="1" required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--KITCHEN AREA--}}
+                    {{--ПЛОЩАДЬ КУХНИ--}}
                     <div id="kitchen-area" class="labels">
                         <p class="kitchen-area__title">Площадь кухни</p>
                         <div>
-                            <input type="number" name="kitchen_area" id="kitchen_area" class="form-control" min="1">
+                            <input type="number" name="kitchen_area" id="kitchen_area" class="form-control"
+                                   {{ old('kitchen_area') }} min="1">
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--CEILING HEIGHT--}}
+                    {{--ВЫСОТА ПОТОЛКОВ--}}
                     <div id="ceiling-height" class="labels">
                         <p class="ceiling-height__title">Высота потолков</p>
                         <div>
-                            <input type="number" name="ceiling_height" id="ceiling_height" class="form-control" min="1">
+                            <input type="number" name="ceiling_height" id="ceiling_height" class="form-control"
+                                   {{ old('ceiling_height') }} min="1">
                             <p>м</p>
                         </div>
                     </div>
 
-                    {{--LIVING ROOMS AMOUNT--}}
+                    {{--КОЛИЧЕСТВО ЖИЛЫХ КОМНАТ--}}
                     <div id="living-rooms-amount" class="labels">
                         <p class="living-rooms-amount__title">Количество жилых комнат <span
                                 class="sign-required">*</span></p>
@@ -319,7 +323,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/images-uploading.js') }}"></script>
+    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),

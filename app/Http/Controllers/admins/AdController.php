@@ -30,17 +30,19 @@ class AdController extends Controller
     }
 
     // STATUSES CHANGING METHODS
-    public function confirm(Ad $ad)
+    public function confirm(Request $request)
     {
+        $ad = Ad::find($request->id);
         $result = $ad->update(['status_id' => 1]);
 
         return $result ? back()->with(['success' => 'Объявление успешно опубликовано']) :
             back()->withErrors(['error' => 'Не удалось опубликовать объявление']);
     }
 
-    public function cancel(Ad $ad)
+    public function cancel(Request $request)
     {
-        $result = $ad->update(['status_id' => 3]);
+        $ad = Ad::find($request->id);
+        $result = $ad->update(['status_id' => 3, 'comment' => $request->comment]);
 
         return $result ? back()->with(['success' => 'Объявление отклонено']) :
             back()->withErrors(['error' => 'Не удалось отклонить объявление']);

@@ -1,5 +1,6 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/users/realtor_account.css') }}">
+<link rel="stylesheet" href="{{ asset('css/users/ads_in_account.css') }}">
 @section('title', 'Личный аккаунт')
 @section('content')
     <div class="main-container pd">
@@ -32,14 +33,24 @@
 
         {{--LAST THREE SUGGESTED ADS--}}
         <div class="last-suggested-ads">
-            <h5 class="title">Последние предложенные объявления</h5>
+            <h5 class="title">Последние объявления на рассмотрении</h5>
 
             <div class="last-suggested-ads__inner">
-                @foreach($suggested_ads as $ad)
-                <div class="ad">
-{{--                    <p class="ad__header">{{ $ad->getNameOfAd }}</p>--}}
-                </div>
-                @endforeach
+                @forelse($suggested_ads as $ad)
+                    <div class="ad">
+                        {{--IMAGE--}}
+                        <div class="ad__image">
+                            <img src="{{ $ad->images[0]->image }}" alt="{{ $ad->id }}">
+                        </div>
+                        <div class="ad__info">
+                            <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
+                            <p class="info__description">{{ $ad->description }}</p>
+                            <h5 class="info__price">{{ $ad->price }} ₽</h5>
+                        </div>
+                    </div>
+                @empty
+                    <p class="message-empty">Пока что нет последних объявлений на рассмотрении</p>
+                @endforelse
             </div>
         </div>
 
@@ -47,23 +58,71 @@
         <div class="last-published-ads">
             <h5 class="title">Последние опубликованные объявления</h5>
 
-            @foreach($published_ads as $ad)
-                <div class="ad">
-
-                </div>
-            @endforeach
+            <div class="last-published-ads__inner">
+                @forelse($published_ads as $ad)
+                    <div class="ad">
+                        {{--IMAGE--}}
+                        <div class="ad__image">
+                            <img src="{{ $ad->images[0]->image }}" alt="{{ $ad->id }}">
+                        </div>
+                        <div class="ad__info">
+                            <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
+                            <p class="info__description">{{ $ad->description }}</p>
+                            <h5 class="info__price">{{ $ad->price }} ₽</h5>
+                        </div>
+                        <div class="ad__buttons">
+                            <a href="" class="btn btn-outlined">Посмотреть</a>
+                        </div>
+                    </div>
+                @empty
+                    <p class="message-empty">Пока что нет последних опубликованных объявлений</p>
+                @endforelse
+            </div>
         </div>
 
         {{--LAST THREE CANCELLED ADS--}}
         <div class="last-cancelled-ads">
             <h5 class="title">Последние отклоненные объявления</h5>
 
-            @foreach($cancelled_ads as $ad)
-                <div class="ad">
-
-                </div>
-            @endforeach
+            <div class="last-cancelled-ads__inner">
+                @forelse($cancelled_ads as $ad)
+                    <div class="ad">
+                        {{--IMAGE--}}
+                        <div class="ad__image">
+                            <img src="{{ $ad->images[0]->image }}" alt="{{ $ad->id }}">
+                        </div>
+                        <div class="ad__info">
+                            <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
+                            <p class="info__description">{{ $ad->description }}</p>
+                            <p>{{ $ad->getCorrectObjectType() }}</p>
+                            <h5 class="info__price">{{ $ad->price }} ₽</h5>
+                        </div>
+                        <div class="ad__buttons">
+                            <a href="" class="btn btn-outlined">Посмотреть</a>
+                            <a href="" class="btn btn-danger">Скрыть</a>
+                        </div>
+                    </div>
+                @empty
+                    <p class="message-empty">Пока что нет последних отклоненных объявлений</p>
+                @endforelse
+            </div>
         </div>
     </div>
 
 @endsection
+
+@push('script')
+    <script>
+        const description = document.querySelectorAll('.info__description')
+
+        description.forEach(elem=>{
+            elem.textContent = limitStr(elem.textContent, 200)
+        })
+        function limitStr(str, n, symb) {
+            if (!n && !symb ) return str;
+            if (str.length<n) return str;
+            symb = symb || '...';
+            return str.substr(0, n - symb.length) + symb;
+        }
+    </script>
+@endpush

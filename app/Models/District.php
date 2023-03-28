@@ -9,29 +9,16 @@ class District extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'name'
     ];
 
     // CONNECTIONS
-    public function flat()
+    public function ads()
     {
-        return $this->hasMany(Flat::class);
-    }
-
-    public function room()
-    {
-        return $this->hasMany(Room::class);
-    }
-
-    public function house()
-    {
-        return $this->hasMany(House::class);
-    }
-
-    public function landplot()
-    {
-        return $this->hasMany(LandPlot::class);
+        return $this->hasMany(Ad::class);
     }
 
     public function complexes()

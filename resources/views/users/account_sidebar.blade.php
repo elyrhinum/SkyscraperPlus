@@ -34,19 +34,13 @@
             @endif
         </div>
     </a>
-    <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/realtor_account/saved.png') }}" alt="Избранное">
-        <div>
-            <p>Избранное</p>
-        </div>
-    </a>
 </div>
 
 <style>
     .main-info__navigation {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-content: center;
 
         background-color: white;
@@ -70,6 +64,7 @@
         border-radius: 5px;
 
         padding: 8px;
+        margin-bottom: 10px !important;
     }
 
     .navigation__link > div {

@@ -15,8 +15,6 @@ return new class extends Migration
     {
         Schema::create('land_plots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('district_id')->constrained('districts')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('street_id')->constrained('streets')->cascadeOnUpdate()->cascadeOnDelete();
             $table->integer('street_number');
             $table->integer('plot_number')->nullable();
             $table->integer('area');

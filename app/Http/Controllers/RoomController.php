@@ -50,17 +50,11 @@ class RoomController extends Controller
         // СОЗДАНИЕ КОМНАТЫ
         if($request->residential_complex_id != 'Не выбрано') {
             $room = Room::create(array_merge(
-                [
-                    'street_id' => $street->id,
-                    'layout' => $layout_path
-                ],
+                ['layout' => $layout_path],
                 $request->except('_token', 'images', 'layout')));
         } else {
             $room = Room::create(array_merge(
-                [
-                    'street_id' => $street->id,
-                    'layout' => $layout_path
-                ],
+                ['layout' => $layout_path],
                 $request->except('_token', 'images', 'layout', 'residential_complex_id')));
         }
 
@@ -68,13 +62,13 @@ class RoomController extends Controller
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
+                'street_id' => $street->id,
                 'status_id' => 2,
-                'contract_id' => $request->contract_id,
                 'object_type' => '\App\Models\Room',
                 'object_id' => $room->id,
                 'user_id' => auth()->id()
             ],
-            $request->only('description', 'price')
+            $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
         // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
@@ -96,8 +90,8 @@ class RoomController extends Controller
         }
 
         $result = $room;
-        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение.']) :
-            $request->session()->put(['error' => 'Не удалось подать объявление. Проверьте, чтобы этаж, на котором находится комната, не превышал общее количество этажей в доме.']);
+        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
     }

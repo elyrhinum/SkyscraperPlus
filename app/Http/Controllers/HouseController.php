@@ -44,22 +44,19 @@ class HouseController extends Controller
 
         // СОЗДАНИЕ УЧАСТКА С ДОМОМ
         $house = House::create(array_merge(
-            [
-                'street_id' => $street->id,
-                'type_id' => $request->type_id,
-            ],
+            ['type_id' => $request->type_id,],
             $request->except('_token', 'images')));
 
         // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
         $ad = Ad::create(array_merge(
             [
+                'street_id' => $street->id,
                 'status_id' => 2,
-                'contract_id' => $request->contract_id,
                 'object_type' => '\App\Models\House',
                 'object_id' => $house->id,
                 'user_id' => auth()->id()
             ],
-            $request->only('description', 'price')
+            $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
         // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
@@ -92,8 +89,8 @@ class HouseController extends Controller
         }
 
         $result = $house;
-        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение.']) :
-            $request->session()->put(['error' => 'Не удалось подать объявление.']);
+        $result ? $request->session()->put(['success' => 'Объявление успешно подано на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
     }

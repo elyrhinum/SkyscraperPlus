@@ -4,19 +4,19 @@
 @section('title', 'Подать объявление об участке с домом')
 @section('content')
     <div class="main-container pd">
-        {{--HEADERS WITH INSTRUCTIONS--}}
+        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
         <div class="headers">
-            <h3>Подать новое объявление об участке с домом</h3>
+            <h3>Подать объявление об участке с домом</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
                 объявление на рассмотрение модераторам.</p>
             <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--FORM--}}
+        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--TYPE OF OBJECT--}}
+                {{--ТИП ОБЪЕКТА НЕДВИЖИМОСТИ--}}
                 <div id="type">
                     <h5>Тип объекта</h5>
                     <p>Необходимо выбрать более конкретный тип объекта недвижимости: коттедж или дачный участок. </p>
@@ -25,13 +25,13 @@
                         <select class="form-select type__select" name="type_id">
                             @foreach($types as $type)
                                 <option value="{{ $type->id }}"
-                                    {{ old('type') == $type->name ? 'selected' : '' }}>{{ $type->name }}</option>
+                                    {{ old('type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--CONTRACT TYPES--}}
+                {{--ТИП ДОГОВОРА--}}
                 <div id="contract-types">
                     <h5>Вид договора</h5>
 
@@ -41,31 +41,32 @@
                                 name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->name ? 'selected' : '' }}>{{ $contract->name }}</option>
+                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>{{ $contract->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--ADDRESS--}}
+                {{--АДРЕС ОБЪЕКТА--}}
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--DISTRICTS--}}
+                    {{--РАЙОН--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <select class="form-select districts__select" name="district_id">
                             @foreach($districts as $district)
                                 <option value="{{ $district->id }}"
-                                    {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                    {{ old('district') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
                             @endforeach
                         </select>
                     </div>
 
-                    {{--STREETS--}}
+                    {{--УЛИЦА--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
-                        <input type="text" list="streets-list" class="form-select" name="street" required>
+                        <input type="text" list="streets-list" class="form-select" name="street"
+                               {{ old('street') }} required>
                         <datalist id="streets-list">
                             @foreach($streets as $street)
                                 <option>{{ $street->name }}</option>
@@ -73,53 +74,57 @@
                         </datalist>
                     </div>
 
-                    {{--STREET NUBMER--}}
+                    {{--НОМЕР УЛИЦЫ--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
-                        <input type="number" name="street_number" id="street_number" class="form-control" min="1"
-                               required>
+                        <input type="number" name="street_number" id="street_number" class="form-control"
+                               min="1" {{ old('street_number') }} required>
                     </div>
 
-                    {{--PLOT NUBMER--}}
+                    {{--НОМЕР УЧАСТКА--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер участка</p>
-                        <input type="number" name="plot_number" id="plot_number" class="form-control" min="1">
+                        <input type="number" name="plot_number" id="plot_number" class="form-control"
+                               min="1" {{ old('plot_number') }}>
                     </div>
                 </fieldset>
 
-                {{--ABOUT BUILDING--}}
+                {{--ИНФОРМАЦИЯ О ЗДАНИИ НА УЧАСТКЕ--}}
                 <fieldset>
                     <h5>Информация о здании на участке</h5>
 
-                    {{--AREA--}}
+                    {{--ПЛОЩАДЬ ЗДАНИЯ--}}
                     <div id="plot-area" class="labels">
                         <p class="plot-area__title">Площадь дома <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="building_area" id="building_area" class="form-control" min="1"
-                                   required>
+                            <input type="number" name="building_area" id="building_area" class="form-control"
+                                   min="1" {{ old('building_area') }} required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--AMOUNT OF FLOORS--}}
+                    {{--КОЛИЧЕСТВО ЭТАЖЕЙ--}}
                     <div id="floors-amount" class="labels">
                         <p class="floors-amount__title">Количество этажей</p>
-                        <input type="number" name="floors" id="floors" class="form-control" min="1">
+                        <input type="number" name="floors" id="floors" class="form-control"
+                               min="1" {{ old('floors') }}>
                     </div>
 
-                    {{--AMOUNT OF BEDROOMS--}}
+                    {{--КОЛИЧЕСТВО СПАЛЬНЫХ КОМНАТ--}}
                     <div id="bedrooms-amount" class="labels">
                         <p class="bedrooms-amount__title">Количество спален</p>
-                        <input type="number" name="bedrooms" id="bedrooms" class="form-control" min="1">
+                        <input type="number" name="bedrooms" id="bedrooms" class="form-control"
+                               min="1" {{ old('bedrooms') }}>
                     </div>
 
-                    {{--AMOUNT OF BATHROOMS--}}
+                    {{--КОЛИЧЕСТВО САНУЗЛОВ--}}
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов</p>
-                        <input type="number" name="bathrooms" id="bathrooms" class="form-control" min="1">
+                        <input type="number" name="bathrooms" id="bathrooms" class="form-control"
+                               min="1" {{ old('bathrooms') }}>
                     </div>
 
-                    {{--BATHROOMS PLACE--}}
+                    {{--РАСПОЛОЖЕНИЕ САНУЗЛА--}}
                     <div id="bathrooms-place" class="labels">
                         <p class="bathrooms-place__title">Санузел</p>
                         <select class="form-select bathrooms-place__select" name="bathrooms_place">
@@ -132,14 +137,15 @@
                         </select>
                     </div>
 
-                    {{--YEAR OF BUILDING THE HOUSE--}}
+                    {{--ГОД ПОСТРОЙКИ ЗДАНИЯ НА УЧАСТКЕ--}}
                     <div id="building-year" class="labels">
                         <p class="building-year__title">Год постройки</p>
-                        <input type="number" name="building_year" id="building_year" class="form-control" min="1700">
+                        <input type="number" name="building_year" id="building_year" class="form-control"
+                               min="1700" {{ old('building_year') }}>
                         <p id="year-error"></p>
                     </div>
 
-                    {{--HOUSE MATERIAL--}}
+                    {{--МАТЕРИАЛ ЗДАНИЯ--}}
                     <div id="house-material" class="labels">
                         <p class="house-material__title">Материал здания</p>
                         <select class="form-select house-material__select" name="building_material">
@@ -173,7 +179,7 @@
                         </select>
                     </div>
 
-                    {{--STATUS--}}
+                    {{--СОСТОЯНИЕ ЗДАНИЯ--}}
                     <div id="building-status" class="labels">
                         <p class="building-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="building_status" id="building_status" cols="30" rows="5" class="form-control"
@@ -182,21 +188,21 @@
                     </div>
                 </fieldset>
 
-                {{--INFO ABOUT OBJECT--}}
+                {{--ИНФОРМАЦИЯ ОБ УЧАСТКЕ--}}
                 <fieldset>
                     <h5>Информация об участке</h5>
 
-                    {{--PLOT AREA--}}
+                    {{--ПЛОЩАДЬ УЧАСТКА--}}
                     <div id="plot-area" class="labels">
                         <p class="plot-area__title">Площадь участка <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="plot_area" id="plot_area" class="form-control" min="1" required>
+                            <input type="number" name="plot_area" id="plot_area" class="form-control"
+                                   {{ old('plot_area') }} min="1" required>
                             <p>сот.</p>
                         </div>
-
                     </div>
 
-                    {{--STATUS--}}
+                    {{--СОСТОЯНИЕ УЧАСТКА--}}
                     <div id="plot-status" class="labels">
                         <p class="plot-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="plot_status" id="plot_status" cols="30" rows="5" class="form-control"
@@ -206,7 +212,7 @@
                 </fieldset>
 
                 <fieldset>
-                    {{--DESCRIPTION--}}
+                    {{--ОПИСАНИЕ--}}
                     <div id="plot-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control"
@@ -214,7 +220,7 @@
                                   required></textarea>
                     </div>
 
-                    {{--IMAGES--}}
+                    {{--ИЗОБРАЖЕНИЯ--}}
                     <div id="plot-images">
                         <h5>Фотографии</h5>
                         <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
@@ -234,19 +240,21 @@
                 <fieldset>
                     <h5>Удобства на участке</h5>
 
+                    {{--ХАРАКТЕРИСТИКИ--}}
                     <div id="characteristics">
                         @foreach($characteristics as $charact)
                             <label>
                                 <input type="checkbox" name="checkboxes[]" id="{{ $charact->id }}"
                                        class="form-check-input"
                                        value="{{ $charact->id }}"
-                                    {{ old($charact->name) ? 'checked' : '' }}>
+                                    {{ old($charact->id) ? 'checked' : '' }}>
                                 {{ $charact->name }}
                             </label>
                         @endforeach
                     </div>
                 </fieldset>
 
+                {{--ЦЕНА--}}
                 <div id="set-price">
                     <h5>Цена <span class="sign-required">*</span></h5>
                     <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
@@ -256,7 +264,8 @@
                     <div class="labels">
                         <p class="set-price__title">Цена</p>
                         <div class="set-price__input">
-                            <input type="number" name="price" id="price" class="form-control" required>
+                            <input type="number" name="price" id="price" class="form-control"
+                                   {{ old('price') }} required>
                             <p>₽</p>
                         </div>
                     </div>
@@ -267,8 +276,9 @@
         </div>
     </div>
 @endsection
+
 @push('script')
-    <script src="{{ asset('/js/images-uploading.js') }}"></script>
+    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),
@@ -289,7 +299,7 @@
             }
         });
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ
+        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);

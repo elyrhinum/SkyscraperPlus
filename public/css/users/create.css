@@ -145,4 +145,13 @@ form {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
+    margin-bottom: 15px ;
+}
+
+#image-prev > img {
+    width: 350px;
+    height: 350px;
+
+    object-fit: cover;
 }

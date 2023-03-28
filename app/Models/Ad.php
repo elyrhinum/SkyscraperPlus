@@ -12,6 +12,8 @@ class Ad extends Model
 
     protected $fillable = [
         'id',
+        'district_id',
+        'street_id',
         'status_id',
         'contract_id',
         'user_id',
@@ -20,14 +22,22 @@ class Ad extends Model
         'comment',
         'price',
         'description',
-        'created_at',
-        'updated_at'
     ];
 
     // CONNECTIONS
     public function object()
     {
         return $this->morphTo();
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
+
+    public function street()
+    {
+        return $this->belongsTo(Street::class);
     }
 
     public function statuses()
@@ -80,8 +90,35 @@ class Ad extends Model
         );
     }
 
-    public function getNameOfAd()
+    // КОРРЕКТНЫЙ ВЫВОД ТИПА, К КОТОРОМУ ПРИНАДЛЕЖИТ ОБЪЯВЛЕНИЕ
+    public function getCorrectObjectType()
     {
-        return $this->objects()->district->name . ', ' . $this->objects()->street->name . ', ' . $this->objects()->street_number;
+        if ($this->object_type == '\App\Models\LandPlot') {
+            return 'Земельный участок';
+        } else if ($this->object_type == '\App\Models\House') {
+            if ($this->object->plotType = 'Участок с коттеджем') {
+                return "Участок с домом (участок с коттеджем)";
+            } else if ($this->object->plotType = 'Дачный участок') {
+                return "Участок с домом (дачный участок)";
+            }
+        } else if ($this->object_type == '\App\Models\Flat') {
+            return 'Квартира';
+        } else if ($this->object_type == '\App\Models\Room') {
+            return 'Комната';
+        }
+    }
+
+    // ПОЛУЧЕНИЕ ПОЛНОГО НАИМЕНОВАНИЯ ОБЪЯВЛЕНИЯ
+    public function getNameOfObject()
+    {
+        if ($this->object_type == '\App\Models\House' || $this->object_type == '\App\Models\LandPlot') {
+            if ($this->object->plot_number == 0) {
+                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
+            } else {
+                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number . '-' . $this->object->plot_number;
+            }
+        } else if ($this->object_type == '\App\Models\Flat' || $this->object_type == '\App\Models\Room') {
+            return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
+        }
     }
 }

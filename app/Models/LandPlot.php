@@ -13,8 +13,6 @@ class LandPlot extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'district_id',
-        'street_id',
         'street_number',
         'plot_number',
         'area',
@@ -29,11 +27,6 @@ class LandPlot extends Model
     public function ad()
     {
         return $this->morphOne(Ad::class, 'object');
-    }
-
-    public function district()
-    {
-        return $this->belongsTo(District::class);
     }
 
     public function characteristics()

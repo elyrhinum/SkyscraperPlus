@@ -66,8 +66,8 @@ class UserController extends Controller
     {
         $result = $moderator->update($request->only(['name', 'surname', 'patronymic', 'login']));
 
-        return $result ? to_route('admins.moderators.index')->with(['success' => 'Аккаунт успешно обновлен']) :
-            to_route('admins.moderators.index')->withErrors(['error' => 'Не удалось обновить аккаунт']);
+        return $result ? to_route('admins.moderators.index')->with(['success' => 'Данные модератора успешно обновлены']) :
+            to_route('admins.moderators.index')->withErrors(['error' => 'Не удалось обновить данные модератора']);
     }
 
     // DELETE MODERATOR

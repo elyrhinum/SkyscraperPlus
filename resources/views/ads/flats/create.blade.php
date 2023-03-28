@@ -310,7 +310,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/images-uploading.js') }}"></script>
+    <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),

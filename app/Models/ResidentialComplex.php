@@ -18,7 +18,7 @@ class ResidentialComplex extends Model
         'description'
     ];
 
-    // CONNECTIONS
+    // СВЯЗИ
     public function class()
     {
         return $this->belongsTo(ComplexClass::class);
@@ -39,7 +39,7 @@ class ResidentialComplex extends Model
         return $this->belongsTo(District::class);
     }
 
-    // METHODS
+    // МЕТОДЫ
     public static function onlySuggested()
     {
         return ResidentialComplex::where('status_id', 2);
@@ -53,6 +53,11 @@ class ResidentialComplex extends Model
     public static function onlyHidden()
     {
         return ResidentialComplex::where('status_id', 4);
+    }
+
+    public static function onlyCancelled()
+    {
+        return ResidentialComplex::where('status_id', 3);
     }
 
     public function dateOfCreating(): Attribute

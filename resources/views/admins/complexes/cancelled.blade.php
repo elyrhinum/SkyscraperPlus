@@ -1,9 +1,8 @@
 @extends('templates.admin')
-@section('title', 'Новые объявления')
+@section('title', 'Отклоненные заявления на добавление нового ЖК')
 @section('content')
     <div class="main-container">
-        {{--ЗАГОЛОВОК--}}
-        <h5 id="title">Новые объявления</h5>
+        <h5 id="title">Отклоненные заявления на добавление нового ЖК</h5>
 
         {{--СООБЩЕНИЕ--}}
         @include('inc.message')
@@ -12,67 +11,53 @@
         <table>
             <tr>
                 <th class="br">ID</th>
-                <th>Тип объекта</th>
+                <th>Наименование</th>
                 <th>Район</th>
-                <th>Цена</th>
-                <th class="centered">Дата подачи</th>
-                <th class="centered">Дата обновления</th>
-                <th class="centered"></th>
+                <th class="date-column">Дата подачи</th>
+                <th class="date-column">Дата обновления</th>
+                <th></th>
             </tr>
-            @forelse($ads as $ad)
+            @forelse($objects as $object)
                 <tr class="table__block">
-                    <td class="br object-id">{{ $ad->id }}</td>
-                    <td> {{ $ad->getCorrectObjectType() }}</td>
-                    <td>{{ $ad->district->name }}</td>
-                    <td>{{ $ad->price }} ₽</td>
-                    <td class="centered">{{ $ad->dateOfCreating }}</td>
-                    <td class="centered">{{ $ad->dateOfUpdating }}</td>
-                    <td class="centered">
+                    <td class="br object-id">{{ $object->id }}</td>
+                    <td>{{ $object->name }}</td>
+                    <td>{{ $object->district->name }}</td>
+                    <td class="date-column">{{ $object->dateOfCreating }}</td>
+                    <td class="date-column">{{ $object->dateOfUpdating }}</td>
+                    <td class="td-btn">
+                        {{--КНОПКА ПРОСМОТРА--}}
+                        <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
 
-                        {{--КНОПКА ДЛЯ ПРОСМОТРА--}}
-                        <a href="{{ route('admins.ads.show', $ad->id) }}"
-                           class="btn btn-outlined btn-more">Подробнее</a>
-
-                        {{--КНОПКА ДЛЯ ПУБЛИКАЦИИ--}}
-                        <button class="btn btn-filled btn-publish"
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop1" onclick="getId({{ $ad->id }})">
-                            Опубликовать
-                        </button>
-
-                        {{--КНОПКА ДЛЯ ОТКЛОНЕНИЯ--}}
-                        <button class="btn btn-danger btn-cancel"
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop2"
-                                onclick="getIdToCancel({{ $ad->id }})">
-                            Отклонить
-                        </button>
+                        {{--КНОПКА ПУБЛИКОВАНИЯ--}}
+                        <a href="" class="btn btn-filled btn-publish"
+                           data-bs-toggle="modal"
+                           data-bs-target="#staticBackdrop1" onclick="getId({{ $object->id }})">Добавить в каталог</a>
                     </td>
                 </tr>
             @empty
-                <tr class="centered">
-                    <td colspan="6">Нет новых объявлений</td>
+                <tr class="td-centered">
+                    <td colspan="6">Нет заявлений на добавление жилого комплекса</td>
                 </tr>
             @endforelse
         </table>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ПОДТВЕРЖДЕНИЯ ПУБЛИКАЦИИ--}}
+    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ ЖИЛОГО КОМПЛЕКСА В КАТАЛОГ--}}
     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Опубликовать объявление</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Добавить жилой комплекс в каталог</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Вы действительно хотите опубликовать объявление?</p>
+                    <p>Вы действительно хотите добавить жилой комплекс в каталог?</p>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
-                    <form action="{{ route('admins.ads.confirm') }}">
+                    <form action="{{ route('admins.complexes.confirm') }}">
                         <input type="hidden" id="modal-object-id" name="id">
                         <button class="btn btn-filled" id="btn-confirm">Добавить</button>
                     </form>
@@ -81,27 +66,28 @@
         </div>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ОТКЛОНЕНИЯ--}}
+    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ОТКЛОНЕНИЯ ДОБАВЛЕНИЯ ЖИЛОГО КОМПЛЕКСА В КАТАЛОГ--}}
     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Отклонить объявление</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Отклонить добавление нового ЖК</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Для отклонения объявления необходимо ввести причину, по которой это объявление не может быть
-                        опубликовано</p>
+                    <p>Для отклонения заявления необходимо ввести причину, по которой этот жилой комплекс не может быть
+                        добавлен в каталог</p>
                     <textarea class="form-control" name="comment" id="pre-comment" rows="7"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
-                    <form action="{{ route('admins.ads.cancel') }}">
+                    <form action="{{ route('admins.complexes.cancel') }}">
                         <input type="hidden" id="input-comment-modal" name="id">
                         <textarea class="form-control" name="comment" id="comment"
-                                  placeholder="Введите причину отклонения объявления" hidden></textarea>
+                                  placeholder="Введите причину отклонения добавления жилого комплекса в каталог"
+                                  hidden></textarea>
                         <button class="btn btn-danger" id="btn-cancel">Отклонить</button>
                     </form>
                 </div>
