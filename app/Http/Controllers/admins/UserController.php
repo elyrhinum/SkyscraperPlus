@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // REDIRECT TO INDEX PAGE
     public function index()
     {
         return view('admins.index', [
@@ -22,11 +23,13 @@ class UserController extends Controller
         ]);
     }
 
+    // LOGIN
     public function login()
     {
         return view('admins.login');
     }
 
+    // VERIFICATION
     public function verification(Request $request)
     {
         if (Auth::attempt($request->only(['login', 'password']))) {
@@ -38,27 +41,40 @@ class UserController extends Controller
         return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
     }
 
+    // REDIRECT TO MODERATORS INDEX PAGE
     public function moderatorIndex()
     {
         return view('admins.moderators.index', ['moderators' => User::where('role_id', 4)->get()]);
     }
+
+    // REDIRECT TO CREATE MODERATORS PAGE
     public function create()
     {
         return view('admins.moderators.create');
     }
+
+    // STORE MODERATOR
     public function store(ModeratorSignUpRequest $request)
     {
-        User::create(array_merge(
+        $result = User::create(array_merge(
             ['password' => Hash::make($request->password), 'role_id' => 4],
             $request->only(['name', 'surname', 'patronymic', 'login'])
         ));
 
-        return to_route('admins.moderators.index');
+        return $result ? to_route('admins.moderators.index')->with(['success' => 'Аккаунт модератора успешно создан']) :
+            to_route('admins.moderators.index')->withErrors(['error' => 'Не удалось создать аккаунт модератора']);
     }
 
+    // REDIRECT TO EDIT MODERATOR PAGE
     public function edit(User $moderator)
     {
         return view('admins.moderators.edit', ['moderator' => $moderator]);
+    }
+
+    // REDIRECT TO EDIT USER PAGE
+    public function editUser(User $user)
+    {
+        return view('admins.edit', ['user' => $user]);
     }
 
     // UPDATE MODERATOR
@@ -68,6 +84,15 @@ class UserController extends Controller
 
         return $result ? to_route('admins.moderators.index')->with(['success' => 'Данные модератора успешно обновлены']) :
             to_route('admins.moderators.index')->withErrors(['error' => 'Не удалось обновить данные модератора']);
+    }
+
+    // UPDATE USER
+    public function updateUser(ModeratorUpdateRequest $request, User $user)
+    {
+        $result = $user->update($request->only(['name', 'surname', 'patronymic', 'login']));
+
+        return $result ? to_route('admins.index')->with(['success' => 'Данные успешно обновлены']) :
+            to_route('admins.index')->withErrors(['error' => 'Не удалось обновить данные']);
     }
 
     // DELETE MODERATOR

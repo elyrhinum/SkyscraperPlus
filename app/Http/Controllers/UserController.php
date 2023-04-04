@@ -16,58 +16,51 @@ use function PHPUnit\Framework\isFalse;
 
 class UserController extends Controller
 {
-    // METHODS TO GET ACCOUNTS
-    public function userAccount()
+    // REDIRECT TO USER'S ACCOUNT
+    public function account()
     {
-        return view('users.user_account');
-    }
-
-    public function realtorAccount()
-    {
-        return view('users.realtor_account', [
+        return view('users.account', [
             'suggested_ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
             'published_ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
             'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
+//            'suggested_complexes' => ResidentialComplex::onlySuggested()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
+//            'cancelled_complexes' => ResidentialComplex::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get()
         ]);
     }
 
-    // CREATE METHOD
+    // REDIRECT TO SIGN UP FORM
     public function create()
     {
         return view('users.create');
     }
 
-    // LOGIN METHOD
+    // LOGIN IN ACCOUNT
     public function login()
     {
         return view('users.login');
     }
 
-    // VERIFICATION METHOD
+    // VERIFICATION
     public function verification(Request $request)
     {
         if (Auth::attempt($request->only(['login', 'password']))) {
             $request->session()->regenerate();
 
-            if (auth()->user()->role_id == 1) {
-                return to_route('users.user.account');
-            } else if (auth()->user()->role_id == 2) {
-                return to_route('users.realtor.account');
-            }
+            return to_route('users.account');
         }
         return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
     }
 
-    // LOGOUT METHOD
+    // LOGOUT FROM ACCOUNT
     public function logout(Request $request)
     {
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return to_route('ads.index');
+        return to_route('index');
     }
 
-    // STORE METHODS
+    // STORE USER
     public function storeUser(SignUpRequest $request)
     {
         $user = User::create(array_merge(
@@ -77,9 +70,10 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return to_route('users.user.account');
+        return to_route('users.account');
     }
 
+    // STORE REALTOR
     public function storeRealtor(SignUpRequest $request)
     {
         $path = FileServiceForRealtors::upload($request->file('image'), '/realtors');
@@ -95,28 +89,34 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return to_route('users.realtor.account');
+        return to_route('users.account');
     }
 
-    // EDIT METHODS
-    public function editRealtor(User $realtor)
+    // REDIRECT TO EDIT FORM
+    public function edit(User $user)
     {
-        return view('users.realtor_edit', ['realtor' => $realtor]);
+        return view('users.edit', ['user' => $user]);
     }
 
-    // UPDATE METHODS
-    public function updateRealtor(Request $request, User $realtor)
+    // UPDATE METHOD
+    public function update(Request $request, User $user)
     {
-        $path = FileServiceForRealtors::update('/realtors', $realtor->image, $request->file('image'));
+        $result = false;
 
-        if ($path) {
-            $result = $realtor->update(array_merge(['image' => $path],
-                $request->except(['_token', 'image'])));
-        } else {
-            $result = $realtor->update($request->except(['_token', 'image']));
+        if ($user->role->name == 'Пользователь') {
+            $result = $user->update($request->except(['_token', 'image']));
+        } else if ($user->role->name == 'Риелтор') {
+            $path = FileServiceForRealtors::update('/realtors', $user->image, $request->file('image'));
+
+            if ($path) {
+                $result = $user->update(array_merge(['image' => $path],
+                    $request->except(['_token', 'image'])));
+            } else {
+                $result = $user->update($request->except(['_token', 'image']));
+            }
         }
 
-        return $result ? to_route('users.realtor.account')->with(['success' => 'Аккаунт успешно обновлен']) :
-            to_route('users.realtor.account')->withErrors(['error' => 'Не удалось обновить аккаунт']);
+        return $result ? to_route('users.account')->with(['success' => 'Аккаунт успешно обновлен']) :
+            to_route('users.account')->withErrors(['error' => 'Не удалось обновить аккаунт']);
     }
 }

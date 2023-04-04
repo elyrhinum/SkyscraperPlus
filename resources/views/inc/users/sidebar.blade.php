@@ -8,7 +8,7 @@
 
 <div class="main-info__navigation">
     <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/realtor_account/suggested.png') }}" alt="Предложенные">
+        <img src="{{ asset('/media/icons/account/suggested.png') }}" alt="Предложенные">
         <div>
             <p>На рассмотрении</p>
             @if(count($ads->where('status_id', 2)) > 0)
@@ -17,7 +17,7 @@
         </div>
     </a>
     <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/realtor_account/published.png') }}" alt="Опубликованные">
+        <img src="{{ asset('/media/icons/account/published.png') }}" alt="Опубликованные">
         <div>
             <p>Опубликованные</p>
             @if(count($ads->where('status_id', 1)) > 0)
@@ -26,7 +26,7 @@
         </div>
     </a>
     <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/realtor_account/rejected.png') }}" alt="Отклоненные">
+        <img src="{{ asset('/media/icons/account/rejected.png') }}" alt="Отклоненные">
         <div>
             <p>Отклоненные</p>
             @if(count($ads->where('status_id', 3)) > 0)
@@ -34,18 +34,27 @@
             @endif
         </div>
     </a>
+    <a href="" class="navigation__link">
+        <img src="{{ asset('/media/icons/account/saved.png') }}" alt="Избранные">
+        <div>
+            <p>Избранные</p>
+        </div>
+    </a>
 </div>
 
 <style>
     .main-info__navigation {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: flex-start;
         align-content: center;
+        gap: 10px;
 
         background-color: white;
-        border-radius: 5px;
         padding: 15px;
+
+        border-radius: 3px;
+        border: 1px solid lightgray;
     }
 
     .navigation__link {
@@ -61,10 +70,9 @@
         text-decoration: none;
 
         border: 1px solid #384F66;
-        border-radius: 5px;
+        border-radius: 3px;
 
         padding: 8px;
-        margin-bottom: 10px !important;
     }
 
     .navigation__link > div {

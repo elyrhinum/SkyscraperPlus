@@ -594,7 +594,7 @@
             const complex_district = complexSelect.value;
 
             if (complex_district !== 'Не выбрано') {
-                let res = await districtPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
+                let res = await dataPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
                 renderSelect.inerrHTML = '';
                 renderSelect.innerHTML = `<select class="form-select districts__select"
                                 id="district_id" name="district_id">

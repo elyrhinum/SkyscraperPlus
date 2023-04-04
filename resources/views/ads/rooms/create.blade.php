@@ -3,7 +3,7 @@
 @section('title', 'Подать объявление о комнате')
 @section('content')
     <div class="main-container pd">
-        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
+        {{--HEADER WITH INSTURCTION--}}
         <div class="headers">
             <h3>Подать объявление о комнате</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
@@ -12,26 +12,26 @@
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--ТИПЫ ДОГОВОРА--}}
+                {{--CONTRACT TYPES--}}
                 <div id="contract-types">
                     <h5>Вид договора</h5>
 
                     <div class="labels">
                         <p class="contract-types__title">Вид договора <span class="sign-required">*</span></p>
-                        <select class="form-select contract-types__select"
-                                name="contract_id">
+                        <select class="form-select contract-types__select" name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>{{ $contract->name }}</option>
+                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>
+                                    {{ $contract->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--ЖИЛОЙ КОМПЛЕКС--}}
+                {{--RESIDENTIAL COMPLEX--}}
                 <div id="residential-complexes">
                     <h5>Жилой комплекс</h5>
 
@@ -42,17 +42,19 @@
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
-                                    {{ old('complex') == $complex->id ? 'selected' : '' }}>{{ $complex->name }}</option>
+                                    {{ old('complex') == $complex->id ? 'selected' : '' }}>
+                                    {{ $complex->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                {{--МЕСТОПОЛОЖЕНИЕ--}}
+                {{--ADDRESS--}}
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--РАЙОН--}}
+                    {{--DISTRICT--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <div id="rendering-select">
@@ -60,14 +62,16 @@
                                     id="district_id" name="district_id">
                                 @foreach($districts as $district)
                                     <option value="{{ $district->id }}"
-                                        {{ old('district') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
+                                        {{ old('district') == $district->id ? 'selected' : '' }}>
+                                        {{ $district->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                     </div>
 
-                    {{--УЛИЦА--}}
+                    {{--STREET--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street"
@@ -80,21 +84,21 @@
                         </datalist>
                     </div>
 
-                    {{--НОМЕР УЛИЦЫ--}}
+                    {{--STREET NUMBER--}}
                     <div id="street-number" class="labels">
                         <p class="building-number__title">Номер улицы <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control"
                                min="1" {{ old('street_number') }} required>
                     </div>
 
-                    {{--ПОДЪЕЗД--}}
+                    {{--ENTRANCE--}}
                     <div id="entrance-number" class="labels">
                         <p class="entrance-number__title">Номер подъезда <span class="sign-required">*</span></p>
                         <input type="number" name="entrance" id="entrance" class="form-control"
                                min="1" {{ old('entrance') }} required>
                     </div>
 
-                    {{--ИНФОРМАЦИЯ ОБ ЭТАЖАХ--}}
+                    {{--FLOORS--}}
                     <div id="building-floors" class="labels">
                         <p class="floors__title">Этаж <span class="sign-required">*</span></p>
                         <div>
@@ -107,19 +111,19 @@
                         <p id="floor-error"></p>
                     </div>
 
-                    {{--НОМЕР КОМНАТЫ--}}
+                    {{--ROOM NUMBER--}}
                     <div id="number" class="labels">
-                        <p class="number__title">Номер комнаты <span class="sign-required">*</span></p>
+                        <p class="number__title">Номер комнаты</p>
                         <input type="number" name="number" id="number" class="form-control"
-                               min="1" {{ old('number') }} required>
+                               min="1" {{ old('number') }}>
                     </div>
                 </fieldset>
 
-                {{--ИНФОРМАЦИЯ ОБ ОБЪЕКТЕ НЕДВИЖИМОСТИ--}}
+                {{--ABOUT OBJECT--}}
                 <fieldset>
                     <h5>Информация об объекте</h5>
 
-                    {{--ПЛОЩАДЬ КОМНАТЫ--}}
+                    {{--AREA--}}
                     <div id="room-area" class="labels">
                         <p class="room-area__title">Площадь комнаты <span class="sign-required">*</span></p>
                         <div>
@@ -129,7 +133,7 @@
                         </div>
                     </div>
 
-                    {{--ЖИЛАЯ ПЛОЩАДЬ--}}
+                    {{--LIVING AREA--}}
                     <div id="living-area" class="labels">
                         <p class="living-area__title">Жилая площадь <span class="sign-required">*</span></p>
                         <div>
@@ -139,7 +143,7 @@
                         </div>
                     </div>
 
-                    {{--ОБЩАЯ ПЛОЩАДЬ--}}
+                    {{--TOTAL AREA  --}}
                     <div id="total-area" class="labels">
                         <p class="total-area__title">Общая площадь <span class="sign-required">*</span></p>
                         <div>
@@ -149,7 +153,7 @@
                         </div>
                     </div>
 
-                    {{--ПЛОЩАДЬ КУХНИ--}}
+                    {{--KITCHEN AREA    --}}
                     <div id="kitchen-area" class="labels">
                         <p class="kitchen-area__title">Площадь кухни</p>
                         <div>
@@ -159,7 +163,7 @@
                         </div>
                     </div>
 
-                    {{--ВЫСОТА ПОТОЛКОВ--}}
+                    {{--CEILING HEIGHT--}}
                     <div id="ceiling-height" class="labels">
                         <p class="ceiling-height__title">Высота потолков</p>
                         <div>
@@ -169,19 +173,27 @@
                         </div>
                     </div>
 
-                    {{--КОЛИЧЕСТВО ЖИЛЫХ КОМНАТ--}}
+                    {{--LIVING ROOMS AMOUNT--}}
                     <div id="living-rooms-amount" class="labels">
                         <p class="living-rooms-amount__title">Количество жилых комнат <span
                                 class="sign-required">*</span></p>
-                        <input type="number" name="living_rooms_amount" id="living_rooms_amount" class="form-control"
-                               min="1" required>
+                        <select name="living_rooms_amount" id="living_rooms_amount">
+                            <option value="1" {{ old('living_rooms_amount') == '1' ? 'selected' : '' }}>1</option>
+                            <option value="2" {{ old('living_rooms_amount') == '2' ? 'selected' : '' }}>2</option>
+                            <option value="3" {{ old('living_rooms_amount') == '3' ? 'selected' : '' }}>3</option>
+                            <option value="4+" {{ old('living_rooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                        </select>
                     </div>
 
                     {{--BATHROOMS AMOUNT--}}
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов <span class="sign-required">*</span></p>
-                        <input type="number" name="bathrooms_amount" id="bathrooms_amount" class="form-control" min="1"
-                               required>
+                        <select name="bathrooms_amount" id="bathrooms_amount">
+                            <option value="1" {{ old('bathrooms_amount') == '1' ? 'selected' : '' }}>1</option>
+                            <option value="2" {{ old('bathrooms_amount') == '2' ? 'selected' : '' }}>2</option>
+                            <option value="3" {{ old('bathrooms_amount') == '3' ? 'selected' : '' }}>3</option>
+                            <option value="4+" {{ old('bathrooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                        </select>
                     </div>
 
                     {{--BATHROOM TYPE--}}
@@ -207,7 +219,9 @@
                                     name="repair_id">
                                 @foreach($repair_types as $repair)
                                     <option value="{{ $repair->id }}"
-                                        {{ old('repair') == $repair->name ? 'selected' : '' }}>{{ $repair->name }}</option>
+                                        {{ old('repair') == $repair->name ? 'selected' : '' }}>
+                                        {{ $repair->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -323,7 +337,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
+    <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),
@@ -339,7 +353,7 @@
             buildingYear = document.getElementById('building_year'),
             yearError = document.getElementById('year-error');
 
-        // ПРЕВЬЮ ПЛАНИРОВКИ
+        // PREVIEW OF LAYOUT
         layout.addEventListener('change', (e) => {
             layoutPrev.innerHTML = ''
             let image = document.createElement('img')
@@ -352,7 +366,7 @@
             layoutPrev.append(image)
         })
 
-        // ПРОВЕРКА НА СОВМЕСТИМОСТЬ ЭТАЖЕЙ
+        // CHECKING FOR COMPLIANCE OF FLOORS
         floor.addEventListener('input', (e) => {
             const floors = document.getElementById('floors');
 
@@ -381,16 +395,16 @@
             }
         });
 
-        // ПРОВЕРКА НА СОВПАДЕНИЕ РАЙОНА ЖИЛОГО КОМПЛЕКСА И ОБЪЕКТА
+        // CHECKING FOR MATCH OF RESIDENTIAL COMPLEX AND DISTRICT
         complexSelect.addEventListener('input', async () => {
             const complex_district = complexSelect.value;
 
             if (complex_district !== 'Не выбрано') {
-                let res = await districtPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
+                let res = await dataPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
                 renderSelect.inerrHTML = '';
                 renderSelect.innerHTML = `<select class="form-select districts__select"
                                 id="district_id" name="district_id">
-                <option value="${ res.id}">${ res.name }</option>
+                <option value="${res.id}">${res.name}</option>
                 </select>`;
             } else {
                 renderSelect.inerrHTML = '';
@@ -404,7 +418,7 @@
             }
         });
 
-        // ПРОВЕРКА НА ПРЕВЫШЕНИЕ НЫНЕШНЕГО ГОДА
+        // CHECKING THAT YEAR DO NOT EXCEED CURRENT YEAR
         buildingYear.addEventListener('input', () => {
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
@@ -418,7 +432,7 @@
             }
         });
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
+        // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault();
             const formData = getFilesFormData(filesStore);
@@ -440,11 +454,7 @@
 
             let res = await postJSON('{{ route("rooms.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
-                if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.user.account') }}";
-                } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.realtor.account') }}";
-                }
+                location = "{{ route('users.account') }}";
             }
         })
     </script>

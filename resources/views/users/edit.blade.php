@@ -5,11 +5,13 @@
     <div class="main-container pd mt">
         <h3>Редактирование профиля</h3>
 
-        <form action="{{ route('users.realtor.update', auth()->user()) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('users.update', auth()->user()) }}" method="post" enctype="multipart/form-data">
             @csrf
+
+            {{--NAME--}}
             <div class="inputs input-name">
                 <label for="name">Имя <sup class="required-mark">*</sup>
-                    <input type="text" name="name" value="{{ old('name') ?? $realtor->name }}" placeholder="Иван"
+                    <input type="text" name="name" value="{{ old('name') ?? $user->name }}" placeholder="Иван"
                            class="form-control name @error('name') is-invalid @enderror">
                 </label>
                 <span>Кириллица, пробелы и тире</span>
@@ -18,9 +20,11 @@
                 @enderror
             </div>
 
+            {{--SURNAME--}}
             <div class="inputs input-surname">
                 <label for="surname">Фамилия <sup class="required-mark">*</sup>
-                    <input type="text" name="surname" value="{{ old('surname') ?? $realtor->surname }}" placeholder="Иванов"
+                    <input type="text" name="surname" value="{{ old('surname') ?? $user->surname }}"
+                           placeholder="Иванов"
                            class="form-control surname @error('surname') is-invalid @enderror">
                 </label>
                 <span>Кириллица, пробелы и тире</span>
@@ -29,9 +33,11 @@
                 @enderror
             </div>
 
+            {{--PATRONYMIC--}}
             <div class="inputs input-patronymic">
                 <label for="patronymic">Отчество
-                    <input type="text" name="patronymic" value="{{ old('patronymic') ?? $realtor->patronymic }}" placeholder="Иванович"
+                    <input type="text" name="patronymic" value="{{ old('patronymic') ?? $user->patronymic }}"
+                           placeholder="Иванович"
                            class="form-control patronymic @error('patronymic') is-invalid @enderror">
                 </label>
                 <span>Кириллица, пробелы и тире</span>
@@ -40,9 +46,11 @@
                 @enderror
             </div>
 
+            {{--EMAIL--}}
             <div class="inputs input-email">
                 <label for="email">E-mail <sup class="required-mark">*</sup>
-                    <input type="email" name="email" value="{{ old('email') ?? $realtor->email }}" placeholder="example@gmail.com"
+                    <input type="email" name="email" value="{{ old('email') ?? $user->email }}"
+                           placeholder="example@gmail.com"
                            class="form-control email @error('email') is-invalid @enderror">
                 </label>
                 @error('email')
@@ -50,9 +58,11 @@
                 @enderror
             </div>
 
+            {{--TELEPONE--}}
             <div class="inputs input-telephone">
                 <label for="telephone">Телефон <sup class="required-mark">*</sup>
-                    <input type="text" name="telephone" value="{{ old('telephone') ?? $realtor->telephone }}" placeholder="+7(000)000-00-00"
+                    <input type="text" name="telephone" value="{{ old('telephone') ?? $user->telephone }}"
+                           placeholder="+7(000)000-00-00"
                            id="telephone" class="form-control telephone @error('telephone') is-invalid @enderror">
                 </label>
                 @error('telephone')
@@ -60,25 +70,29 @@
                 @enderror
             </div>
 
-            <div class="inputs input-image">
-                <p>Фотография</p>
-                <label for="image" class="label-image">
-                    <p>ЗАГРУЗИТЕ ФОТОГРАФИЮ</p>
-                    <input type="file" name="image" id="image"
-                           accept="image/jpg, image/jpeg, image/png"
-                           class="form-control image @error('image') is-invalid @enderror">
-                    <div id="image-prev">
-                        <img src="{{ $realtor->image }}" alt="{{ $realtor->name }}">
-                    </div>
-                </label>
-                @error('image')
-                <span>{{ $message }}</span>
-                @enderror
-            </div>
+            {{--IMAGE--}}
+            @if($user->role->name == 'Риелтор')
+                <div class="inputs input-image">
+                    <p>Фотография</p>
+                    <label for="image" class="label-image">
+                        <p>ЗАГРУЗИТЕ ФОТОГРАФИЮ</p>
+                        <input type="file" name="image" id="image"
+                               accept="image/jpg, image/jpeg, image/png"
+                               class="form-control image @error('image') is-invalid @enderror">
+                        <div id="image-prev">
+                            <img src="{{ $user->image }}" alt="{{ $user->name }}">
+                        </div>
+                    </label>
+                    @error('image')
+                    <span>{{ $message }}</span>
+                    @enderror
+                </div>
+            @endif
 
+            {{--LOGIN--}}
             <div class="inputs input-login">
                 <label for="login">Логин <sup class="required-mark">*</sup>
-                    <input type="text" name="login" value="{{ old('login') ?? $realtor->login }}" placeholder="eXampl3"
+                    <input type="text" name="login" value="{{ old('login') ?? $user->login }}" placeholder="eXampl3"
                            class="form-control login @error('login') is-invalid @enderror">
                 </label>
                 <span>Английский алфавит и цифры</span>
@@ -101,7 +115,13 @@
             imageInput = document.getElementById('image'),
             imagePrev = document.getElementById('image-prev');
 
-        // IMAGE PREVIEW
+        // TELEPHONE MASK
+        const maskOptions = {
+            mask: '+{7}(000)000-00-00'
+        };
+        const mask_1 = IMask(element, maskOptions);
+
+        // RENDERING IMAGE PREVIEW
         imageInput.addEventListener('change', (e) => {
             imagePrev.innerHTML = ''
             let image = document.createElement('img')
@@ -113,12 +133,5 @@
             image.alt = "img"
             imagePrev.append(image)
         })
-
-        // TELEPHONE MASK
-        const maskOptions = {
-            mask: '+{7}(000)000-00-00'
-        };
-        const mask_1 = IMask(element, maskOptions);
-
     </script>
 @endpush

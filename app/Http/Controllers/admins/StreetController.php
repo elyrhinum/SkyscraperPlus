@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class StreetController extends Controller
 {
-    // REDIRECT TO INDEX
+    // REDIRECT TO INDEX PAGE
     public function index()
     {
         return view('admins.streets.index', ['streets' => Street::all()]);
     }
 
-    // STORE METHODS
+    // STORE METHOD
     public function store(Request $request)
     {
         $result = Street::create(['name' => $request->name]);

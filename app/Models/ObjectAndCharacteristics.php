@@ -19,6 +19,11 @@ class ObjectAndCharacteristics extends Model
     // CONNECTIONS
     public function object()
     {
-        $this->morph();
+        return $this->morphTo();
+    }
+
+    public function characteristic()
+    {
+        return $this->belongsTo(HouseLandPlotCharacteristic::class);
     }
 }

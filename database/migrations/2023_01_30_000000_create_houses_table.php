@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('bathroom_place')->nullable();
             $table->integer('building_year')->nullable();
             $table->string('building_material')->nullable();
-            $table->string('building_status')->nullable();
+            $table->text('building_status')->nullable();
             $table->decimal('plot_area');
-            $table->string('plot_status');
+            $table->text('plot_status');
         });
     }
 

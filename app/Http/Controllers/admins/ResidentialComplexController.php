@@ -11,29 +11,32 @@ use Illuminate\Http\Request;
 
 class ResidentialComplexController extends Controller
 {
-    // МЕТОДЫ ПО СТАТУСАМ
+    // REDIRECT TO PAGE WITH SUGGESTED COMPLEXES
     public function onlySuggested()
     {
         return view('admins.complexes.suggested', ['objects' => ResidentialComplex::onlySuggested()->get()]);
     }
 
+    // REDIRECT TO PAGE WITH PUBLISHED COMPLEXES
     public function onlyPublished()
     {
         return view('admins.complexes.published', ['objects' => ResidentialComplex::onlyPublished()->get()]);
     }
 
-    public function onlyHidden()
-    {
-        return view('admins.complexes.hidden', ['objects' => ResidentialComplex::onlyHidden()->get()]);
-    }
-
+    // REDIRECT TO PAGE WITH CANCELLED COMPLEXES
     public function onlyCancelled()
     {
         return view('admins.complexes.cancelled', ['objects' => ResidentialComplex::onlyCancelled()->get()]);
     }
 
-    // МЕТОД ДЛЯ ДОБАВЛЕНИЯ ЖК В КАТАЛОГ
-    public function confirm(Request $request)
+    // REDIRECT TO PAGE WITH HIDDEN COMPLEXES
+    public function onlyHidden()
+    {
+        return view('admins.complexes.hidden', ['objects' => ResidentialComplex::onlyHidden()->get()]);
+    }
+
+    // PUBLISH METHOD
+    public function publish(Request $request)
     {
         $complex = ResidentialComplex::find($request->id);
         $result = $complex->update(['status_id' => 1]);
@@ -42,7 +45,7 @@ class ResidentialComplexController extends Controller
             back()->withErrors(['error' => 'Не удалось добавить жилой комплекс в каталог']);
     }
 
-    // МЕТОД ДЛЯ ОТКЛОНЕНИЯ ЗАЯВЛЕНИЯ
+    // CANCEL METHOD
     public function cancel(Request $request)
     {
         $complex = ResidentialComplex::find($request->id);
@@ -52,7 +55,7 @@ class ResidentialComplexController extends Controller
             back()->withErrors(['error' => 'Не удалось отклонить заявление о добавлении жилого комплекса в каталог']);
     }
 
-    // МЕТОД ДЛЯ СКРЫТИЯ
+    // HIDE METHOD
     public function hide(Request $request)
     {
         $complex = ResidentialComplex::find($request->id);
@@ -62,7 +65,7 @@ class ResidentialComplexController extends Controller
             back()->withErrors(['error' => 'Не удалось скрыть жилой комплекс из каталога']);
     }
 
-    // МЕТОД ДЛЯ ПРОСМОТРА
+    // SHOW METHOD
     public function show(ResidentialComplex $complex)
     {
         return view('admins.complexes.show', ['complex' => $complex]);

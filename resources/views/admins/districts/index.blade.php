@@ -3,52 +3,58 @@
 @section('title', 'Каталог районов')
 @section('content')
     <div class="main-container">
-        <div id="title">
-            <h5>Каталог районов</h5>
+        {{--NAVBAR--}}
+        @include('inc.admins.navbar')
 
-            {{--BUTTON TO ADD STREET--}}
-            <button data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop1"
-                    class="btn btn-filled">Добавить район в каталог
-            </button>
-        </div>
+        {{--CONTENT--}}
+        <div>
+            <div id="title">
+                <h5>Каталог районов</h5>
 
-        {{--MESSAGE--}}
-        @include('inc.message')
+                {{--BUTTON TO ADD STREET--}}
+                <button data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop1"
+                        class="btn btn-filled">Добавить район в каталог
+                </button>
+            </div>
 
-        {{--TABLE--}}
-        <table>
-            <tr>
-                <th class="br object-id">ID</th>
-                <th>Наименование</th>
-                <th></th>
-            </tr>
-            @foreach($districts as $district)
+            {{--MESSAGE--}}
+            @include('inc.message')
+
+            {{--TABLE--}}
+            <table>
                 <tr>
-                    <td class="br object-id">{{ $district->id }}</td>
-                    <td>{{ $district->name }}</td>
-                    <td class="td-btn">
-
-                        {{--BUTTON TO EDIT STREET--}}
-                        <button data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop2"
-                                data-id="{{ $district->id }}"
-                                data-name="{{ $district->name }}"
-                                onclick="getId({{ $district->id }})"
-                                class="btn btn-filled btn-update-district">Редактировать
-                        </button>
-
-                        {{--BUTTON TO DELETE STREET--}}
-                        <button data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop3"
-                                data-id="{{ $district->id }}"
-                                class="btn btn-danger btn-delete"
-                                onclick="getIdToDelete({{ $district->id }})">Удалить
-                        </button>
-                    </td>
+                    <th class="br object-id">ID</th>
+                    <th>Наименование</th>
+                    <th></th>
                 </tr>
-            @endforeach
-        </table>
+                @foreach($districts as $district)
+                    <tr>
+                        <td class="br object-id">{{ $district->id }}</td>
+                        <td>{{ $district->name }}</td>
+                        <td class="td-btn">
+
+                            {{--BUTTON TO EDIT STREET--}}
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2"
+                                    data-id="{{ $district->id }}"
+                                    data-name="{{ $district->name }}"
+                                    onclick="getId({{ $district->id }})"
+                                    class="btn btn-filled btn-update-district">Редактировать
+                            </button>
+
+                            {{--BUTTON TO DELETE STREET--}}
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop3"
+                                    data-id="{{ $district->id }}"
+                                    class="btn btn-danger btn-delete"
+                                    onclick="getIdToDelete({{ $district->id }})">Удалить
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     </div>
 
     {{--MODAL WINDOW TO ADD DISTRICT--}}

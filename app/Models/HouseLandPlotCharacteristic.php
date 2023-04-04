@@ -18,4 +18,8 @@ class HouseLandPlotCharacteristic extends Model
     ];
 
     // CONNECTIONS
+    public function objectAndCharacteristic()
+    {
+        return $this->morphMany(ObjectAndCharacteristics::class, 'object');
+    }
 }

@@ -18,8 +18,8 @@ body {
 
 form {
     background-color: white;
-    border: .5px solid rgba(211, 211, 211, 0.5);
-    border-radius: 5px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
 }
 
 input, textarea, input::placeholder, textarea::placeholder, option, select {
@@ -48,32 +48,18 @@ h5, h3, .btn {
     font-size: 12px; color: red;
 }
 
-.btn {
-    font-size: 14px;
+.form-control {
+    border-radius: 3px;
 }
 
-.btn-filled {
-    color: white !important;
-    font-weight: 500 !important;
-    background-color: #356089 !important;
-}
-
-.btn-filled:hover {
-    background-color: #EEA444 !important;
-}
-
-.btn-outlined {
-    font-weight: 500 !important;
-    border: 1px solid #356089 !important;
-}
-
-.btn-outlined:hover {
-    border: 1px solid #EEA444 !important;
+.change-fixed {
+    position: fixed;
+    top: 10px !important;
 }
 
 /*HEADER*/
 header {
-    border-bottom: 1px lightgray solid;
+    border-bottom: 1px solid lightgray;
     background-color: white !important;
 }
 

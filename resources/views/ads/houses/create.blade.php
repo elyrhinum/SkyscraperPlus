@@ -4,7 +4,7 @@
 @section('title', 'Подать объявление об участке с домом')
 @section('content')
     <div class="main-container pd">
-        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
+        {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
             <h3>Подать объявление об участке с домом</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
@@ -13,10 +13,9 @@
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--ТИП ОБЪЕКТА НЕДВИЖИМОСТИ--}}
+                {{--PLOT TYPE--}}
                 <div id="type">
                     <h5>Тип объекта</h5>
                     <p>Необходимо выбрать более конкретный тип объекта недвижимости: коттедж или дачный участок. </p>
@@ -31,7 +30,7 @@
                     </div>
                 </div>
 
-                {{--ТИП ДОГОВОРА--}}
+                {{--CONTRACT TYPE--}}
                 <div id="contract-types">
                     <h5>Вид договора</h5>
 
@@ -47,11 +46,11 @@
                     </div>
                 </div>
 
-                {{--АДРЕС ОБЪЕКТА--}}
+                {{--ADDRESS--}}
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--РАЙОН--}}
+                    {{--DISTRICT--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <select class="form-select districts__select" name="district_id">
@@ -62,7 +61,7 @@
                         </select>
                     </div>
 
-                    {{--УЛИЦА--}}
+                    {{--STREET--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street"
@@ -74,14 +73,14 @@
                         </datalist>
                     </div>
 
-                    {{--НОМЕР УЛИЦЫ--}}
+                    {{--STREET'S NUMBER--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control"
                                min="1" {{ old('street_number') }} required>
                     </div>
 
-                    {{--НОМЕР УЧАСТКА--}}
+                    {{--PLOT'S NUMBER--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер участка</p>
                         <input type="number" name="plot_number" id="plot_number" class="form-control"
@@ -89,11 +88,11 @@
                     </div>
                 </fieldset>
 
-                {{--ИНФОРМАЦИЯ О ЗДАНИИ НА УЧАСТКЕ--}}
+                {{--ABOUT BUILDING--}}
                 <fieldset>
                     <h5>Информация о здании на участке</h5>
 
-                    {{--ПЛОЩАДЬ ЗДАНИЯ--}}
+                    {{--PLOT AREA--}}
                     <div id="plot-area" class="labels">
                         <p class="plot-area__title">Площадь дома <span class="sign-required">*</span></p>
                         <div>
@@ -103,31 +102,31 @@
                         </div>
                     </div>
 
-                    {{--КОЛИЧЕСТВО ЭТАЖЕЙ--}}
+                    {{--FLOORS AMOUNT--}}
                     <div id="floors-amount" class="labels">
                         <p class="floors-amount__title">Количество этажей</p>
                         <input type="number" name="floors" id="floors" class="form-control"
                                min="1" {{ old('floors') }}>
                     </div>
 
-                    {{--КОЛИЧЕСТВО СПАЛЬНЫХ КОМНАТ--}}
+                    {{--BEDROOMS AMOUNT--}}
                     <div id="bedrooms-amount" class="labels">
                         <p class="bedrooms-amount__title">Количество спален</p>
                         <input type="number" name="bedrooms" id="bedrooms" class="form-control"
                                min="1" {{ old('bedrooms') }}>
                     </div>
 
-                    {{--КОЛИЧЕСТВО САНУЗЛОВ--}}
+                    {{--BATHROOMS AMOUNT--}}
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов</p>
                         <input type="number" name="bathrooms" id="bathrooms" class="form-control"
                                min="1" {{ old('bathrooms') }}>
                     </div>
 
-                    {{--РАСПОЛОЖЕНИЕ САНУЗЛА--}}
-                    <div id="bathrooms-place" class="labels">
-                        <p class="bathrooms-place__title">Санузел</p>
-                        <select class="form-select bathrooms-place__select" name="bathrooms_place">
+                    {{--BATHROOMS PLACE--}}
+                    <div id="bathroom-place" class="labels">
+                        <p class="bathroom-place__title">Санузел</p>
+                        <select class="form-select bathroom-place__select" name="bathroom_place">
                             <option value="На улице"
                                 {{ old('bathrooms_place') == 'На улице' ? 'selected' : '' }}>На улице
                             </option>
@@ -137,7 +136,7 @@
                         </select>
                     </div>
 
-                    {{--ГОД ПОСТРОЙКИ ЗДАНИЯ НА УЧАСТКЕ--}}
+                    {{--BUILDING'S YEAR--}}
                     <div id="building-year" class="labels">
                         <p class="building-year__title">Год постройки</p>
                         <input type="number" name="building_year" id="building_year" class="form-control"
@@ -145,7 +144,7 @@
                         <p id="year-error"></p>
                     </div>
 
-                    {{--МАТЕРИАЛ ЗДАНИЯ--}}
+                    {{--BUILDING'S MATERIAL--}}
                     <div id="house-material" class="labels">
                         <p class="house-material__title">Материал здания</p>
                         <select class="form-select house-material__select" name="building_material">
@@ -179,7 +178,7 @@
                         </select>
                     </div>
 
-                    {{--СОСТОЯНИЕ ЗДАНИЯ--}}
+                    {{--BUILDING'S STATUS--}}
                     <div id="building-status" class="labels">
                         <p class="building-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="building_status" id="building_status" cols="30" rows="5" class="form-control"
@@ -188,11 +187,11 @@
                     </div>
                 </fieldset>
 
-                {{--ИНФОРМАЦИЯ ОБ УЧАСТКЕ--}}
+                {{--ABOUT PLOT--}}
                 <fieldset>
                     <h5>Информация об участке</h5>
 
-                    {{--ПЛОЩАДЬ УЧАСТКА--}}
+                    {{--PLOT'S ATEA--}}
                     <div id="plot-area" class="labels">
                         <p class="plot-area__title">Площадь участка <span class="sign-required">*</span></p>
                         <div>
@@ -202,7 +201,7 @@
                         </div>
                     </div>
 
-                    {{--СОСТОЯНИЕ УЧАСТКА--}}
+                    {{--PLOT'S AREA--}}
                     <div id="plot-status" class="labels">
                         <p class="plot-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="plot_status" id="plot_status" cols="30" rows="5" class="form-control"
@@ -211,8 +210,9 @@
                     </div>
                 </fieldset>
 
+                {{--DESCRIPTION AND IMAGES--}}
                 <fieldset>
-                    {{--ОПИСАНИЕ--}}
+                    {{--DESCRIPTION--}}
                     <div id="plot-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control"
@@ -220,7 +220,7 @@
                                   required></textarea>
                     </div>
 
-                    {{--ИЗОБРАЖЕНИЯ--}}
+                    {{--IMAGES--}}
                     <div id="plot-images">
                         <h5>Фотографии</h5>
                         <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
@@ -237,10 +237,10 @@
                     </div>
                 </fieldset>
 
+                {{--CHARACTERISTICS--}}
                 <fieldset>
                     <h5>Удобства на участке</h5>
 
-                    {{--ХАРАКТЕРИСТИКИ--}}
                     <div id="characteristics">
                         @foreach($characteristics as $charact)
                             <label>
@@ -254,7 +254,7 @@
                     </div>
                 </fieldset>
 
-                {{--ЦЕНА--}}
+                {{--PRICE--}}
                 <div id="set-price">
                     <h5>Цена <span class="sign-required">*</span></h5>
                     <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
@@ -278,14 +278,14 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
+    <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit"),
             buildingYear = document.getElementById('building_year'),
             yearError = document.getElementById('year-error');
 
-        // ПРОВЕРКА НА ПРЕВЫШЕНИЕ НЫНЕШНЕГО ГОДА
+        // CHECKING THAT YEAR DO NOT EXCEED CURRENT YEAR
         buildingYear.addEventListener('input', () => {
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
@@ -299,7 +299,7 @@
             }
         });
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
+        // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);
@@ -321,11 +321,7 @@
 
             let res = await postJSON('{{ route("houses.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
-                if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.user.account') }}";
-                } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.realtor.account') }}";
-                }
+                location = "{{ route('users.account') }}";
             }
         })
     </script>

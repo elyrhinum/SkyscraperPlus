@@ -8,29 +8,26 @@ use Illuminate\Http\Request;
 
 class AdController extends Controller
 {
-    // REDIRECT METHODS
+    // REDIRECT TO PAGE WITH SUGGESTED ADS
     public function onlySuggested()
     {
         return view('admins.ads.suggested', ['ads' => Ad::onlySuggested()->get()]);
     }
 
+    // REDIRECT TO PAGE WITH PUBLISHED ADS
     public function onlyPublished()
     {
         return view('admins.ads.published', ['ads' => Ad::onlyPublished()->get()]);
     }
 
+    // REDIRECT TO PAGE WITH CANCELLED ADS
     public function onlyCancelled()
     {
         return view('admins.ads.cancelled', ['ads' => Ad::onlyCancelled()->get()]);
     }
 
-    public function onlyHidden()
-    {
-        return view('admins.ads.inactive', ['ads' => Ad::onlyHidden()->get()]);
-    }
-
-    // STATUSES CHANGING METHODS
-    public function confirm(Request $request)
+    // PUBLISH METHOD
+    public function publish(Request $request)
     {
         $ad = Ad::find($request->id);
         $result = $ad->update(['status_id' => 1]);
@@ -39,6 +36,7 @@ class AdController extends Controller
             back()->withErrors(['error' => 'Не удалось опубликовать объявление']);
     }
 
+    // CANCEL METHOD
     public function cancel(Request $request)
     {
         $ad = Ad::find($request->id);
@@ -48,6 +46,7 @@ class AdController extends Controller
             back()->withErrors(['error' => 'Не удалось отклонить объявление']);
     }
 
+    // HIDE METHOD
     public function hide(Ad $ad)
     {
         $result = $ad->update(['status_id' => 4]);

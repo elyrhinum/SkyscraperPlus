@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserSaved extends Model
+class UserBookmark extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,7 @@ class UserSaved extends Model
 
     // CONNECTIONS
     public function users() {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function ads() {

@@ -5,14 +5,13 @@
     <div class="main-container pd">
         {{--HEADERS WITH INSTRUCTIONS--}}
         <div class="headers">
-            <h3>Подать новое объявление о комнате</h3>
+            <h3>Подать новое объявление о квартире</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
                 объявление на рассмотрение модераторам.</p>
             <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--FORM--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
                 {{--CONTRACT TYPES--}}
@@ -25,7 +24,9 @@
                                 name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->name ? 'selected' : '' }}>{{ $contract->name }}</option>
+                                    {{ old('contract') == $contract->name ? 'selected' : '' }}>
+                                    {{ $contract->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -42,7 +43,9 @@
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
-                                    {{ old('complex') == $complex->name ? 'selected' : '' }}>{{ $complex->name }}</option>
+                                    {{ old('complex') == $complex->name ? 'selected' : '' }}>
+                                    {{ $complex->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -52,7 +55,7 @@
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--DISTRICTS--}}
+                    {{--DISTRICT--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <div id="rendering-select">
@@ -67,7 +70,7 @@
 
                     </div>
 
-                    {{--STREETS--}}
+                    {{--STREET--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street" required
@@ -106,15 +109,15 @@
                         <p id="floor-error"></p>
                     </div>
 
-                    {{--ROOM NUBMER--}}
+                    {{--FLAT NUMBER--}}
                     <div id="number" class="labels">
-                        <p class="number__title">Номер комнаты <span class="sign-required">*</span></p>
+                        <p class="number__title">Номер квартиры <span class="sign-required">*</span></p>
                         <input type="number" name="number" id="number" class="form-control" min="1"
                                required>
                     </div>
                 </fieldset>
 
-                {{--ABOUT ROOM--}}
+                {{--ABOUT OBJECT--}}
                 <fieldset>
                     <h5>Информация об объекте</h5>
 
@@ -326,19 +329,21 @@
             buildingYear = document.getElementById('building_year'),
             yearError = document.getElementById('year-error');
 
+        // RENDER LAYOUT PREVIEW
         layout.addEventListener('change', (e) => {
-            layoutPrev.innerHTML = ''
-            let image = document.createElement('img')
-            image.style.display = 'block'
-            image.style.width = '150px'
-            image.style.height = '150px'
-            image.style.objectFit = 'cover'
-            image.src = URL.createObjectURL(e.target.files[0])
-            image.alt = "img"
-            layoutPrev.append(image)
+            layoutPrev.innerHTML = '';
+            let image = document.createElement('img');
+            image.style.display = 'block';
+            image.style.width = '150px';
+            image.style.height = '150px';
+            image.style.borderRadius = '3px';
+            image.style.objectFit = 'cover';
+            image.src = URL.createObjectURL(e.target.files[0]);
+            image.alt = "img";
+            layoutPrev.append(image);
         })
 
-        // ПРОВЕРКА НА СОВМЕСТИМОСТЬ ЭТАЖЕЙ
+        // CHECKING FOR COMPLIANCE OF FLOORS
         floor.addEventListener('input', (e) => {
             const floors = document.getElementById('floors');
 
@@ -367,16 +372,16 @@
             }
         });
 
-        // ПРОВЕРКА НА СОВПАДЕНИЕ РАЙОНА ЖИЛОГО КОМПЛЕКСА И ОБЪЕКТА
+        // CHECKING FOR MATCH OF RESIDENTIAL COMPLEX AND DISTRICT
         complexSelect.addEventListener('input', async () => {
             const complex_district = complexSelect.value;
 
             if (complex_district !== 'Не выбрано') {
-                let res = await districtPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
+                let res = await dataPostJSON('{{ route('complexes.get-district') }}', complex_district, '{{ csrf_token() }}');
                 renderSelect.inerrHTML = '';
                 renderSelect.innerHTML = `<select class="form-select districts__select"
                                 id="district_id" name="district_id">
-                <option value="${ res.id}">${ res.name }</option>
+                <option value="${res.id}">${res.name}</option>
                 </select>`;
             } else {
                 renderSelect.inerrHTML = '';
@@ -390,7 +395,7 @@
             }
         });
 
-        // ПРОВЕРКА НА ПРЕВЫШЕНИЕ НЫНЕШНЕГО ГОДА
+        // CHECKING THAT YEAR DO NOT EXCEED CURRENT YEAR
         buildingYear.addEventListener('input', () => {
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
@@ -404,7 +409,7 @@
             }
         });
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
+        // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault();
             const formData = getFilesFormData(filesStore);
@@ -426,11 +431,7 @@
 
             let res = await postJSON('{{ route("flats.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
-                if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.user.account') }}";
-                } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.realtor.account') }}";
-                }
+                location = "{{ route('users.account') }}";
             }
         })
     </script>

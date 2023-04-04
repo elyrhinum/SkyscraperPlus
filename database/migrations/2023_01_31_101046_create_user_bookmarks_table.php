@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_saveds', function (Blueprint $table) {
+        Schema::create('user_bookmarks', function (Blueprint $table) {
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('ad_id')->constrained('ads')->cascadeOnUpdate()->cascadeOnDelete();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_saveds');
+        Schema::dropIfExists('user_bookmarks');
     }
 };

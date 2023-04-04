@@ -23,12 +23,8 @@ class RoomFlatCharacteristic extends Model
     public $timestamps = false;
 
     // CONNECTIONS
-//    public function flat() {
-//        return $this->morphTo();
-//    }
-//
-//    public function room()
-//    {
-//        return $this->morphTo();
-//    }
+    public function flats()
+    {
+        return $this->belongsTo(Flat::class);
+    }
 }

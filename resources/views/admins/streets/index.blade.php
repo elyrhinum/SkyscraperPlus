@@ -3,52 +3,58 @@
 @section('title', 'Каталог улиц')
 @section('content')
     <div class="main-container">
-        <div id="title">
-            <h5>Каталог улиц</h5>
+        {{--NAVBAR--}}
+        @include('inc.admins.navbar')
 
-            {{--BUTTON TO ADD STREET--}}
-            <button data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop1"
-                    class="btn btn-filled">Добавить улицу в каталог
-            </button>
-        </div>
+        {{--CONTENT--}}
+        <div>
+            <div id="title">
+                <h5>Каталог улиц</h5>
 
-        {{--MESSAGE--}}
-        @include('inc.message')
+                {{--BUTTON TO ADD STREET--}}
+                <button data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop1"
+                        class="btn btn-filled">Добавить улицу в каталог
+                </button>
+            </div>
 
-        {{--TABLE--}}
-        <table>
-            <tr>
-                <th class="br object-id">ID</th>
-                <th>Наименование</th>
-                <th></th>
-            </tr>
-            @foreach($streets as $street)
+            {{--MESSAGE--}}
+            @include('inc.message')
+
+            {{--TABLE--}}
+            <table>
                 <tr>
-                    <td class="br object-id">{{ $street->id }}</td>
-                    <td>{{ $street->name }}</td>
-                    <td class="td-btn">
-
-                        {{--BUTTON TO EDIT STREET--}}
-                        <button data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop2"
-                                data-id="{{ $street->id }}"
-                                data-name="{{ $street->name }}"
-                                onclick="getId({{ $street->id }})"
-                                class="btn btn-filled btn-update-street">Редактировать
-                        </button>
-
-                        {{--BUTTON TO DELETE STREET--}}
-                        <button data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop3"
-                                data-id="{{ $street->id }}"
-                                class="btn btn-danger btn-delete"
-                                onclick="getIdToDelete({{ $street->id }})">Удалить
-                        </button>
-                    </td>
+                    <th class="br object-id">ID</th>
+                    <th>Наименование</th>
+                    <th></th>
                 </tr>
-            @endforeach
-        </table>
+                @foreach($streets as $street)
+                    <tr>
+                        <td class="br object-id">{{ $street->id }}</td>
+                        <td>{{ $street->name }}</td>
+                        <td class="td-btn">
+
+                            {{--BUTTON TO EDIT STREET--}}
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2"
+                                    data-id="{{ $street->id }}"
+                                    data-name="{{ $street->name }}"
+                                    onclick="getId({{ $street->id }})"
+                                    class="btn btn-filled btn-update-street">Редактировать
+                            </button>
+
+                            {{--BUTTON TO DELETE STREET--}}
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop3"
+                                    data-id="{{ $street->id }}"
+                                    class="btn btn-danger btn-delete"
+                                    onclick="getIdToDelete({{ $street->id }})">Удалить
+                            </button>
+                        </td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
     </div>
 
     {{--MODAL WINDOW TO ADD STREET--}}

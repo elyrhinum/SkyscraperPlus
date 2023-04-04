@@ -1,7 +1,7 @@
-<header class="pd">
+<header class="pd" id="header">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid" style="background-color: white">
-            <a class="navbar-brand" href="{{ route('ads.index') }}">
+            <a class="navbar-brand" href="{{ route('index') }}">
                 <img src="{{ asset('/media/icons/logo.svg') }}" alt="Логотип" id="logo">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -35,18 +35,14 @@
                         <span class="navbar-text">
                             <a class="btn btn-filled" href="{{ route('ads.preCreate') }}">Подать объявление</a>
                         </span>
-                        @if(auth()->user()->role_id == 1)
-                            <span class="navbar-text" style="margin-left: 10px">
-                                <a class="btn btn-outlined" href="{{ route('users.user.account') }}">Мой аккаунт</a>
-                            </span>
-                        @elseif(auth()->user()->role_id == 2)
+                        @if(auth()->user()->role_id == 2)
                             <span class="navbar-text">
-                            <a class="btn btn-filled" style="margin-left: 10px" href="{{ route('complexes.create') }}">Добавить ЖК</a>
-                        </span>
-                            <span class="navbar-text" style="margin-left: 10px">
-                                <a class="btn btn-outlined" href="{{ route('users.realtor.account') }}">Мой аккаунт</a>
+                                <a class="btn btn-filled" style="margin-left: 10px" href="{{ route('complexes.create') }}">Добавить ЖК</a>
                             </span>
                         @endif
+                        <span class="navbar-text" style="margin-left: 10px">
+                            <a class="btn btn-outlined" href="{{ route('users.account') }}">Мой аккаунт</a>
+                        </span>
                         <span class="navbar-text" style="margin-left: 10px">
                             <a class="btn btn-outlined" href="{{ route('users.logout') }}">Выйти</a>
                         </span>

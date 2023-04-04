@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->integer('street_number');
             $table->integer('plot_number')->nullable();
-            $table->integer('area');
-            $table->string('status');
+            $table->decimal('area');
+            $table->text('status');
         });
     }
 

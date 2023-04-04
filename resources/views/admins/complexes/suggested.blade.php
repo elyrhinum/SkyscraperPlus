@@ -29,17 +29,21 @@
                         <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
 
                         {{--КНОПКА ПУБЛИКОВАНИЯ--}}
-                        <a href="" class="btn btn-filled btn-publish"
+                        <button href="" class="btn btn-filled btn-publish"
                            data-bs-toggle="modal"
-                           data-bs-target="#staticBackdrop1" onclick="getId({{ $object->id }})">Добавить в каталог</a>
+                           data-bs-target="#staticBackdrop1"
+                           onclick="getId({{ $object->id }})">
+                            Добавить в каталог
+                        </button>
 
                         {{--КНОПКА ОТКЛОНЕНИЯ--}}
-                        <a href="{{ route('admins.complexes.hideShow', $object->id) }}"
+                        <button
                            data-bs-toggle="modal"
                            data-bs-target="#staticBackdrop2"
                            class="btn btn-danger btn-cancel"
-                        onclick="getIdToCancel({{ $object->id }})">Отклонить
-                        </a>
+                        onclick="getIdToCancel({{ $object->id }})">
+                            Отклонить
+                        </button>
                     </td>
                 </tr>
             @empty
@@ -65,9 +69,11 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
-                    <form action="{{ route('admins.complexes.confirm') }}">
+                    <form action="{{ route('admins.complexes.publish') }}">
                         <input type="hidden" id="modal-object-id" name="id">
-                        <button class="btn btn-filled" id="btn-confirm">Добавить</button>
+                        <button class="btn btn-filled" id="btn-confirm">
+                            Добавить
+                        </button>
                     </form>
                 </div>
             </div>

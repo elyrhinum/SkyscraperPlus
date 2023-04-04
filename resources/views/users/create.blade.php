@@ -235,6 +235,10 @@
 
         let count = 0;
 
+        if(sessionStorage.getItem('currentTab') == null) {
+            sessionStorage.setItem('currentTab', 0);
+        }
+
         // TELEPHONE MASK
         const telephoneMask = (element) => {
             const maskOptions_1 = {
@@ -244,8 +248,8 @@
         }
 
         const start = () => {
-            tabHeader.firstChild.classList.add('active');
-            tabBody.innerHTML = `${tabs[0].body}`;
+            tabHeader.children[sessionStorage.getItem('currentTab')].classList.add('active');
+            tabBody.innerHTML = `${tabs[sessionStorage.getItem('currentTab')].body}`;
             const element_1 = document.querySelector(".telephone");
             telephoneMask(element_1);
         }
@@ -269,6 +273,8 @@
             currentHeader.classList.add('active');
             let currentBody = tabs[currentHeader.dataset.target];
             tabBody.innerHTML = `<div>${currentBody.body}</div>`;
+
+            sessionStorage.setItem('currentTab', currentHeader.dataset.target);
 
             const element_1 = document.querySelector(".telephone"),
                 imageInput = document.getElementById('image'),
@@ -300,6 +306,5 @@
         })
 
         start();
-        telephoneMask();
     </script>
 @endpush

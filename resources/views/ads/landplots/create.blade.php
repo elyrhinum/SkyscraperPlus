@@ -3,7 +3,7 @@
 @section('title', 'Подать объявление о земельном участке')
 @section('content')
     <div class="main-container pd">
-        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
+        {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
             <h3>Подать объявление о земельном участке</h3>
             <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
@@ -12,10 +12,9 @@
                 для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
         </div>
 
-        {{--ФОРМА--}}
         <div class="forms">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--ТИП ДОГОВОРА--}}
+                {{--CONTRACT TYPE--}}
                 <div id="contract-types">
                     <h5>Вид договора</h5>
 
@@ -31,11 +30,11 @@
                     </div>
                 </div>
 
-                {{--МЕСТОПОЛОЖЕНИЕ--}}
+                {{--ADDRESS--}}
                 <fieldset>
                     <h5>Адрес объекта</h5>
 
-                    {{--РАЙОН--}}
+                    {{--DISTRICT--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <select class="form-select districts__select"
@@ -47,7 +46,7 @@
                         </select>
                     </div>
 
-                    {{--УЛИЦА--}}
+                    {{--STREET--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street"
@@ -60,14 +59,14 @@
                         </datalist>
                     </div>
 
-                    {{--НОМЕР УЛИЦЫ--}}
+                    {{--STREET'S NUMBER--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control" min="1"
                                {{ old('street_number') }} required>
                     </div>
 
-                    {{--НОМЕР УЧАСТКА--}}
+                    {{--PLOT'S NUMBER--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер участка</p>
                         <input type="number" name="plot_number" id="plot_number" class="form-control"
@@ -75,11 +74,11 @@
                     </div>
                 </fieldset>
 
-                {{--ИНФОРМАЦИЯ ОБ ОБЪЕКТЕ--}}
+                {{--ABOUT OBJECT--}}
                 <fieldset>
                     <h5>Информация об объекте</h5>
 
-                    {{--ПЛОЩАДЬ УЧАСТКА--}}
+                    {{--PLOT'S AREA--}}
                     <div id="plot-area" class="labels">
                         <p class="plot-area__title">Площадь участка <span class="sign-required">*</span></p>
                         <div>
@@ -89,7 +88,7 @@
                         </div>
                     </div>
 
-                    {{--СОСТОЯНИЕ УЧАСТКА--}}
+                    {{--PLOT'S STATUS--}}
                     <div id="plot-status" class="labels">
                         <p class="plot-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="status" id="status" cols="30" rows="5" class="form-control" required
@@ -97,15 +96,16 @@
                     </div>
                 </fieldset>
 
+                {{--DESCRIPTION AND IMAGES--}}
                 <fieldset>
-                    {{--ОПИСАНИЕ--}}
+                    {{--DESCRIPTION--}}
                     <div id="plot-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
                                   placeholder="Опишите все детали, например, для чего использовался участок или какие соседи. Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные данные и ссылки на другие ресурсы."></textarea>
                     </div>
 
-                    {{--ИЗОБРАЖЕНИЯ--}}
+                    {{--IMAGES--}}
                     <div id="plot-images">
                         <h5>Фотографии</h5>
                         <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
@@ -122,10 +122,10 @@
                     </div>
                 </fieldset>
 
+                {{--CHARACTERISTICS--}}
                 <fieldset>
                     <h5>Удобства на объекте</h5>
 
-                    {{--ХАРАКТЕРИСТИКИ--}}
                     <div id="characteristics">
                         @foreach($characteristics as $charact)
                             <label>
@@ -139,7 +139,7 @@
                     </div>
                 </fieldset>
 
-                {{--ЦЕНА--}}
+                {{--PRICE--}}
                 <div id="set-price">
                     <h5>Цена</h5>
                     <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
@@ -169,7 +169,7 @@
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
+        // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);
@@ -191,11 +191,7 @@
 
             let res = await postJSON('{{ route("landplots.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
-                if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.user.account') }}";
-                } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.realtor.account') }}";
-                }
+                location = "{{ route('users.account') }}";
             }
         })
     </script>

@@ -1,42 +1,51 @@
 @extends('templates.admin')
-<link rel="stylesheet" href="{{ asset('css/admins/moderators/index.css') }}">
 @section('title', 'Список модераторов')
 @section('content')
     <div class="main-container">
-        <div id="title">
-            <h5>Список модераторов</h5>
+        {{--NAVBAR--}}
+        @include('inc.admins.navbar')
 
-            {{--BUTTON TO SIGNUP MODERATOR--}}
-            <a href="{{ route('admins.moderators.create') }}" class="btn btn-filled btn-create-moder">Добавить модератора</a>
-        </div>
+        {{--CONTENT--}}
+        <div>
+            {{--HEADER--}}
+            <div id="title">
+                <h5>Список модераторов</h5>
+                <a href="{{ route('admins.moderators.create') }}" class="btn btn-filled btn-create-moder">Добавить
+                    модератора</a>
+            </div>
 
-        {{--MESSAGE--}}
-        @include('inc.message')
+            {{--MESSAGE--}}
+            @include('inc.message')
 
-        {{--CARDS--}}
-        <table>
-            <tr>
-                <th class="br object-id">ID</th>
-                <th>ФИО</th>
-                <th>Логин</th>
-                <th></th>
-            </tr>
-            @foreach($moderators as $moderator)
+            <table>
                 <tr>
-                    <td class="br object-id">{{ $moderator->id }}</td>
-                    <td>{{ $moderator->fullName }}</td>
-                    <td>{{ $moderator->login }}</td>
-                    <td class="td-btn">
-                        <a href="{{ route('admins.moderators.edit', $moderator->id) }}" class="btn btn-filled">Редактировать</a>
-                        <button data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop"
-                                data-id="{{ $moderator->id }}"
-                                class="btn btn-danger btn-delete"
-                                onclick="getId({{ $moderator->id }})">Удалить</button>
-                    </td>
+                    <th class="br object-id">ID</th>
+                    <th>ФИО</th>
+                    <th>Логин</th>
+                    <th></th>
                 </tr>
-            @endforeach
-        </table>
+                @forelse($moderators as $moderator)
+                    <tr>
+                        <td class="br object-id">{{ $moderator->id }}</td>
+                        <td>{{ $moderator->fullName }}</td>
+                        <td>{{ $moderator->login }}</td>
+                        <td class="td-btn">
+                            <a href="{{ route('admins.moderators.edit', $moderator->id) }}" class="btn btn-filled">Редактировать</a>
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop"
+                                    data-id="{{ $moderator->id }}"
+                                    class="btn btn-danger btn-delete"
+                                    onclick="getId({{ $moderator->id }})">Удалить
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr class="centered">
+                        <td colspan="4">Нет модераторов</td>
+                    </tr>
+                @endforelse
+            </table>
+        </div>
     </div>
 
     {{--MODAL WINDOW--}}
@@ -66,10 +75,7 @@
 
 @push('script')
     <script>
-        // MODAL WINDOW
-        const myModal = document.querySelectorAll('.btn-delete'),
-            myInput = document.getElementById('myInput');
-
+        // GET ID TO DELETE MODERATOR
         function getId(id) {
             document.getElementById("modal-object-id").value = id
         }

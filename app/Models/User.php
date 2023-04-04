@@ -37,9 +37,18 @@ class User extends Authenticatable
     ];
 
     // CONNECTIONS
+    public function ads()
+    {
+       return $this->hasMany(Ad::class);
+    }
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(UserBookmark::class);
     }
 
     // METHODS
@@ -62,5 +71,14 @@ class User extends Authenticatable
         else
             return strtoupper(mb_substr($this->name, 0,1)) . '. ' . $this->surname;
 
+    }
+
+    public function isBookmarked($ad_id)
+    {
+        if (count($this->bookmarks()->where('ad_id', $ad_id)->get()) > 0) {
+            return 'true';
+        } else {
+            return 'false';
+        }
     }
 }

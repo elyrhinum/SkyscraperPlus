@@ -19,9 +19,9 @@ class LandPlot extends Model
         'status'
     ];
 
-    protected $casts = [
-        'checkboxes'
-    ];
+//    protected $casts = [
+//        'checkboxes'
+//    ];
 
     // CONNECTIONS
     public function ad()
@@ -29,8 +29,8 @@ class LandPlot extends Model
         return $this->morphOne(Ad::class, 'object');
     }
 
-    public function characteristics()
+    public function object_and_characteristics()
     {
-        $this->morphMany(ObjectAndCharacteristics::class, 'object');
+        return $this->morphMany(ObjectAndCharacteristics::class, 'object');
     }
 }

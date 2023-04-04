@@ -28,7 +28,7 @@
 
             <div class="buttons-login">
                 <button class="btn btn-filled btn-login">Войти</button>
-                <p style="font-size: 14px">или</p>
+                <p class="mt-2 mb-2">или</p>
                 <a class="btn btn-outlined" href="{{ route('users.create') }}">Зарегистрироваться</a>
             </div>
         </form>

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('street_number');
             $table->integer('entrance');
             $table->integer('floor');
-            $table->integer('number');
+            $table->integer('number')->nullable();
             $table->string('area');
             $table->text('layout');
         });

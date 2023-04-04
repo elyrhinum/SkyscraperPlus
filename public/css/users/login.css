@@ -1,3 +1,4 @@
+/*MAIN CONTAINER*/
 .main-container {
     display: flex;
     flex-direction: column;
@@ -5,6 +6,8 @@
     align-items: center;
 
     margin-top: 0 !important;
+
+    border-radius: 3px;
 }
 
 h3 {
@@ -38,6 +41,3 @@ label > input {
     margin-top: 10px;
 }
 
-.btn-login {
-    margin-bottom: 10px !important;
-}

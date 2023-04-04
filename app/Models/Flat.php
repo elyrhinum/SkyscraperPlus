@@ -25,6 +25,11 @@ class Flat extends Model
     // CONNECTIONS
     public function ad()
     {
-        return $this->morphOne(Ad::class, 'object');
+        return $this->belongsTo(Ad::class);
+    }
+
+    public function characteristics()
+    {
+        return $this->hasMany(RoomFlatCharacteristic::class);
     }
 }

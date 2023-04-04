@@ -38,7 +38,8 @@
 
                     {{--NAME--}}
                     <div id="complex-name">
-                        <p>Если наименование состоит из английского алфавита, то необходимо в скобках написать его транскрипцию</p>
+                        <p>Если наименование состоит из английского алфавита, то необходимо в скобках написать его
+                            транскрипцию</p>
                         <div class="labels">
                             <p class="complex-name__title">Наименование <span class="sign-required">*</span></p>
                             <input type="text" name="name" id="name" class="form-control"
@@ -94,7 +95,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('/js/formform-uploading.js') }}"></script>
+    <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
@@ -121,11 +122,7 @@
 
             let res = await postJSON('{{ route("complexes.store") }}', formData, "{{ csrf_token() }}");
             if (res != null) {
-                if ({{ auth()->user()->role_id }} === 1) {
-                    location = "{{ route('users.user.account') }}";
-                } else if ({{ auth()->user()->role_id }} === 2) {
-                    location = "{{ route('users.realtor.account') }}";
-                }
+                location = "{{ route('users.account') }}";
             }
         })
     </script>

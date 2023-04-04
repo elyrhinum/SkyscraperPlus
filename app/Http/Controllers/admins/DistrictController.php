@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class DistrictController extends Controller
 {
-    // REDIRECT TO INDEX
+    // REDIRECT TO INDEX PAGE
     public function index()
     {
         return view('admins.districts.index', ['districts' => District::all()]);
     }
 
-    // STORE METHOS
+    // STORE METHOD
     public function store(Request $request)
     {
         $result = District::create(['name' => $request->name]);

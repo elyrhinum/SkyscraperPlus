@@ -82,7 +82,7 @@ class HouseController extends Controller
             foreach ($request->checkboxes as $cb) {
                 $characteristics = ObjectAndCharacteristics::create([
                     'object_id' => $house->id,
-                    'object_type' => 'land_plots',
+                    'object_type' => '\App\Models\House',
                     'characteristic_id' => $cb
                 ]);
             }

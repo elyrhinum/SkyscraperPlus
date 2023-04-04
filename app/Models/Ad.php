@@ -30,6 +30,11 @@ class Ad extends Model
         return $this->morphTo();
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function district()
     {
         return $this->belongsTo(District::class);
@@ -47,7 +52,7 @@ class Ad extends Model
 
     public function contract()
     {
-        return $this->hasOne(ContractType::class);
+        return $this->belongsTo(ContractType::class);
     }
 
     public function images()
@@ -90,16 +95,15 @@ class Ad extends Model
         );
     }
 
-    // КОРРЕКТНЫЙ ВЫВОД ТИПА, К КОТОРОМУ ПРИНАДЛЕЖИТ ОБЪЯВЛЕНИЕ
     public function getCorrectObjectType()
     {
         if ($this->object_type == '\App\Models\LandPlot') {
             return 'Земельный участок';
         } else if ($this->object_type == '\App\Models\House') {
-            if ($this->object->plotType = 'Участок с коттеджем') {
-                return "Участок с домом (участок с коттеджем)";
-            } else if ($this->object->plotType = 'Дачный участок') {
-                return "Участок с домом (дачный участок)";
+            if ($this->object->plotType = 'Дом/коттедж') {
+                return "Дом/коттедж";
+            } else if ($this->object->plotType = 'Дача') {
+                return "Дача";
             }
         } else if ($this->object_type == '\App\Models\Flat') {
             return 'Квартира';
@@ -108,17 +112,40 @@ class Ad extends Model
         }
     }
 
-    // ПОЛУЧЕНИЕ ПОЛНОГО НАИМЕНОВАНИЯ ОБЪЯВЛЕНИЯ
     public function getNameOfObject()
     {
         if ($this->object_type == '\App\Models\House' || $this->object_type == '\App\Models\LandPlot') {
             if ($this->object->plot_number == 0) {
                 return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
             } else {
-                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number . '-' . $this->object->plot_number;
+                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number . ', уч. ' . $this->object->plot_number;
             }
         } else if ($this->object_type == '\App\Models\Flat' || $this->object_type == '\App\Models\Room') {
             return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
         }
+    }
+
+    public function getCorrectPrice()
+    {
+        if ($this->contract->name == 'Продажа') {
+            return $this->price . ' руб.';
+        } else if ($this->contract->name == 'Долгосрочная аренда') {
+            return $this->price . ' руб. / мес.';
+        } else if ($this->contract->name == 'Посуточная аренда') {
+            return $this->price . ' руб. / сут.';
+        }
+    }
+
+    public static function flatsAmountByRooms($rooms)
+    {
+        $ads = Ad::where('object_type', '\App\Models\Flat')->get();
+        $count = 0;
+        foreach ($ads as $ad) {
+            if ($ad->object->characteristrics->where('living_rooms_amount', $rooms)) {
+                $count++;
+            }
+        }
+
+        return $count;
     }
 }

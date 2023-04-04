@@ -16,7 +16,7 @@ async function postJSON(route, data, _token) {
     return await response.json()
 }
 
-async function districtPostJSON(route, data, _token) {
+async function dataPostJSON(route, data, _token) {
     let response = await fetch(route, {
         method: 'post',
         headers: {
@@ -58,6 +58,7 @@ function handleChange(e) {
         image.style.display = 'block';
         image.style.width = '150px';
         image.style.height = '150px';
+        image.style.borderRadius = '3px';
         image.style.objectFit = 'cover';
         image.src = URL.createObjectURL(item);
         image.alt = 'Изображение';
