@@ -14,7 +14,7 @@
                 <h3>Результаты поиска</h3>
                 <div class="header__inner">
                     <div>
-                        <p>Найдено {{ count($ads) }} объявлений</p>
+                        <p>Найдено {{ count($ads) }} объявл.</p>
                     </div>
                     <div class="header__filters">
                         @foreach($filters as $filter)

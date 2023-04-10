@@ -84,6 +84,7 @@
 }
 
 .info__description {
+    margin-top: 20px;
     width: 100%;
 }
 
@@ -98,6 +99,8 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+
+    margin-top: 20px;
 }
 
 .info__price > h5 {

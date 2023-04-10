@@ -51,7 +51,7 @@
                     {{--NAME--}}
                     <div class="body__title">
                         <h5>ЖК "{{ $complex->name }}"</h5>
-                        <span>{{ $complex->district->name }}</span>
+                        <span>{{ $complex->district->name }} р-н, класс – {{ $complex->class->name }} </span>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,8 @@
             <div class="container__secondary-body objects-in-complex">
                 <div>
                     <h5>
-                        <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}">Квартиры в этом жилом комплексе</a>
+                        <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}">Квартиры в этом жилом
+                            комплексе</a>
                     </h5>
 
                     <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}" class="btn btn-filled">Подробнее</a>
@@ -88,7 +89,8 @@
             <div class="container__secondary-body objects-in-complex">
                 <div>
                     <h5>
-                        <a href="{{ route('complexes.roomsInResidentialComplex', $complex->id) }}">Комнаты в этом жилом комплексе</a>
+                        <a href="{{ route('complexes.roomsInResidentialComplex', $complex->id) }}">Комнаты в этом жилом
+                            комплексе</a>
                     </h5>
 
                     <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}" class="btn btn-filled">Подробнее</a>

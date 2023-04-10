@@ -87,11 +87,11 @@ class AdController extends Controller
         $ads = $ads->where('district_id', $request->district_id);
 
         if ($request->price_from != null) {
-            $ads = $ads::where('price', '>', $request->price_from);
+            $ads = $ads->where('price', '>=', $request->price_from);
         } else if ($request->price_to != null) {
-            $ads = $ads::where('price', '<', $request->price_from);
+            $ads = $ads->where('price', '<=', $request->price_from);
         } else if ($request->price_from != null && $request->price_to != null) {
-            $ads = $ads::where('price', '>', $request->price_from)->where('price', '<', $request->price_from);
+            $ads = $ads->where('price', '>=', $request->price_from)->where('price', '<=', $request->price_from);
         }
 
         // CONTRACT TYPE DEFINITION

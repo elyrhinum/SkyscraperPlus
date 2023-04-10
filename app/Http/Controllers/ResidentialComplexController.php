@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class ResidentialComplexController extends Controller
 {
-    // INDEX PAGE
+    // REDIRECT TO INDEX PAGE
     public function index()
     {
         return view('complexes.index', [
@@ -58,8 +58,8 @@ class ResidentialComplexController extends Controller
         }
 
         $result = $complex;
-        $result ? $request->session()->put(['success' => 'Заявление на добавление нового жилого комплекса отправлено на рассмотрение']) :
-            $request->session()->put(['error' => 'Не удалось отправить заявление на добавление нового жилого комплекса']);
+        $result ? $request->session()->put(['success' => 'Заявление на добавление жилого комплекса отправлено на рассмотрение']) :
+            $request->session()->put(['error' => 'Не удалось отправить заявление на добавление жилого комплекса']);
 
         return response()->json($result);
     }

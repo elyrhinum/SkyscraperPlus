@@ -38,4 +38,9 @@ class Room extends Model
     {
         return $this->morphMany(RoomFlatCharacteristic::class, 'object');
     }
+
+    public function repair()
+    {
+        return $this->belongsTo(RepairType::class);
+    }
 }

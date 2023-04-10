@@ -28,7 +28,7 @@
                                     <p>{{ $bookmark->ad->contract->name }}</p>
                                 </div>
                                 <p class="info__description">{{ $bookmark->ad->description }}</p>
-                                <h5 class="info__price">{{ $bookmark->ad->getCorrectPrice() }} руб.</h5>
+                                <h5 class="info__price">{{ $bookmark->ad->getCorrectPrice() }}</h5>
                             </div>
 
                             {{--BUTTONS--}}
@@ -128,6 +128,10 @@
 
     .info__description {
         width: 100%;
+    }
+
+    .info__price {
+        font-size: 26px;
     }
 
     .ad__image {

@@ -247,11 +247,31 @@
             IMask(element, maskOptions_1);
         }
 
+        // IMAGE PREVIEW
+        const imagePreview = () => {
+            const imageInput = document.getElementById('image'),
+                imagePrev = document.getElementById('image-prev');
+
+            imageInput.addEventListener('change', (e) => {
+                imagePrev.innerHTML = ''
+                let image = document.createElement('img')
+                image.style.display = 'block'
+                image.style.width = '350px'
+                image.style.height = '350px'
+                image.style.objectFit = 'cover'
+                image.src = URL.createObjectURL(e.target.files[0])
+                image.alt = "img"
+                imagePrev.append(image)
+            })
+
+        }
+
         const start = () => {
             tabHeader.children[sessionStorage.getItem('currentTab')].classList.add('active');
             tabBody.innerHTML = `${tabs[sessionStorage.getItem('currentTab')].body}`;
             const element_1 = document.querySelector(".telephone");
             telephoneMask(element_1);
+            imagePreview();
         }
 
         const createElement = (item, classes, template) => {
@@ -276,25 +296,10 @@
 
             sessionStorage.setItem('currentTab', currentHeader.dataset.target);
 
-            const element_1 = document.querySelector(".telephone"),
-                imageInput = document.getElementById('image'),
-                imagePrev = document.getElementById('image-prev');
+            const element_1 = document.querySelector(".telephone");
 
-            // TELEPHONE MASK
             telephoneMask(element_1);
-
-            // IMAGE PREVIEW
-            imageInput.addEventListener('change', (e) => {
-                imagePrev.innerHTML = ''
-                let image = document.createElement('img')
-                image.style.display = 'block'
-                image.style.width = '350px'
-                image.style.height = '350px'
-                image.style.objectFit = 'cover'
-                image.src = URL.createObjectURL(e.target.files[0])
-                image.alt = "img"
-                imagePrev.append(image)
-            })
+            imagePreview();
         }
 
         tabs.forEach(tab => {

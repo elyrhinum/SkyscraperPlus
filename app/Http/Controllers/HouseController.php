@@ -16,16 +16,7 @@ use Illuminate\Http\Request;
 
 class HouseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
+    // REDIRECT TO CREATE PAGE
     public function create()
     {
         return view('ads.houses.create', [
@@ -39,15 +30,15 @@ class HouseController extends Controller
 
     public function store(Request $request)
     {
-        // ПОЛУЧЕНИЕ УЛИЦЫ
+        // GET STREETS
         $street = Street::firstOrCreate(['name' => request('street')]);
 
-        // СОЗДАНИЕ УЧАСТКА С ДОМОМ
+        // CREATE HOUSE
         $house = House::create(array_merge(
             ['type_id' => $request->type_id,],
             $request->except('_token', 'images')));
 
-        // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
+        // CREATE AD
         $ad = Ad::create(array_merge(
             [
                 'street_id' => $street->id,
@@ -59,7 +50,7 @@ class HouseController extends Controller
             $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
-        // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
+        // UPLOAD IMAGES
         if ($request->images) {
             foreach ($request->files->all()['images'] as $file) {
                 $path = FileServiceForObjects::uploadRedirect($file, '/houses');
@@ -77,7 +68,7 @@ class HouseController extends Controller
             ]);
         }
 
-        // ЗАПОЛНЕНИЕ ХАРАКТЕРИСТИК
+        // UPLOAD CHARACTERISTICS
         if ($request->checkboxes) {
             foreach ($request->checkboxes as $cb) {
                 $characteristics = ObjectAndCharacteristics::create([
@@ -93,50 +84,5 @@ class HouseController extends Controller
             $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

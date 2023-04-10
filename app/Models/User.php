@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -70,7 +69,6 @@ class User extends Authenticatable
             return strtoupper(mb_substr($this->name, 0,1)) . '. ' . strtoupper(mb_substr($this->patronymic, 0, 1)) . '. ' . $this->surname;
         else
             return strtoupper(mb_substr($this->name, 0,1)) . '. ' . $this->surname;
-
     }
 
     public function isBookmarked($ad_id)
