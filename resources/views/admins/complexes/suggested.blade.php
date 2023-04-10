@@ -1,66 +1,76 @@
 @extends('templates.admin')
-@section('title', 'Заявления на добавление нового жилого комплекса')
+@section('title', 'Заявления на добавление жилого комплекса')
 @section('content')
     <div class="main-container">
-        <h5 id="title">Заявления на добавление нового жилого комплекса</h5>
+        {{--NAVBAR--}}
+        @include('inc.admins.navbar')
 
-        {{--СООБЩЕНИЕ--}}
-        @include('inc.message')
+        {{--CONTENT--}}
+        <div>
+            {{--HEADER--}}
+            <div id="title">
+                <h5>Заявления на добавление жилого комплекса</h5>
+                <a href="{{ route('admins.complexes.create') }}" class="btn btn-filled">Добавить жилой комплекс</a>
+            </div>
 
-        {{--ТАБЛИЦА--}}
-        <table>
-            <tr>
-                <th class="br">ID</th>
-                <th>Наименование</th>
-                <th>Район</th>
-                <th class="date-column">Дата подачи</th>
-                <th class="date-column">Дата обновления</th>
-                <th></th>
-            </tr>
-            @forelse($objects as $object)
-                <tr class="table__block">
-                    <td class="br object-id">{{ $object->id }}</td>
-                    <td>{{ $object->name }}</td>
-                    <td>{{ $object->district->name }}</td>
-                    <td class="date-column">{{ $object->dateOfCreating }}</td>
-                    <td class="date-column">{{ $object->dateOfUpdating }}</td>
-                    <td class="td-btn">
-                        {{--КНОПКА ПРОСМОТРА--}}
-                        <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
+            {{--MESSAGE--}}
+            @include('inc.message')
 
-                        {{--КНОПКА ПУБЛИКОВАНИЯ--}}
-                        <button href="" class="btn btn-filled btn-publish"
-                           data-bs-toggle="modal"
-                           data-bs-target="#staticBackdrop1"
-                           onclick="getId({{ $object->id }})">
-                            Добавить в каталог
-                        </button>
-
-                        {{--КНОПКА ОТКЛОНЕНИЯ--}}
-                        <button
-                           data-bs-toggle="modal"
-                           data-bs-target="#staticBackdrop2"
-                           class="btn btn-danger btn-cancel"
-                        onclick="getIdToCancel({{ $object->id }})">
-                            Отклонить
-                        </button>
-                    </td>
+            <table>
+                <tr>
+                    <th class="br">ID</th>
+                    <th>Наименование</th>
+                    <th>Район</th>
+                    <th class="date-column">Дата подачи</th>
+                    <th class="date-column">Дата обновления</th>
+                    <th></th>
                 </tr>
-            @empty
-                <tr class="centered">
-                    <td colspan="6">Нет заявлений на добавление нового ЖК</td>
-                </tr>
-            @endforelse
-        </table>
+                @forelse($complexes as $complex)
+                    <tr class="table__block">
+                        <td class="br object-id">{{ $complex->id }}</td>
+                        <td>{{ $complex->name }}</td>
+                        <td>{{ $complex->district->name }}</td>
+                        <td class="date-column">{{ $complex->dateOfCreating }}</td>
+                        <td class="date-column">{{ $complex->dateOfUpdating }}</td>
+                        <td class="td-btn">
+                            {{--BUTTON TO SHOW--}}
+                            <a href="{{ route('complexes.show', $complex->id) }}"
+                               class="btn btn-outlined btn-more">Подробнее</a>
+
+                            {{--BUTTON TO PUBLISH--}}
+                            <button href="" class="btn btn-filled btn-publish"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop1"
+                                    onclick="getId({{ $complex->id }})">
+                                Добавить в каталог
+                            </button>
+
+                            {{--BUTTON TO CANCEL--}}
+                            <button
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop2"
+                                class="btn btn-danger btn-cancel"
+                                onclick="getIdToCancel({{ $complex->id }})">
+                                Отклонить
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr class="centered">
+                        <td colspan="6">Нет предложенных жилых комплексов</td>
+                    </tr>
+                @endforelse
+            </table>
+        </div>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ДОБАВЛЕНИЯ ЖК--}}
+    {{--MODAL WINDOW TO PUBLISH--}}
     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Добавить новый жилой комплекс</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -80,17 +90,18 @@
         </div>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ОТКЛОНЕНИЯ ДОБАВЛЕНИЯ ЖИЛОГО КОМПЛЕКСА В КАТАЛОГ--}}
+    {{--MODAL WINDOW TO CANCEL--}}
     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Отклонить добавление нового ЖК</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Для отклонения заявления необходимо ввести причину, по которой этот жилой комплекс не может быть добавлен в каталог</p>
+                    <p>Для отклонения заявления необходимо ввести причину, по которой этот жилой комплекс не может быть
+                        добавлен в каталог</p>
                     <textarea class="form-control" name="comment" id="pre-comment" rows="7"></textarea>
                 </div>
                 <div class="modal-footer">
@@ -98,7 +109,7 @@
 
                     <form action="{{ route('admins.complexes.cancel') }}">
                         <input type="hidden" id="input-comment-modal" name="id">
-                        <textarea class="form-control" name="comment" id="comment" placeholder="Введите причину отклонения добавления нового жилого комплекса в каталог" hidden></textarea>
+                        <textarea class="form-control" name="comment" id="comment" hidden></textarea>
                         <button class="btn btn-danger" id="btn-cancel">Отклонить</button>
                     </form>
                 </div>
@@ -111,25 +122,24 @@
     <script>
         const btnCancel = document.getElementsByClassName('btn-cancel');
 
-        // ВЫКЛЮЧЕНИЕ КНОПКИ ДО ВВОДА КОММЕНТАРИЯ
+        // DISABLING BUTTON IF COMMENT IS EMPTY
         document.getElementById('btn-cancel').disabled = true;
 
         document.getElementById('pre-comment').addEventListener('input', (e) => {
-            console.log(e.target.value)
             document.getElementById('btn-cancel').disabled = e.target.value === '';
         });
 
-        // ПЕРЕДАЧА VALUE ДЛЯ ОТКЛОНЕНИЯ ОБЪЯВЛЕНИЯ
+        // GET VALUE TO CANCEL AD
         document.getElementById('pre-comment').addEventListener('input', (e) => {
             document.getElementById('comment').value = e.target.value;
         });
 
-        // ПЕРЕДАЧА ID ДЛЯ ОТКЛОНЕНИЯ ОБЪЯВЛЕНИЯ
+        // GET ID TO CANCEL AD
         function getIdToCancel(id) {
             document.getElementById("input-comment-modal").value = id
         }
 
-        // ПЕРЕДАЧА ID ДЛЯ ОПУБЛИКОВАНИЯ ОБЪЯВЛЕНИЯ
+        // GET ID TO PUBLISH AD
         function getId(id) {
             document.getElementById("modal-object-id").value = id
         }

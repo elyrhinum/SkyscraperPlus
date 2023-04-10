@@ -5,14 +5,16 @@
     <div class="main-container pd">
         {{--HEADERS WITH INSTRUCTIONS--}}
         <div class="headers">
-            <h3>Подать новое объявление о квартире</h3>
-            <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                объявление на рассмотрение модераторам.</p>
-            <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            <div class="headers__inner">
+                <h3>Подать новое объявление о квартире</h3>
+                <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
+                    объявление на рассмотрение модераторам.</p>
+                <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
+                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            </div>
         </div>
 
-        <div class="forms">
+        <div class="common">
             <form method="post" enctype="multipart/form-data" id="form">
                 {{--CONTRACT TYPES--}}
                 <div id="contract-types">
@@ -24,7 +26,7 @@
                                 name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->name ? 'selected' : '' }}>
+                                    {{ old('contract_id') == $contract->id ? 'selected' : '' }}>
                                     {{ $contract->name }}
                                 </option>
                             @endforeach
@@ -43,7 +45,7 @@
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
-                                    {{ old('complex') == $complex->name ? 'selected' : '' }}>
+                                    {{ old('complex') == $complex->id ? 'selected' : '' }}>
                                     {{ $complex->name }}
                                 </option>
                             @endforeach
@@ -63,7 +65,7 @@
                                     id="district_id" name="district_id">
                                 @foreach($districts as $district)
                                     <option value="{{ $district->id }}"
-                                        {{ old('district') == $district->name ? 'selected' : '' }}>{{ $district->name }}</option>
+                                        {{ old('district_id') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -163,25 +165,33 @@
                     <div id="living-rooms-amount" class="labels">
                         <p class="living-rooms-amount__title">Количество жилых комнат <span
                                 class="sign-required">*</span></p>
-                        <input type="number" name="living_rooms_amount" id="living_rooms_amount" class="form-control"
-                               min="1" required>
+                        <select name="living_rooms_amount" class="form-control" id="living_rooms_amount">
+                            <option value="1" {{ old('living_rooms_amount') == '1' ? 'selected' : '' }}>1</option>
+                            <option value="2" {{ old('living_rooms_amount') == '2' ? 'selected' : '' }}>2</option>
+                            <option value="3" {{ old('living_rooms_amount') == '3' ? 'selected' : '' }}>3</option>
+                            <option value="4+" {{ old('living_rooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                        </select>
                     </div>
 
                     {{--BATHROOMS AMOUNT--}}
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов <span class="sign-required">*</span></p>
-                        <input type="number" name="bathrooms_amount" id="bathrooms_amount" class="form-control" min="1"
-                               required>
+                        <select name="bathrooms_amount" class="form-control" id="bathrooms_amount">
+                            <option value="1" {{ old('bathrooms_amount') == '1' ? 'selected' : '' }}>1</option>
+                            <option value="2" {{ old('bathrooms_amount') == '2' ? 'selected' : '' }}>2</option>
+                            <option value="3" {{ old('bathrooms_amount') == '3' ? 'selected' : '' }}>3</option>
+                            <option value="4+" {{ old('bathrooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                        </select>
                     </div>
 
                     {{--BATHROOM TYPE--}}
                     <div id="bathroom-type" class="labels">
                         <p class="bathroom-type__title">Санузел</p>
                         <select class="form-select bathroom-type__select" name="bathroom_type">
-                            <option value="Раздельный"
+                            <option value="раздельный"
                                 {{ old('bathroom_type') == 'Раздельный' ? 'selected' : '' }}>Раздельный
                             </option>
-                            <option value="Совмещенный"
+                            <option value="совмещенный"
                                 {{ old('bathroom_type') == 'Совмещенный' ? 'selected' : '' }}>Совмещенный
                             </option>
                         </select>
@@ -258,11 +268,14 @@
 
                     {{--LAYOUT--}}
                     <div id="layout-image">
-                        <h5>Планировка</h5>
-                        <p>Объявления с планирвкой привлекают больше потенциальных покупателей. Не допускаются к
-                            размещению изображения планировки с водяными знаками, чужих объектов недвижимости и
-                            рекламные баннер.
-                            Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.</p>
+                        <div class="mb-3">
+                            <h5 class="mb-1">Планировка</h5>
+                            <p>Объявления с планирвкой привлекают больше потенциальных покупателей. Не допускаются к
+                                размещению изображения планировки с водяными знаками, чужих объектов недвижимости и
+                                рекламные баннер.
+                                Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.</p>
+                        </div>
+
                         <label for="layout" class="label-layout">
                             <p>ЗАГРУЗИТЕ ПЛАНИРОВКУ</p>
                             <input type="file" name="layout" id="layout" class="form-control"
@@ -273,11 +286,14 @@
 
                     {{--IMAGES--}}
                     <div id="room-images">
-                        <h5>Фотографии</h5>
-                        <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
-                            размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
-                            Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
-                            десяти изображений. Первое из них будет являтся главным в объявлении.</p>
+                        <div class="mb-3">
+                            <h5 class="mb-1">Фотографии</h5>
+                            <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
+                                размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
+                                Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
+                                десяти изображений. Первое из них будет являтся главным в объявлении.</p>
+                        </div>
+
                         <label for="images" class="label-images">
                             <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
                             <input type="file" name="images" id="images" class="form-control"
@@ -290,11 +306,13 @@
 
                 {{--PRICE--}}
                 <div id="set-price">
-                    <h5>Цена</h5>
-                    <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
-                        Бонус, который оплачивается риелтору в случае успешной сделки необходимо обсуждать
-                        непосредственно с самим риелтором, так
-                        как у каждого свой тариф.</p>
+                    <div class="mb-3">
+                        <h5 class="mb-1">Цена</h5>
+                        <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
+                            Бонус, который оплачивается риелтору в случае успешной сделки необходимо обсуждать
+                            непосредственно с самим риелтором, так
+                            как у каждого свой тариф.</p>
+                    </div>
 
                     <div class="labels">
                         <p class="se-price__title">Цена <span class="sign-required">*</span></p>
@@ -400,11 +418,13 @@
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
 
-            if (buildingYear.value < 1700 || buildingYear.value > year) {
+            if ((buildingYear.value < 1700 || buildingYear.value > year) && buildingYear.value.length > 0) {
                 btnSubmit.disabled = true;
-                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего'
-            } else {
+                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего';
+                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их';
+            } else if (buildingYear.value.length === 0) {
                 yearError.textContent = '';
+                submitError.textContent = '';
                 btnSubmit.disabled = false;
             }
         });

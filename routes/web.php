@@ -42,19 +42,36 @@ Route::prefix('ads')->name('ads.')->group(function () {
         // FILTRATION ROUTE
         Route::get('/filtration', 'filtration')->name('filtration');
 
+        // GET ADS BY CATEGORIES
+        Route::get('/catalog/{object_type}/{contract_id_1}/{contract_id_2?}', 'catalog')->name('catalog');
+
         // BOOKMARKS ROUTES
         Route::post('/bookmark', 'bookmark')->name('bookmark');
         Route::post('/unbookmark', 'unbookmark')->name('unbookmark');
 
-        //SHOW
+        // SHOW ROUTE
         Route::get('/show/{ad}', 'show')->name('show');
+
+        // SALE ROUTE
+        Route::get('/sale', 'sale')->name('sale');
+
+        // RENT ROUTE
+        Route::get('/rent', 'rent')->name('rent');
     });
 });
 
 // RESIDENTIAL COMPLEXES ROUTES
 Route::prefix('complexes')->name('complexes.')->group(function () {
     Route::controller(ResidentialComplexController::class)->group(function () {
+        // INDEX PAGE
         Route::get('/complex', 'index')->name('index');
+
+        // SHOW ROUTE
+        Route::get('/show/{complex}', 'show')->name('show');
+
+        // OBJECTS BY COMPLEX
+        Route::get('/flatsInResidentialComplex/{complex}', 'flatsInResidentialComplex')->name('flatsInResidentialComplex');
+        Route::get('/roomsInResidentialComplex/{complex}', 'roomsInResidentialComplex')->name('roomsInResidentialComplex');
     });
 });
 
@@ -69,6 +86,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/account', 'account')->name('account');
             Route::get('/account/edit/{user}', 'edit')->name('edit');
             Route::post('/account/update/{user}', 'update')->name('update');
+
+            // GET ADS BY STATUS
+            Route::get('/ads/suggested', 'onlySuggestedAds')->name('onlySuggestedAds');
+            Route::get('/ads/published', 'onlyPublishedAds')->name('onlyPublishedAds');
+            Route::get('/ads/cancelled', 'onlyCancelledAds')->name('onlyCancelledAds');
+
+            // GET BOOKMARKS
+            Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
         });
     });
 
@@ -115,7 +140,7 @@ Route::middleware('auth')->group(function () {
     // RESIDENTIAL COMPLEXES ROUTES
     Route::prefix('complexes')->name('complexes.')->group(function () {
         Route::controller(ResidentialComplexController::class)->group(function () {
-            //STORE ROUTES
+            // CREATE AND STORE ROUTES
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
 
@@ -163,9 +188,6 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
                 Route::get('/onlyCancelled', 'onlyCancelled')->name('onlyCancelled');
 
-                // SHOW ROUTE
-                Route::get('/show/{ad}', 'show')->name('show');
-
                 // CHANGE STATUS
                 Route::get('/cancel', 'cancel')->name('cancel');
                 Route::get('/publish', 'publish')->name('publish');
@@ -181,6 +203,10 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
                 Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
                 Route::get('/onlyCancelled', 'onlyCancelled')->name('onlyCancelled');
+
+                // CREATE AND STORE ROUTES
+                Route::get('/create', 'create')->name('create');
+                Route::post('/store', 'store')->name('store');
 
                 // SHOW ROUTE
                 Route::get('/show/{complex}', 'show')->name('show');

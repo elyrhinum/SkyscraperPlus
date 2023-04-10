@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admins;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StreetRequest;
 use App\Models\Street;
 use Illuminate\Http\Request;
 
@@ -11,11 +12,11 @@ class StreetController extends Controller
     // REDIRECT TO INDEX PAGE
     public function index()
     {
-        return view('admins.streets.index', ['streets' => Street::all()]);
+        return view('admins.streets.index', ['streets' => Street::orderBy('name', 'asc')->get()]);
     }
 
     // STORE METHOD
-    public function store(Request $request)
+    public function store(StreetRequest $request)
     {
         $result = Street::create(['name' => $request->name]);
 
@@ -27,10 +28,15 @@ class StreetController extends Controller
     public function update(Request $request)
     {
         $street = Street::find($request->id);
-        $result = $street->update($request->only(['name']));
+
+        if (Street::where('name', $request->name)->first() == $street) {
+            $result = $street->update($request->only(['name']));
+        } else {
+            $result = false;
+        }
 
         return $result ? to_route('admins.streets.index')->with(['success' => 'Улица успешно обновлена']) :
-            to_route('admins.streets.index')->withErrors(['error' => 'Не удалось обновить улицу']);
+            to_route('admins.streets.index')->withErrors(['error' => 'Не удалось обновить улицу. Проверьте, что наименование не повторяется']);
     }
 
     // DELETE METHOD

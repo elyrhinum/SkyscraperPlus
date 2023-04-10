@@ -7,7 +7,7 @@
 @endphp
 
 <div class="main-info__navigation">
-    <a href="" class="navigation__link">
+    <a href="{{ route('users.onlySuggestedAds') }}" class="navigation__link">
         <img src="{{ asset('/media/icons/account/suggested.png') }}" alt="Предложенные">
         <div>
             <p>На рассмотрении</p>
@@ -16,7 +16,7 @@
             @endif
         </div>
     </a>
-    <a href="" class="navigation__link">
+    <a href="{{ route('users.onlyPublishedAds') }}" class="navigation__link">
         <img src="{{ asset('/media/icons/account/published.png') }}" alt="Опубликованные">
         <div>
             <p>Опубликованные</p>
@@ -25,7 +25,7 @@
             @endif
         </div>
     </a>
-    <a href="" class="navigation__link">
+    <a href="{{ route('users.onlyCancelledAds') }}" class="navigation__link">
         <img src="{{ asset('/media/icons/account/rejected.png') }}" alt="Отклоненные">
         <div>
             <p>Отклоненные</p>
@@ -34,10 +34,10 @@
             @endif
         </div>
     </a>
-    <a href="" class="navigation__link">
-        <img src="{{ asset('/media/icons/account/saved.png') }}" alt="Избранные">
+    <a href="{{ route('users.bookmarks') }}" class="navigation__link">
+        <img src="{{ asset('/media/icons/account/saved.png') }}" alt="Закладки">
         <div>
-            <p>Избранные</p>
+            <p>Закладки</p>
         </div>
     </a>
 </div>
@@ -54,7 +54,7 @@
         padding: 15px;
 
         border-radius: 3px;
-        border: 1px solid lightgray;
+        border: 1px solid rgba(211, 211, 211, 0.5);
     }
 
     .navigation__link {

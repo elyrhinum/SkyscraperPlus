@@ -14,11 +14,22 @@ class ResidentialComplex extends Model
         'status_id',
         'district_id',
         'class_id',
+        'comment',
         'name',
         'description'
     ];
 
-    // СВЯЗИ
+    // CONNECTIONS
+    public function flats()
+    {
+        return $this->hasMany(Flat::class);
+    }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class);
+    }
+
     public function class()
     {
         return $this->belongsTo(ComplexClass::class);
@@ -39,7 +50,7 @@ class ResidentialComplex extends Model
         return $this->belongsTo(District::class);
     }
 
-    // МЕТОДЫ
+    // METHODS
     public static function onlySuggested()
     {
         return ResidentialComplex::where('status_id', 2);

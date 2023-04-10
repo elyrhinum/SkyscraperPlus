@@ -9,6 +9,7 @@ use App\Http\Requests\SignUpRequest;
 use App\Models\Ad;
 use App\Models\ResidentialComplex;
 use App\Models\User;
+use App\Models\UserBookmark;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,9 +23,39 @@ class UserController extends Controller
         return view('users.account', [
             'suggested_ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
             'published_ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
-            'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
-//            'suggested_complexes' => ResidentialComplex::onlySuggested()->where('user_id', auth()->user()->id)->latest()->take(3)->get(),
-//            'cancelled_complexes' => ResidentialComplex::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get()
+            'cancelled_ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->take(3)->get()
+        ]);
+    }
+
+    // REDIRECT TO USER'S SUGGESTED ADS
+    public function onlySuggestedAds()
+    {
+        return view('users.ads.suggested', [
+            'ads' => Ad::onlySuggested()->where('user_id', auth()->user()->id)->latest()->get(),
+        ]);
+    }
+
+    // REDIRECT TO USER'S PUBLISHED ADS
+    public function onlyPublishedAds()
+    {
+        return view('users.ads.published', [
+            'ads' => Ad::onlyPublished()->where('user_id', auth()->user()->id)->latest()->get()
+        ]);
+    }
+
+    // REDIRECT TO USER'S PUBLISHED ADS
+    public function onlyCancelledAds()
+    {
+        return view('users.ads.cancelled', [
+            'ads' => Ad::onlyCancelled()->where('user_id', auth()->user()->id)->latest()->get()
+        ]);
+    }
+
+    // REDIRECT TO USER'S BOOKMARKS
+    public function bookmarks()
+    {
+        return view('users.ads.bookmarks', [
+            'bookmarks' => UserBookmark::where('user_id', auth()->user()->id)->latest()->get()
         ]);
     }
 

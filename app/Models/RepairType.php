@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class RepairType extends Model
 {
     use HasFactory;
-
     public $timestamps = false;
 
     protected $fillable = [

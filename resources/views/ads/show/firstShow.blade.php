@@ -1,28 +1,24 @@
-@extends('templates.admin')
-<link rel="stylesheet" href="{{ asset('css/admins/complexes/show.css') }}">
-@section('title', 'Просмотр жилого комплекса')
+@extends('templates.app')
+<link rel="stylesheet" href="{{ asset('css/ads/show/show.css') }}">
+@section('title', 'Просмотр объявления')
 @section('content')
-    <div class="main-container">
-        {{--ЗАГОЛОВОК--}}
-        <div id="title">
-            <h5>Жилой комплекс "{{ $complex->name }}"</h5>
-        </div>
-
-        <div class="container__body">
-            <div class="row">
-                {{--СЛАЙДЕР--}}
+    <div class="main-container pd ">
+        <div class="container__main-body">
+            {{--ABOUT OBJECT--}}
+            <div class="body__ad common">
+                {{--SLIDER--}}
                 <div class="body__carousel col">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
-                            @foreach($complex->images as $key=>$item)
+                            @foreach($ad->images as $key=>$item)
                                 <button type="button" data-bs-target="#carouselExampleCaptions"
-                                        data-bs-slide-to="{{ $key }}" class="active"
-                                        aria-current="true" aria-label="Slide {{$key}}"></button>
+                                        data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"
+                                        aria-label="Slide {{$key}}"></button>
                             @endforeach
                         </div>
                         <div class="carousel-inner">
-                            @if(count($complex->images) > 0)
-                                @foreach($complex->images as $key=>$item)
+                            @if(count($ad->images) > 0)
+                                @foreach($ad->images as $key=>$item)
                                     <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                                         <img src="{{ $item->image }}" class="d-block w-100 slider-image"
                                              alt="{{ $item->name }}">
@@ -48,20 +44,171 @@
                     </div>
                 </div>
 
-                {{--ИНФОРМАЦИЯ--}}
-                <div class="body__info col">
-                    <div class="info__title">
-                        <h3>ЖК "{{ $complex->name }}"</h3>
-                        <p>Дата подачи: {{ $complex->dateOfCreating }}</p>
+                {{--INFORMATION--}}
+                <div class="body__info">
+                    <div class="info__main">
+                        <div>
+                            <div class="info__title">
+                                <h5>{{ $ad->getNameOfObject() }}</h5>
+                            </div>
+                            <div class="info__tags">
+                                <p>{{ $ad->getCorrectObjectType() }}</p>
+                                <p>{{ $ad->contract->name }}</p>
+                                <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
+                            </div>
+                        </div>
+                        <div class="info__price">
+                            <h5>{{ $ad->getCorrectPrice() }}</h5>
+                        </div>
                     </div>
-                    <div class="info__description">
-                        <h5>Описание</h5>
-                        <p class="mb-2">Класс комплекса: {{ $complex->class->name }}</p>
-                        <p class="mb-2">Район: {{ $complex->district->name }}</p>
-                        <p>{{ $complex->description }}</p>
+                </div>
+            </div>
+
+            {{--ABOUT USER--}}
+            <div class="body__user common">
+                {{--IMAGE--}}
+                @if ($ad->user->role_id == 2)
+                    <img src="{{ $ad->user->image }}" alt="{{ $ad->user->shortName }}">
+                @endif
+
+                {{--ABOUT USER--}}
+                <div class="user__info">
+                    <p class="user__full-name">{{ $ad->user->fullName }}</p>
+                    <p class="user__role">{{ $ad->user->role->name }}</p>
+                    <div class="user__contacts">
+                        <p>{{ $ad->user->telephone }}</p>
+                        <p>{{ $ad->user->email }}</p>
                     </div>
                 </div>
             </div>
         </div>
+
+        {{--INFOGRAPHICS--}}
+        <div class="container__secondary-body">
+            <div class="common">
+                <div class="container__infographics">
+                    {{--ROOM AREA--}}
+                    @if($ad->object_type == '\App\Models\Room')
+                        <div class="infographics">
+                            <img src="{{ asset('/media/icons/ads/room_area.svg') }}" alt="Площадь комнаты">
+                            <div>
+                                <p class="infographics__title">Площадь комнаты</p>
+                                <p class="infographics__value">{{ $ad->object->area }} м<sup>2</sup></p>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{--TOTAL AREA--}}
+                    <div class="infographics">
+                        <img src="{{ asset('/media/icons/ads/total_area.svg') }}" alt="Общая площадь">
+                        <div>
+                            <p class="infographics__title">Общая площадь</p>
+                            <p class="infographics__value">{{ $characteristics->total_area }} м<sup>2</sup></p>
+                        </div>
+                    </div>
+
+                    {{--LIVING AREA--}}
+                    <div class="infographics">
+                        <img src="{{ asset('/media/icons/ads/living_area.svg') }}" alt="Жилая площадь">
+                        <div>
+                            <p class="infographics__title">Жилая площадь</p>
+                            <p class="infographics__value">{{ $characteristics->living_area }} м<sup>2</sup></p>
+                        </div>
+                    </div>
+
+                    {{--KITCHEN AREA--}}
+                    @if ($characteristics->kitchen_area)
+                        <div class="infographics">
+                            <img src="{{ asset('/media/icons/ads/kitchen_area.svg') }}" alt="Площадь кухни">
+                            <div>
+                                <p class="infographics__title">Площадь кухни</p>
+                                <p class="infographics__value">{{ $characteristics->kithcen_area }} м<sup>2</sup></p>
+                            </div>
+                        </div>
+                    @endif
+
+                    {{--REPAIR--}}
+                    <div class="infographics">
+                        <img src="{{ asset('/media/icons/ads/repair.svg') }}" alt="Ремонт">
+                        <div>
+                            <p class="infographics__title">Ремонт</p>
+                            <p class="infographics__value">{{ $ad->object->repair->name }}</p>
+                        </div>
+                    </div>
+
+                    {{--FLOORS--}}
+                    <div class="infographics">
+                        <img src="{{ asset('/media/icons/ads/floors.svg') }}" alt="Этаж">
+                        <div>
+                            <p class="infographics__title">Этаж</p>
+                            <div class="floors">
+                                <p class="infographics__value">{{ $ad->object->floor }}</p>
+                                <p class="infographics__value">из</p>
+                                <p class="infographics__value">{{ $characteristics->floors }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{--DESCRIPTION--}}
+        <div class="container__secondary-body">
+            <div class="common">
+                <h5>Описание</h5>
+                @if ($complex)
+                    <p class="padding-bottom">Находится в жилом комплексе "{{ $complex->name ?? '' }}".</p>
+                @endif
+                <p class="padding-bottom">{{ $ad->description }}</p>
+                @if ($characteristics->ceiling_height)
+                    <p>Высота потолков – {{ $characteristics->ceiling_height }}</p>
+                @endif
+                <p class="padding-bottom">Количество жилых комнат – {{ $characteristics->living_rooms_amount }}
+                    ком.</p>
+                <p class="padding-bottom">Количество санузлов – {{ $characteristics->bathrooms_amount }} ком.
+                    Санузел {{ $characteristics->bathroom_type }}.</p>
+                @if ($characteristics->building_year)
+                    <p>Год постройки здания – {{ $characteristics->building_year }}.
+                        @if($characteristics->building_material)
+                            Тип дома: {{ $characteristics->building_material }}
+                        @endif
+                    </p>
+                @endif
+            </div>
+        </div>
+
+        {{--LAYOUT--}}
+        <div class="container__secondary-body">
+            <div class="common layout">
+                <h5>Планировка</h5>
+                <div>
+                    <img src="{{ $ad->object->layout }}" alt="{{ $ad->getNameOfObject() }}" class="layout-image">
+                </div>
+            </div>
+        </div>
+
+        {{--RESIDENTIAL COMPLEX--}}
+        @if ($complex)
+            <div class="container__secondary-body">
+                @include('inc.complex')
+            </div>
+        @endif
     </div>
 @endsection
+
+@push('script')
+    <script>
+        const userInfo = document.querySelector('.body__user'),
+            header = document.getElementById("header");
+
+        window.onscroll = () => {
+            let headerHeight = header.clientHeight;
+
+            if (window.scrollY >= headerHeight) {
+                userInfo.classList.add("change-fixed");
+            } else {
+                userInfo.classList.remove("change-fixed");
+            }
+        };
+    </script>
+@endpush

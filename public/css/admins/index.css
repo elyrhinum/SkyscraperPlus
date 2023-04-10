@@ -3,25 +3,38 @@
 }
 
 /*UPDATES*/
-.updates > div {
+.updates {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.updates__block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
     width: 250px;
     height: 200px;
     background-color: white;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 15px;
+    border-radius: 3px;
 }
 
-.updates__ads > div {
-    display: grid;
-    grid-template-columns: 70% 30%;
-    gap: 10px;
+.updates__block > div {
+    width: 100%;
+}
 
-    width: 80%;
+.ads__title {
+    text-align: center;
 }
 
 .ads__count {
     font-size: 64px;
     font-weight: 600;
     color: #EEA444;
-    text-align: right;
+    text-align: center;
 }

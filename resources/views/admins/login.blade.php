@@ -9,6 +9,7 @@
     {{--CSS--}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     <link rel="stylesheet" href="{{ asset('css/users/login.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admins/login.css') }}">
 
@@ -29,7 +30,7 @@
 </head>
 <body style="background-image: url({{asset('/media/images/admin_login_banner.jpg')}});">
 <div class="main-container">
-    <form action="{{ route('admins.verification') }}" method="post">
+    <form action="{{ route('admins.verification') }}" method="post" class="common">
         @csrf
 
         <h3>Войдите в аккаунт</h3>

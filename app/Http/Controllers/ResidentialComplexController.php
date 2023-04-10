@@ -6,19 +6,23 @@ use App\Http\FileServiceForObjects;
 use App\Models\Ad;
 use App\Models\ComplexClass;
 use App\Models\District;
+use App\Models\Flat;
 use App\Models\ImagesComplex;
 use App\Models\ResidentialComplex;
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class ResidentialComplexController extends Controller
 {
-    // МЕТОД ДЛЯ ИНДЕКСНОЙ СТРАНИЦЫ
+    // INDEX PAGE
     public function index()
     {
-        return view('complexes.index');
+        return view('complexes.index', [
+            'complexes' => ResidentialComplex::all()
+        ]);
     }
 
-    // МЕТОД ДЛЯ ПЕРЕНАПРАВЛЕНИЯ НА СТРАНИЦУ СОЗДАНИЯ
+    // REDIRECT TO CREATE PAGE
     public function create()
     {
         return view('complexes.create', [
@@ -27,15 +31,15 @@ class ResidentialComplexController extends Controller
         ]);
     }
 
-    // МЕТОД НА СОЗДАНИЕ ОБЪЕКТА
+    // STORE METHOD
     public function store(Request $request)
     {
-        // СОЗДАНИЕ ЖИЛОГО КОМПЛЕКСА
+        // CREATE RESIDENTIAL COMPLEX
         $complex = ResidentialComplex::create(array_merge(
             ['status_id' => 2],
             $request->except('_token', 'images')));
 
-        // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
+        // UPLOADING IMAGES
         if ($request->images) {
             foreach ($request->files->all()['images'] as $file) {
                 $path = FileServiceForObjects::uploadRedirect($file, '/complexes');
@@ -60,19 +64,49 @@ class ResidentialComplexController extends Controller
         return response()->json($result);
     }
 
-    // МЕТОД ДЛЯ ПРОСМОТРА
+    // SHOW METHOD
     public function show(ResidentialComplex $complex)
     {
+        $flats = Ad::onlyPublished()->where('object_type', '\App\Models\Flat')->whereIn('object_id', Flat::where('residential_complex_id', $complex->id)->get()->pluck('id'))->get();
+        $rooms = Ad::onlyPublished()->where('object_type', '\App\Models\Room')->whereIn('object_id', Room::where('residential_complex_id', $complex->id)->get()->pluck('id'))->get();
+
         return view('complexes.show', [
-            'complex' => $complex
+            'complex' => $complex,
+            'title' => 'ЖК "' . $complex->name . '"',
+            'flats' => $flats,
+            'rooms' => $rooms,
         ]);
     }
 
-    // МЕТОД ДЛЯ ПОЛУЧЕНИЯ РАЙОНА КОМПЛЕКСА
+    // GET DISTRICT BY COMPLEX
     public function getDistrictByComplex(Request $request)
     {
         $complex = ResidentialComplex::find($request->data);
         $result = District::find($complex->district_id);
         return response()->json($result);
+    }
+
+    // FLATS IN COMPLEX
+    public function flatsInResidentialComplex(ResidentialComplex $complex)
+    {
+        $ads = Ad::onlyPublished()->where('object_type', '\App\Models\Flat')->whereIn('object_id', Flat::where('residential_complex_id', $complex->id)->get()->pluck('id'))->get();
+
+        return view('complexes.objects.flats', [
+            'complex' => $complex,
+            'title' => 'Квартиры в ЖК "' . $complex->name .'"',
+            'ads' => $ads
+        ]);
+    }
+
+    // ROOMS IN COMPLEX
+    public function roomsInResidentialComplex(ResidentialComplex $complex)
+    {
+        $ads = Ad::onlyPublished()->where('object_type', '\App\Models\Room')->whereIn('object_id', Room::where('residential_complex_id', $complex->id)->get()->pluck('id'))->get();
+
+        return view('complexes.objects.rooms', [
+            'complex' => $complex,
+            'title' => 'Комнаты в ЖК "' . $complex->name .'"',
+            'ads' => $ads
+        ]);
     }
 }

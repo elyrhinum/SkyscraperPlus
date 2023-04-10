@@ -6,19 +6,24 @@
     <div class="main-container pd">
         {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
-            <h3>Подать объявление об участке с домом</h3>
-            <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                объявление на рассмотрение модераторам.</p>
-            <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            <div class="headers__inner">
+                <h3>Подать объявление об участке с домом</h3>
+                <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
+                    объявление на рассмотрение модераторам.</p>
+                <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
+                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            </div>
         </div>
 
-        <div class="forms">
+        <div class="common">
             <form method="post" enctype="multipart/form-data" id="form">
                 {{--PLOT TYPE--}}
                 <div id="type">
-                    <h5>Тип объекта</h5>
-                    <p>Необходимо выбрать более конкретный тип объекта недвижимости: коттедж или дачный участок. </p>
+                    <div class="mb-3">
+                        <h5 class="mb-1">Тип объекта</h5>
+                        <p>Необходимо выбрать более конкретный тип объекта недвижимости: коттедж или дачный участок. </p>
+                    </div>
+
                     <div class="labels">
                         <p>Тип объекта <span class="sign-required">*</span></p>
                         <select class="form-select type__select" name="type_id">
@@ -127,11 +132,11 @@
                     <div id="bathroom-place" class="labels">
                         <p class="bathroom-place__title">Санузел</p>
                         <select class="form-select bathroom-place__select" name="bathroom_place">
-                            <option value="На улице"
-                                {{ old('bathrooms_place') == 'На улице' ? 'selected' : '' }}>На улице
+                            <option value="на улице"
+                                {{ old('bathrooms_place') == 'на улице' ? 'selected' : '' }}>На улице
                             </option>
-                            <option value="В доме"
-                                {{ old('bathrooms_place') == 'В доме' ? 'selected' : '' }}>В доме
+                            <option value="в доме"
+                                {{ old('bathrooms_place') == 'в доме' ? 'selected' : '' }}>В доме
                             </option>
                         </select>
                     </div>
@@ -180,9 +185,9 @@
 
                     {{--BUILDING'S STATUS--}}
                     <div id="building-status" class="labels">
-                        <p class="building-status__title">Состояние участка <span class="sign-required">*</span></p>
+                        <p class="building-status__title">Состояние здания <span class="sign-required">*</span></p>
                         <textarea name="building_status" id="building_status" cols="30" rows="5" class="form-control"
-                                  placeholder="Кратко опишите в каком состоянии сейчас находится здание на участке."
+                                  placeholder="Кратко опишите в каком состоянии сейчас находится здание на участке"
                                   required></textarea>
                     </div>
                 </fieldset>
@@ -205,7 +210,7 @@
                     <div id="plot-status" class="labels">
                         <p class="plot-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="plot_status" id="plot_status" cols="30" rows="5" class="form-control"
-                                  placeholder="Кратко опишите в каком состоянии сейчас находится участок."
+                                  placeholder="Кратко опишите в каком состоянии сейчас находится участок"
                                   required></textarea>
                     </div>
                 </fieldset>
@@ -222,11 +227,14 @@
 
                     {{--IMAGES--}}
                     <div id="plot-images">
-                        <h5>Фотографии</h5>
-                        <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
-                            размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
-                            Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
-                            десяти изображений. Первое из них будет являтся главным в объявлении.</p>
+                        <div class="mb-3">
+                            <h5 class="mb-1">Фотографии</h5>
+                            <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
+                                размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
+                                Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
+                                десяти изображений. Первое из них будет являтся главным в объявлении.</p>
+                        </div>
+
                         <label for="images" class="label-images">
                             <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
                             <input type="file" name="images" id="images" class="form-control"
@@ -256,13 +264,15 @@
 
                 {{--PRICE--}}
                 <div id="set-price">
-                    <h5>Цена <span class="sign-required">*</span></h5>
-                    <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
-                        Бонус, который оплачивается риелтору в случае успешной сделки необходимо обсуждать лично, так
-                        как у каждого из риелторов свой тариф.</p>
+                    <div class="mb-3">
+                        <h5 class="mb-1">Цена</h5>
+                        <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
+                            Бонус, который оплачивается риелтору в случае успешной сделки необходимо обсуждать лично, так
+                            как у каждого из риелторов свой тариф.</p>
+                    </div>
 
                     <div class="labels">
-                        <p class="set-price__title">Цена</p>
+                        <p class="set-price__title">Цена<span class="sign-required">*</span></p>
                         <div class="set-price__input">
                             <input type="number" name="price" id="price" class="form-control"
                                    {{ old('price') }} required>
@@ -271,6 +281,7 @@
                     </div>
                 </div>
 
+                <p id="submit-error"></p>
                 <button class="btn btn-filled btn-submit">Подать объявление</button>
             </form>
         </div>
@@ -281,8 +292,9 @@
     <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
-        const btnSubmit = document.querySelector(".btn-submit"),
+        const btnSubmit = document.querySelector('.btn-submit'),
             buildingYear = document.getElementById('building_year'),
+            submitError = document.getElementById('submit-error'),
             yearError = document.getElementById('year-error');
 
         // CHECKING THAT YEAR DO NOT EXCEED CURRENT YEAR
@@ -290,11 +302,13 @@
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
 
-            if (buildingYear.value < 1700 || buildingYear.value > year) {
+            if ((buildingYear.value < 1700 || buildingYear.value > year) && buildingYear.value.length > 0) {
                 btnSubmit.disabled = true;
-                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего'
-            } else {
+                yearError.textContent = 'Год постройки не может быть меньше 1700 и больше нынешнего';
+                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их';
+            } else if (buildingYear.value.length === 0) {
                 yearError.textContent = '';
+                submitError.textContent = '';
                 btnSubmit.disabled = false;
             }
         });

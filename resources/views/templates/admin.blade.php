@@ -7,7 +7,8 @@
     {{--CSS--}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admins/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/buttons.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
 
     {{--SCRIPT--}}
     <script defer src="{{asset('js/bootstrap.bundle.min.js')}}"></script>

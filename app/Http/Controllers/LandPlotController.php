@@ -16,16 +16,6 @@ use Illuminate\Http\Request;
 
 class LandPlotController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     public function create()
     {
         return view('ads.landplots.create', [

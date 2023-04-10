@@ -11,13 +11,13 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Продажа</a>
+                        <a class="nav-link" href="{{ route('ads.sale') }}">Продажа</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Аренда</a>
+                        <a class="nav-link" href="{{ route('ads.rent') }}">Аренда</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Жилые комплексы</a>
+                        <a class="nav-link" href="{{ route('complexes.index') }}">Жилые комплексы</a>
                     </li>
                 </ul>
                 @guest
@@ -25,28 +25,38 @@
                         <span class="navbar-text">
                             <a class="btn btn-outlined" href="{{ route('users.create') }}">Зарегистрироваться</a>
                         </span>
-                        <span class="navbar-text" style="margin-left: 10px">
+                        <span class="navbar-text">
                             <a class="btn btn-filled" href="{{ route('users.login') }}">Войти</a>
                         </span>
                     </div>
                 @endguest
                 @auth
-                    <div class="buttons">
-                        <span class="navbar-text">
-                            <a class="btn btn-filled" href="{{ route('ads.preCreate') }}">Подать объявление</a>
-                        </span>
-                        @if(auth()->user()->role_id == 2)
+                    @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                        <div class="buttons">
                             <span class="navbar-text">
-                                <a class="btn btn-filled" style="margin-left: 10px" href="{{ route('complexes.create') }}">Добавить ЖК</a>
+                                <a class="btn btn-filled" href="{{ route('ads.preCreate') }}">Подать объявление</a>
                             </span>
-                        @endif
+                            @if(auth()->user()->role_id == 2)
+                                <span class="navbar-text">
+                                    <a class="btn btn-filled" style="margin-left: 10px"
+                                       href="{{ route('complexes.create') }}">Добавить ЖК</a>
+                                </span>
+                            @endif
+                            <span class="navbar-text" style="margin-left: 10px">
+                                <a class="btn btn-outlined" href="{{ route('users.account') }}">Мой аккаунт</a>
+                            </span>
+                            <span class="navbar-text" style="margin-left: 10px">
+                                <a class="btn btn-outlined" href="{{ route('users.logout') }}">Выйти</a>
+                            </span>
+                        </div>
+                    @elseif (auth()->user()->role_id == 3 || auth()->user()->role_id == 4)
                         <span class="navbar-text" style="margin-left: 10px">
-                            <a class="btn btn-outlined" href="{{ route('users.account') }}">Мой аккаунт</a>
-                        </span>
+                                <a class="btn btn-filled" href="{{ route('admins.index') }}">Вернуться на панель администратора</a>
+                            </span>
                         <span class="navbar-text" style="margin-left: 10px">
-                            <a class="btn btn-outlined" href="{{ route('users.logout') }}">Выйти</a>
-                        </span>
-                    </div>
+                                <a class="btn btn-outlined" href="{{ route('users.logout') }}">Выйти</a>
+                            </span>
+                    @endif
                 @endauth
             </div>
         </div>

@@ -1,38 +1,20 @@
 /*COMMON*/
-#main-header {
-    margin: 30px 0 !important;
-}
+.titles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
-.title {
     margin: 20px 0 !important;
 }
 
-/*MESSAGE EMPTY*/
-.message-empty {
-    width: 100%;
-
-    background-color: white;
-    border-radius: 3px;
-    padding: 20px;
-}
-
-.message-empty > p {
+.titles > h5,
+.headers > h5,
+.headers > h3 {
     margin-bottom: 0;
 }
 
-.main-info__personal, .message-empty, .ad  {
-    border-radius: 3px;
-    border: 1px solid lightgray;
-}
-
-/*MAIN BLOCKS*/
-.main-info__button {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
-
+/*CLASSES*/
 .for-realtor-account {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
@@ -53,12 +35,21 @@
     padding: 15px;
 }
 
+/*MAIN BLOCKS*/
+.main-info__button {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
 .main-info__personal > img {
     width: 250px;
     height: 250px;
     object-fit: cover;
 
     margin-right: 15px;
+    border-radius: 3px;
 }
 
 .blocks__info > div {
@@ -75,7 +66,7 @@
     justify-content: center;
     align-items: center;
 
-    gap: 15px;
+    gap: 10px;
 }
 
 /*AD*/
@@ -85,10 +76,10 @@
     gap: 10px;
 
     width: 100%;
-    height: 270px;
+    height: 272px;
 
     background-color: white;
-    border-radius: 5px;
+    border-radius: 3px;
     padding: 10px;
 }
 
@@ -110,16 +101,9 @@
 }
 
 .info__price > h5 {
+
     font-size: 26px;
     margin-bottom: 0;
-}
-
-.info__price > img {
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
-
-    margin-left: 5px;
 }
 
 .info__header > h5 {
@@ -132,10 +116,27 @@
 }
 
 /*BUTTONS ON AD*/
-.ad__buttons > a {
+.ad__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+.ad__buttons > a, .btn-reason {
     width: 100%;
 }
 
-.info__header > p {
+.btn-reason {
+    margin-bottom: 10px;
+}
+
+.info__header > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: fit-content;
     opacity: 70%;
 }

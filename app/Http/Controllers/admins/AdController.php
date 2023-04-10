@@ -11,19 +11,19 @@ class AdController extends Controller
     // REDIRECT TO PAGE WITH SUGGESTED ADS
     public function onlySuggested()
     {
-        return view('admins.ads.suggested', ['ads' => Ad::onlySuggested()->get()]);
+        return view('admins.ads.suggested', ['ads' => Ad::onlySuggested()->latest()->get()]);
     }
 
     // REDIRECT TO PAGE WITH PUBLISHED ADS
     public function onlyPublished()
     {
-        return view('admins.ads.published', ['ads' => Ad::onlyPublished()->get()]);
+        return view('admins.ads.published', ['ads' => Ad::onlyPublished()->latest()->get()]);
     }
 
     // REDIRECT TO PAGE WITH CANCELLED ADS
     public function onlyCancelled()
     {
-        return view('admins.ads.cancelled', ['ads' => Ad::onlyCancelled()->get()]);
+        return view('admins.ads.cancelled', ['ads' => Ad::onlyCancelled()->latest()->get()]);
     }
 
     // PUBLISH METHOD

@@ -8,98 +8,93 @@
     </div>
 
     {{--SEARCH FORM--}}
-    <div class="search pd">
+    <div class="search pd" style="margin-top: -70px;">
         @include('inc.filter')
     </div>
 
-    {{--ADS CATEGORIES--}}
-    <div class="ads pd">
-        <h3>Категории объявлений</h3>
-
+    {{--CATEGORIES OF ADS--}}
+    <div class="categories pd">
         <div class="ads__blocks">
-            {{--BLOCK 1--}}
-            <div>
-                <img class="blocks__img-block" src="{{ asset('/media/images/index/img-1.jpg') }}" alt="Изображение 1">
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Flat', 'contract_id_1' => 1]) }}"
+               class="blocks__block">
+                <p>Купить квартиру</p>
+            </a>
 
-                <div class="blocks__info-block">
-                    <h5>Купить квартиру</h5>
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Flat', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+               class="blocks__block">
+                <p>Снять квартиру</p>
+            </a>
 
-                    <div class="info-block__list">
-                        <div>
-                            <p>1-комнатные</p>
-                        </div>
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Room', 'contract_id_1' => 1]) }}"
+               class="blocks__block">
+                <p>Купить комнату</p>
+            </a>
 
-                    </div>
-                </div>
-            </div>
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Room', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+               class="blocks__block">
+                <p>Снять комнату</p>
+            </a>
 
-            {{--BLOCK 2--}}
-            <div>
-                <img class="blocks__img-block" src="{{ asset('/media/images/index/img-2.jpg') }}" alt="Изображение 2">
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\House', 'contract_id_1' => 1]) }}"
+               class="blocks__block">
+                <p>Купить участок с домом</p>
+            </a>
 
-                <div class="blocks__info-block">
-                    <h5>Снять квартиру</h5>
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\House', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+               class="blocks__block">
+                <p>Снять участок с домом</p>
+            </a>
 
-                    <div class="info-block__list">
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\LandPlot', 'contract_id_1' => 1]) }}"
+               class="blocks__block">
+                <p>Купить земельный участок</p>
+            </a>
 
-                    </div>
-                </div>
-            </div>
-
-            {{--BLOCK 3--}}
-            <div class="blocks__info-block-reverse">
-                <div class="blocks__info-block">
-                    <h5>Снять другую недвижимость</h5>
-
-                    <div class="info-block__list">
-
-                    </div>
-                </div>
-
-                <img class="blocks__img-block" src="{{ asset('/media/images/index/img-3.jpg') }}" alt="Изображение 3">
-            </div>
-
-            {{--BLOCK 4--}}
-            <div class="blocks__info-block-reverse">
-                <div class="blocks__info-block">
-                    <h5>Купить другую недвижимость</h5>
-
-                    <div class="info-block__list">
-
-                    </div>
-                </div>
-
-                <img class="blocks__img-block" src="{{ asset('/media/images/index/img-4.jpg') }}" alt="Изображение 4">
-            </div>
+            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\LandPlot', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+               class="blocks__block">
+                <p>Снять земельный участок</p>
+            </a>
         </div>
     </div>
 
     {{--LATEST ADS--}}
-    <div class="latest-ads pd">
-        <h3>Последние объявления</h3>
+    <div class="flex-block pd">
+        <div class="headers">
+            <h5>Последние объявления</h5>
+        </div>
 
-        @forelse($ads->latest()->take(3)->get() as $ad)
-            {{--AD--}}
-            @include('inc.ad')
-        @empty
-            <div class="message-empty">
-                <p>Нет последних объявлений</p>
-            </div>
-        @endforelse
+        <div class="flex-block__inner">
+            @forelse($ads->latest()->take(3)->get() as $ad)
+                {{--AD--}}
+                @include('inc.ad')
+            @empty
+                <div class="message-empty">
+                    <p>Нет последних объявлений</p>
+                </div>
+            @endforelse
+        </div>
     </div>
 
     {{--LATEST COMPLEXES--}}
-    <div class="latest-complexes pd">
-        <h3>Жилые комплексы</h3>
+    <div class="flex-block pd">
+        <div class="headers">
+            <h5>
+                <a href="{{ route('complexes.index') }}">Жилые комплексы</a>
+            </h5>
 
-        @forelse($complexes->latest()->take(3)->get() as $ad)
-            {{--COMPLEX--}}
-            {{--            @include('inc.ad')--}}
-        @empty
-            <div class="message-empty">
-                <p>Нет жилых комплексов</p>
-            </div>
-        @endforelse
+            <a href="{{ route('complexes.index') }}" class="btn btn-filled">Подробнее</a>
+        </div>
+
+        <div class="flex-block__inner">
+            @forelse($complexes->latest()->take(3)->get() as $complex)
+                {{--COMPLEX--}}
+                @include('inc.complex')
+            @empty
+                <div class="message-empty">
+                    <p>Нет жилых комплексов</p>
+                </div>
+            @endforelse
+        </div>
     </div>
 @endsection
 
@@ -115,7 +110,6 @@
                 if ({{ auth()->user() !== null }}) {
                     if (item.dataset.bookmarked === 'false') {
                         let result = await dataPostJSON("{{ route('ads.bookmark') }}", e.currentTarget.dataset.ad, `{{ csrf_token() }}`);
-                        console.log(result)
                         if (result) {
                             item.children[0].src = "{{ asset('/media/icons/saved/filled.svg') }}";
                             item.dataset.bookmarked = 'true';

@@ -1,5 +1,5 @@
 @extends('templates.admin')
-@section('title', 'Новые объявления')
+@section('title', 'Предложенные объявления')
 @section('content')
     <div class="main-container">
         {{--NAVBAR--}}
@@ -8,7 +8,9 @@
         {{--CONTENT--}}
         <div>
             {{--HEADER--}}
-            <h5 id="title">Новые объявления</h5>
+            <div id="title">
+                <h5>Предложенные объявления</h5>
+            </div>
 
             {{--MESSAGE--}}
             @include('inc.message')
@@ -30,13 +32,13 @@
                         <td> {{ $ad->getCorrectObjectType() }}</td>
                         <td>{{ $ad->contract->name }}</td>
                         <td>{{ $ad->district->name }}</td>
-                        <td>{{ $ad->price }} ₽</td>
+                        <td>{{ $ad->getCorrectPrice() }}</td>
                         <td class="centered">{{ $ad->dateOfCreating }}</td>
                         <td class="centered">{{ $ad->dateOfUpdating }}</td>
-                        <td class="centered">
+                        <td class="td-btn">
 
                             {{--BUTTON TO SHOW--}}
-                            <a href="{{ route('admins.ads.show', $ad->id) }}"
+                            <a href="{{ route('ads.show', $ad->id) }}"
                                class="btn btn-outlined btn-more">Подробнее</a>
 
                             {{--BUTTON TO PUBLISH--}}
@@ -57,7 +59,7 @@
                     </tr>
                 @empty
                     <tr class="centered">
-                        <td colspan="7">Нет новых объявлений</td>
+                        <td colspan="7">Нет предложенных объявлений</td>
                     </tr>
                 @endforelse
             </table>
@@ -65,13 +67,13 @@
     </div>
 
 
-    {{--MODAL WINDOW--}}
+    {{--MODAL WINDOW TO PUBLISH--}}
     <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Опубликовать объявление</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -80,6 +82,7 @@
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
+                    {{--FORM--}}
                     <form action="{{ route('admins.ads.publish') }}">
                         <input type="hidden" id="modal-object-id" name="id">
                         <button class="btn btn-filled" id="btn-confirm">Добавить</button>
@@ -89,13 +92,13 @@
         </div>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ ОТКЛОНЕНИЯ--}}
+    {{--MODAL WINDOW TO CANCEL--}}
     <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Отклонить объявление</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -122,29 +125,24 @@
     <script>
         const btnCancel = document.getElementsByClassName('btn-cancel');
 
-        // DISABLING BUTTON IF
+        // DISABLING BUTTON IF COMMENT IS EMPTY
         document.getElementById('btn-cancel').disabled = true;
 
         document.getElementById('pre-comment').addEventListener('input', (e) => {
-            console.log(e.target.value)
-            if (e.target.value !== '') {
-                document.getElementById('btn-cancel').disabled = false;
-            } else {
-                document.getElementById('btn-cancel').disabled = true;
-            }
+            document.getElementById('btn-cancel').disabled = e.target.value === '';
         });
 
-        // ПЕРЕДАЧА VALUE ДЛЯ ОТКЛОНЕНИЯ ОБЪЯВЛЕНИЯ
+        // GET VALUE TO CANCEL
         document.getElementById('pre-comment').addEventListener('input', (e) => {
             document.getElementById('comment').value = e.target.value;
         });
 
-        // GET ID TO CANCEL ADS
+        // GET ID TO CANCEL
         function getIdToCancel(id) {
             document.getElementById("input-comment-modal").value = id
         }
 
-        // GET ID TO PUBLISH ADS
+        // GET ID TO PUBLISH
         function getId(id) {
             document.getElementById("modal-object-id").value = id
         }

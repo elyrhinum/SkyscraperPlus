@@ -28,4 +28,14 @@ class Room extends Model
     {
         $this->morphOne(Ad::class,  'object');
     }
+
+    public function residential_complex()
+    {
+        return $this->belongsTo(ResidentialComplex::class);
+    }
+
+    public function characteristics()
+    {
+        return $this->morphMany(RoomFlatCharacteristic::class, 'object');
+    }
 }

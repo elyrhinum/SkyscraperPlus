@@ -6,11 +6,13 @@
 
     {{-- CSS --}}
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/buttons.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     {{-- SCRIPTS --}}
     <script defer src="{{asset('js/bootstrap.bundle.min.js')}}"></script>
+    <script defer src="{{ asset('/js/characters-limit.js') }}"></script>
 
     {{-- FAVICON --}}
     <link type="image/x-icon" href="{{asset('/media/icons/favicon.svg') }}" rel="shortcut icon">

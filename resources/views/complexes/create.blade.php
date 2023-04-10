@@ -3,23 +3,24 @@
 @section('title', 'Добавить новый жилой комплекс')
 @section('content')
     <div class="main-container pd">
-        {{--ЗАГОЛОВОК С ИНСТРУКЦИЕЙ--}}
+        {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
-            <h3>Добавить новый жилой комплекс</h3>
-            <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                заявление на добавление нового жилого комплекса.</p>
-            <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            <div class="headers__inner">
+                <h3>Добавить новый жилой комплекс</h3>
+                <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
+                    заявление на добавление нового жилого комплекса.</p>
+                <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
+                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+            </div>
         </div>
 
-        {{--ФОРМА--}}
-        <div class="forms">
+        <div class="common">
             <form method="post" enctype="multipart/form-data" id="form">
-                {{--МЕСТОПОЛОЖЕНИЕ--}}
+                {{--ADDRESS--}}
                 <fieldset>
                     <h5>Район жилого комплекса</h5>
 
-                    {{--РАЙОН--}}
+                    {{--DISTRICT--}}
                     <div id="districts" class="labels">
                         <p class="districts__title">Район <span class="sign-required">*</span></p>
                         <select class="form-select districts__select"
@@ -32,13 +33,13 @@
                     </div>
                 </fieldset>
 
-                {{--ИНФОРМАЦИЯ О ЖИЛОМ КОМПЛЕКСЕ--}}
+                {{--ABOUT COMPLEX--}}
                 <fieldset>
                     <h5 id="complex-info-title">Информация о жилом комплексе</h5>
 
                     {{--NAME--}}
                     <div id="complex-name">
-                        <p>Если наименование состоит из английского алфавита, то необходимо в скобках написать его
+                        <p class="mb-3">Если наименование состоит из английского алфавита, то необходимо в скобках написать его
                             транскрипцию</p>
                         <div class="labels">
                             <p class="complex-name__title">Наименование <span class="sign-required">*</span></p>
@@ -47,7 +48,7 @@
                         </div>
                     </div>
 
-                    {{--КЛАСС ЖИЛОГО КОМПЛЕКСА--}}
+                    {{--CLASS--}}
                     <div id="complex-classes" class="labels">
                         <p class="complex-classes__title">Класс <span class="sign-required">*</span></p>
                         <select class="form-select complex-classes__select"
@@ -61,23 +62,24 @@
 
                 </fieldset>
 
-                {{--ОПИСАНИЕ И ИЗОБРАЖЕНИЯ--}}
+                {{--DESCRIPTION AND IMAGES--}}
                 <fieldset>
-                    {{--ОПИСАНИЕ--}}
+                    {{--DESCRIPTION--}}
                     <div id="complex-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
                                   placeholder="Опишите все детали: какая отделка в квартирах, какие стены, полы и так далее."></textarea>
                     </div>
 
-                    {{--ИЗОБРАЖЕНИЯ--}}
+                    {{--IMAGES--}}
                     <div id="complex-images">
-                        <h5>Фотографии</h5>
-                        <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
-                            размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
-                            Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Главным изображением
-                            будет являтся первое загруженное, поэтому
-                            будьте внимательнее!</p>
+                        <div class="mb-3">
+                            <h5 class="mb-1">Фотографии</h5>
+                            <p>Не допускаются к размещению фотографии с водяными знаками, чужих объектов недвижимости и
+                                рекламные баннер. Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.
+                                Главным изображением будет являтся первое загруженное, поэтому будьте внимательнее!</p>
+                        </div>
+
                         <label for="images" class="label-images">
                             <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
                             <input type="file" name="images" id="images" class="form-control"
@@ -100,7 +102,7 @@
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
 
-        // ОТПРАВКА ИЗОБРАЖЕНИЙ И ПЕРЕНАПРАВЛЕНИЕ
+        // UPLOADING IMAGES AND REDIRECT
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
             const formData = getFilesFormData(filesStore);

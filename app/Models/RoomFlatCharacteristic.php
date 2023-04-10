@@ -10,11 +10,13 @@ class RoomFlatCharacteristic extends Model
     use HasFactory;
 
     protected $fillable = [
-        'object',
+        'object_type',
+        'object_id',
         'ceiling_height',
         'floors',
         'living_rooms_amount',
         'bathrooms_amount',
+        'bathroom_type',
         'living_area',
         'total_area',
         'kitchen_area'
@@ -23,8 +25,8 @@ class RoomFlatCharacteristic extends Model
     public $timestamps = false;
 
     // CONNECTIONS
-    public function flats()
+    public function object()
     {
-        return $this->belongsTo(Flat::class);
+        return $this->morphTo();
     }
 }

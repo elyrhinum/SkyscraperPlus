@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('user_bookmarks', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('ad_id')->constrained('ads')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 

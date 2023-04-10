@@ -1,33 +1,4 @@
-/*COMMON*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    height: 100%;
-}
-
-body {
-    height: 91.8%;
-    font-size: 14px;
-    background-color: #DCDCDC;
-}
-
-a {
-    text-decoration: none;
-    color: black;
-}
-
-p {
-    margin-bottom: 0 !important;
-}
-
-h5, h3, .btn {
-    font-family: HelveticaNeueCyr;
-}
-
+/*CLASSES*/
 .alert {
     width: 100%;
     margin-bottom: 10px !important;
@@ -83,6 +54,22 @@ header > div > a {
     height: fit-content;
 }
 
+/*TITLE*/
+#title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    height: 35px;
+    margin: 15px 0 !important;
+}
+
+#title > h5 {
+    margin-bottom: 0 !important;
+}
+
 /*TABLE*/
 table {
     width: 100%;
@@ -97,22 +84,8 @@ th, td, tr {
 
 th {
     padding: 10px;
-    font-family: HelveticaNeueCyr;
+    font-family: var(--main-font);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-#title {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    width: 100%;
-    padding: 15px 0;
-}
-
-#title, #title > h5 {
-    margin-bottom: 0 !important;
 }
 
 .td-date {

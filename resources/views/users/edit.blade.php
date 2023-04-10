@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/users/create.css') }}">
 @section('title', 'Регистрация')
 @section('content')
-    <div class="main-container pd mt">
+    <div class="main-container common pd mt-4">
         <h3>Редактирование профиля</h3>
 
         <form action="{{ route('users.update', auth()->user()) }}" method="post" enctype="multipart/form-data">

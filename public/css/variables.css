@@ -1,0 +1,12 @@
+:root {
+    /*BORDERS*/
+    --main-border: 1px solid rgba(211, 211, 211, 0.5);
+    --secondary-border: 1px solid #356089;
+
+    /*COLORS*/
+    --color-deep-blue: #356089;
+    --color-bg: rgba(220, 220, 220, 0.3);
+
+    /*FONT*/
+    --main-font: HelveticaNeueCyr;
+}

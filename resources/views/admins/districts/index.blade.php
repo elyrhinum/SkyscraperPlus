@@ -21,6 +21,12 @@
             {{--MESSAGE--}}
             @include('inc.message')
 
+            @error('name')
+            <div class="alert alert-danger">
+                <p>{{ $message }}</p>
+            </div>
+            @enderror
+
             {{--TABLE--}}
             <table>
                 <tr>

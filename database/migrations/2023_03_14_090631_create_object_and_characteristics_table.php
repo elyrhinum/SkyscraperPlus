@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('object_and_characteristics', function (Blueprint $table) {
+            $table->id();
             $table->morphs('object');
             $table->foreignId('characteristic_id')->constrained('house_land_plot_characteristics')->cascadeOnUpdate()->cascadeOnDelete();
         });

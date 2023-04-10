@@ -11,7 +11,7 @@ class DistrictController extends Controller
     // REDIRECT TO INDEX PAGE
     public function index()
     {
-        return view('admins.districts.index', ['districts' => District::all()]);
+        return view('admins.districts.index', ['districts' => District::orderBy('name', 'asc')->get()]);
     }
 
     // STORE METHOD
@@ -27,10 +27,15 @@ class DistrictController extends Controller
     public function update(Request $request)
     {
         $district = District::find($request->id);
-        $result = $district->update($request->only(['name']));
+
+        if (District::where('name', $request->name)->first() == $district) {
+            $result = $district->update($request->only(['name']));
+        } else {
+            $result = false;
+        }
 
         return $result ? to_route('admins.districts.index')->with(['success' => 'Район был успешно обновлен']) :
-            to_route('admins.districts.index')->withErrors(['error' => 'Не удалось обновить район']);
+            to_route('admins.districts.index')->withErrors(['error' => 'Не удалось обновить район. Проверьте, что наименование не повторяется']);
     }
 
     // DELETE METHOD

@@ -18,8 +18,8 @@ class UserController extends Controller
     public function index()
     {
         return view('admins.index', [
-            'ads' => Ad::all(),
-            'complexes' => ResidentialComplex::all()
+            'ads' => Ad::latest()->get(),
+            'complexes' => ResidentialComplex::latest()->get()
         ]);
     }
 
@@ -44,7 +44,7 @@ class UserController extends Controller
     // REDIRECT TO MODERATORS INDEX PAGE
     public function moderatorIndex()
     {
-        return view('admins.moderators.index', ['moderators' => User::where('role_id', 4)->get()]);
+        return view('admins.moderators.index', ['moderators' => User::where('role_id', 4)->orderBy('surname', 'asc')->get()]);
     }
 
     // REDIRECT TO CREATE MODERATORS PAGE

@@ -12,24 +12,15 @@ use App\Models\ObjectAndCharacteristics;
 use App\Models\RepairType;
 use App\Models\ResidentialComplex;
 use App\Models\Room;
+use App\Models\RoomFlatCharacteristic;
 use App\Models\Street;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-
     public function create()
     {
+        // REDIRECT TO CREATE PAGE
         return view('ads.rooms.create', [
             'contract_types' => ContractType::all(),
             'complexes' => ResidentialComplex::onlyPublished()->get(),
@@ -39,15 +30,16 @@ class RoomController extends Controller
         ]);
     }
 
+    // STORE METHOD
     public function store(Request $request)
     {
-        // ПОЛУЧЕНИЕ УЛИЦЫ
+        // GET STREET
         $street = Street::firstOrCreate(['name' => request('street')]);
 
-        // ЗАГРУЗКА ПЛАНИРОВКИ
+        // UPLOAD LAYOUT
         $layout_path = FileServiceForObjects::upload($request->file('layout'), '/layouts');
 
-        // СОЗДАНИЕ КОМНАТЫ
+        // CREATE ROOM
         if($request->residential_complex_id != 'Не выбрано') {
             $room = Room::create(array_merge(
                 ['layout' => $layout_path],
@@ -58,8 +50,17 @@ class RoomController extends Controller
                 $request->except('_token', 'images', 'layout', 'residential_complex_id')));
         }
 
+        // UPLOAD CHARACTERISTICS
+        $characteristics = RoomFlatCharacteristic::create(array_merge(
+            [
+                'object_type' => '\App\Models\Room',
+                'object_id' => $room->id
+            ],
+            $request->only('ceiling_height	', 'floors', 'living_rooms_amount', 'bathrooms_amount',
+                'bathroom_type', 'living_area', 'total_area', 'kitchen_area', 'building_year', 'building_type')
+        ));
 
-        // СОЗДАНИЕ ОБЪЯВЛЕНИЯ
+        // CREATE AD
         $ad = Ad::create(array_merge(
             [
                 'street_id' => $street->id,
@@ -71,7 +72,7 @@ class RoomController extends Controller
             $request->only('contract_id', 'district_id', 'description', 'price')
         ));
 
-        // ЗАГРУЗКА ИЗОБРАЖЕНИЙ
+        // UPLOAD IMAGES
         if ($request->images) {
             foreach ($request->files->all()['images'] as $file) {
                 $path = FileServiceForObjects::uploadRedirect($file, '/rooms');
@@ -94,50 +95,5 @@ class RoomController extends Controller
             $request->session()->put(['error' => 'Не удалось подать объявление']);
 
         return response()->json($result);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

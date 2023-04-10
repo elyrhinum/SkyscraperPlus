@@ -8,7 +8,9 @@
         {{--CONTENT--}}
         <div>
             {{--HEADER--}}
-            <h5 id="title">Опубликованные объявления</h5>
+            <div id="title">
+                <h5>Опубликованные объявления</h5>
+            </div>
 
             {{--MESSAGE--}}
             @include('inc.message')
@@ -28,20 +30,22 @@
                         <td class="br object-id">{{ $ad->id }}</td>
                         <td> {{ $ad->getCorrectObjectType() }}</td>
                         <td>{{ $ad->district->name }}</td>
-                        <td>{{ $ad->price }} ₽</td>
+                        <td>{{ $ad->getCorrectPrice() }}</td>
                         <td class="centered">{{ $ad->dateOfCreating }}</td>
                         <td class="centered">{{ $ad->dateOfUpdating }}</td>
-                        <td class="centered">
+                        <td class="td-btn">
 
                             {{--BUTTON TO SHOW--}}
-                            <a href="{{ route('admins.ads.show', $ad->id) }}"
+                            <a href="{{ route('ads.show', $ad->id) }}"
                                class="btn btn-outlined btn-more">
                                 Подробнее
                             </a>
 
                             {{--BUTTON TO CANCEL--}}
                             <button class="btn btn-danger btn-cancel"
-                                    onclick="getId({{ $ad->id }})">
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop"
+                                    onclick="getIdToCancel({{ $ad->id }})">
                                 Отклонить
                             </button>
                         </td>
@@ -61,19 +65,22 @@
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подствердите действие</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p>Вы действительно хотите отклонить публикацию?</p>
+                    <p>Для отклонения объявления необходимо ввести причину, по которой это объявление не может быть
+                        опубликовано</p>
+                    <textarea class="form-control" name="comment" id="pre-comment" rows="7"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
 
-                    {{--FORM--}}
                     <form action="{{ route('admins.ads.cancel') }}">
-                        <input type="hidden" id="modal-object-id" name="id">
-                        <button class="btn btn-danger">Отклонить</button>
+                        <input type="hidden" id="input-comment-modal" name="id">
+                        <textarea class="form-control" name="comment" id="comment"
+                                  placeholder="Введите причину отклонения объявления" hidden></textarea>
+                        <button class="btn btn-danger" id="btn-cancel">Отклонить</button>
                     </form>
                 </div>
             </div>
@@ -83,9 +90,23 @@
 
 @push('script')
     <script>
+        const btnCancel = document.getElementsByClassName('btn-cancel');
+
+        // DISABLING BUTTON IF COMMENT IS EMPTY
+        document.getElementById('btn-cancel').disabled = true;
+
+        document.getElementById('pre-comment').addEventListener('input', (e) => {
+            document.getElementById('btn-cancel').disabled = e.target.value === '';
+        });
+
+        // GET VALUE TO CANCEL
+        document.getElementById('pre-comment').addEventListener('input', (e) => {
+            document.getElementById('comment').value = e.target.value;
+        });
+
         // GET ID TO CANCEL
-        function getId(id) {
-            document.getElementById("modal-object-id").value = id
+        function getIdToCancel(id) {
+            document.getElementById("input-comment-modal").value = id
         }
     </script>
 @endpush

@@ -7,11 +7,15 @@
     {{--AD INFO--}}
     <div class="ad__info">
         {{--INFO--}}
-        <div>
+        <div class="ad__header">
             <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
-            <p class="info__object-type">{{ $ad->getCorrectObjectType() }}</p>
+            <div>
+                <p>{{ $ad->getCorrectObjectType() }}</p>
+                <p>{{ $ad->contract->name }}</p>
+                <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
+            </div>
             <p class="info__description">{{ $ad->description }}</p>
-            <h5 class="info__price">{{ $ad->price }} руб.</h5>
+            <h5 class="info__price">{{ $ad->getCorrectPrice() }}</h5>
         </div>
 
         {{--BUTTONS--}}
@@ -53,8 +57,30 @@
         padding: 10px;
     }
 
+    .ad__header > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        width: fit-content;
+        opacity: 70%;
+
+        margin-bottom: 20px;
+    }
+
+    .info__header {
+        margin-bottom: 0;
+    }
+
     .info__description {
         width: 100%;
+        margin-bottom: 20px !important;
+    }
+
+    .info__price {
+        font-size: 26px;
     }
 
     .ad__image {
@@ -83,29 +109,27 @@
         justify-content: flex-end;
     }
 
+    .info__buttons > a {
+        width: fit-content;
+    }
+
     .btn-filled {
-        margin-left: 10px;
         height: 35px;
     }
 
     /*SAVE BUTTON*/
     .btn-save {
-        width: 40px;
         padding: 0;
-
-        border: 1px solid #356089;
+        border: 0;
         border-radius: 3px;
         cursor: pointer;
     }
 
-    .btn-save:hover {
-        border: 1px solid #EEA444;
-    }
-
     .btn-save > img {
-        width: 35px;
-        height: 35px;
+        height: 47px;
         object-fit: cover;
+
+        margin-top: -7px;
     }
 
     /*USER INFO*/
@@ -129,22 +153,3 @@
         margin: 0;
     }
 </style>
-
-@push('script')
-    <script>
-        const description = document.querySelectorAll('.info__description')
-
-        // CHARACTERS LIMIT
-        description.forEach(elem => {
-            elem.textContent = limitStr(elem.textContent, 200)
-        })
-
-        function limitStr(str, n, symb) {
-            if (!n && !symb) return str;
-            if (str.length < n) return str;
-            symb = symb || '...';
-            return str.substr(0, n - symb.length) + symb;
-        }
-    </script>
-@endpush
-

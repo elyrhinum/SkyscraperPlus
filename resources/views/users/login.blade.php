@@ -3,7 +3,7 @@
 @section('title', 'Войти')
 @section('content')
     <div class="main-container pd">
-        <form action="{{ route('users.verification') }}" method="post">
+        <form action="{{ route('users.verification') }}" method="post" class="common">
             @csrf
 
             <h3>Войдите в аккаунт</h3>

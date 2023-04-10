@@ -6,9 +6,11 @@ use App\Models\Ad;
 use App\Models\ContractType;
 use App\Models\District;
 use App\Models\HouseLandPlotCharacteristic;
+use App\Models\ObjectAndCharacteristics;
 use App\Models\PlotType;
 use App\Models\RepairType;
 use App\Models\ResidentialComplex;
+use App\Models\RoomFlatCharacteristic;
 use App\Models\Street;
 use App\Models\UserBookmark;
 use Illuminate\Http\Request;
@@ -30,10 +32,55 @@ class AdController extends Controller
         return view('ads.preCreate');
     }
 
-    // FILTRATION
+    // REDIRECT TO SALE PAGE
+    public function sale()
+    {
+        return view('sale.index', ['ads' => Ad::onlyPublished()->where('contract_id', 1)->latest()->get()]);
+    }
+
+    // CATALOG METHOD
+    public function catalog($object_type, $contract_id_1, $contract_id_2 = null)
+    {
+        if ($contract_id_2 != null) {
+            $ads = Ad::onlyPublished()->where('object_type', $object_type)->whereIn('contract_id', [$contract_id_1, $contract_id_2])->latest()->get();
+        } else {
+            $ads = Ad::onlyPublished()->where('object_type', $object_type)->where('contract_id', $contract_id_1)->latest()->get();
+        }
+
+        $title = '';
+
+        if ($object_type == '\App\Models\Flat' && $contract_id_1 == 1) {
+            $title = 'Квартиры на продажу';
+        } else if (($object_type == '\App\Models\Flat' && $contract_id_1 == 2)) {
+            $title = 'Квартиры для аренды';
+        } else if ($object_type == '\App\Models\Room' && $contract_id_1 == 1) {
+            $title = 'Комнаты на продажу';
+        } else if (($object_type == '\App\Models\Room' && $contract_id_1 == 2)) {
+            $title = 'Комнаты для аренды';
+        } else if ($object_type == '\App\Models\House' && $contract_id_1 == 1) {
+            $title = 'Дома/коттеджи на продажу';
+        } else if (($object_type == '\App\Models\House' && $contract_id_1 == 2)) {
+            $title = 'Дома/коттеджи для аренды';
+        } else if ($object_type == '\App\Models\LandPlot' && $contract_id_1 == 1) {
+            $title = 'Земельные участки на продажу';
+        } else if (($object_type == '\App\Models\LandPlot' && $contract_id_1 == 2)) {
+            $title = 'Земельные участки для аренды';
+        }
+
+        return view('ads.catalog', ['ads' => $ads, 'title' => $title]);
+    }
+
+    // REDIRECT TO RENT PAGE
+    public function rent()
+    {
+        return view('rent.index', ['ads' => Ad::onlyPublished()->whereIn('contract_id', [2, 3])->latest()->get()]);
+    }
+
+    // FILTRATION METHOD
     public function filtration(Request $request)
     {
         $ads = Ad::onlyPublished();
+        $filters = [];
 
         $ads = $ads->where('contract_id', $request->contract_id);
         $ads = $ads->where('object_type', $request->object_type);
@@ -47,7 +94,40 @@ class AdController extends Controller
             $ads = $ads::where('price', '>', $request->price_from)->where('price', '<', $request->price_from);
         }
 
-        return to_route('ads.filtration')->withInput($request->all() + ['ads' => $ads->get()]);
+        // CONTRACT TYPE DEFINITION
+        if ($request->contract_id == 1) {
+            $filters[] = 'Продажа';
+        } else if ($request->contract_id == 2) {
+            $filters[] = 'Долгосрочная аренда';
+        } else if ($request->contract_id == 3) {
+            $filters[] = 'Посуточная аренда';
+        }
+
+        // OBJECT TYPE DEFINITION
+        if ($request->object_type == '\App\Models\Flat') {
+            $filters[] = 'Квартира';
+        } else if ($request->object_type == '\App\Models\Room') {
+            $filters[] = 'Комната';
+        } else if ($request->object_type == '\App\Models\House') {
+            $filters[] = 'Участок с домом';
+        } else if ($request->object_type == '\App\Models\LandPlot') {
+            $filters[] = 'Земельный участок';
+        }
+
+        // PRICE FROM DEFINITION
+        if ($request->price_from != null) {
+            $filters[] = 'Цена от ' . $request->price_from . ' ₽';
+        }
+
+        // PRICE TO DEFINITION
+        if ($request->price_to != null) {
+            $filters[] = 'Цена до ' . $request->price_to . ' ₽';
+        }
+
+        // DISTRICT
+        $filters[] = District::find($request->district_id)->name;
+
+        return view('ads.filtration', ['ads' => $ads->latest()->get(), 'filters' => $filters]);
     }
 
     // REDIRECT TO EDIT PAGE
@@ -110,9 +190,21 @@ class AdController extends Controller
     public function show(Ad $ad)
     {
         if ($ad->object_type == '\App\Models\Flat' || $ad->object_type == '\App\Models\Room') {
-            return view('ads.show.firstShow', ['ad' => $ad]);
+            $characteristics = RoomFlatCharacteristic::where('object_type', $ad->object_type)->where('object_id', $ad->object_id)->first();
+            return view('ads.show.firstShow', [
+                'ad' => $ad,
+                'title' => $ad->getNameOfObject(),
+                'complex' => $ad->object->residential_complex,
+                'characteristics' => $characteristics
+            ]);
         } else if ($ad->object_type == '\App\Models\House' || $ad->object_type == '\App\Models\LandPlot') {
-            return view('ads.show.secondShow', ['ad' => $ad]);
+            $characteristics = ObjectAndCharacteristics::where('object_type', $ad->object_type)->
+            where('object_id', $ad->object()->first()->id)->get();
+            return view('ads.show.secondShow', [
+                'ad' => $ad,
+                'title' => $ad->getNameOfObject(),
+                'characteristics' => $characteristics
+            ]);
         }
     }
 }

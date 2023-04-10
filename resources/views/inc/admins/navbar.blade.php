@@ -15,9 +15,9 @@
         <p class="navigation__ul-title">Объявления</p>
         <li>
             <a href="{{ route('admins.ads.onlySuggested') }}" class="navigation__ul-link">
-                <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые">
+                <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Предложенные">
                 <div>
-                    <span>Новые</span>
+                    <span>Предложенные</span>
                     <span class="span-count">{{ count($ads->where('status_id', 2)) }}</span>
                 </div>
             </a>
@@ -45,9 +45,9 @@
         <p class="navigation__ul-title">Жилые комплексы</p>
         <li>
             <a href="{{ route('admins.complexes.onlySuggested') }}" class="navigation__ul-link">
-                <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Новые">
+                <img src="{{ asset('/media/icons/admin/new.png') }}" alt="Предложенные">
                 <div>
-                    <span>Новые</span>
+                    <span>Предложенные</span>
                     <span class="span-count">{{ count($complexes->where('status_id', 2)) }}</span>
                 </div>
             </a>

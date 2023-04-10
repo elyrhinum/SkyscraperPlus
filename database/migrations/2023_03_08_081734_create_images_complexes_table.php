@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('images_complexes', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('residential_complex_id')->constrained('residential_complexes')->cascadeOnDelete()->cascadeOnUpdate();
             $table->text('image');
         });

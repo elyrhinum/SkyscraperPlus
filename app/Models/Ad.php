@@ -60,6 +60,11 @@ class Ad extends Model
         return $this->hasMany(ImagesAd::class);
     }
 
+    public function bookmarks()
+    {
+        return $this->hasMany(UserBookmark::class);
+    }
+
     // METHODS
     public static function onlySuggested()
     {
@@ -116,36 +121,24 @@ class Ad extends Model
     {
         if ($this->object_type == '\App\Models\House' || $this->object_type == '\App\Models\LandPlot') {
             if ($this->object->plot_number == 0) {
-                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
+                return $this->district->name . ' р-н, ' . $this->street->name . ' ' . $this->object->street_number;
             } else {
-                return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number . ', уч. ' . $this->object->plot_number;
+                return $this->district->name . ' р-н, ' . $this->street->name . ' ' . $this->object->street_number . ', уч. ' . $this->object->plot_number;
             }
         } else if ($this->object_type == '\App\Models\Flat' || $this->object_type == '\App\Models\Room') {
-            return $this->district->name . ' р-н, ' . $this->street->name . ', ' . $this->object->street_number;
+            return $this->district->name . ' р-н, ' . $this->street->name . ' ' . $this->object->street_number . ', п. ' . $this->object->entrance . ', кв. ' . $this->object->number;
         }
     }
 
+    // GET CORRECT PRICE
     public function getCorrectPrice()
     {
         if ($this->contract->name == 'Продажа') {
-            return $this->price . ' руб.';
+            return $this->price . ' ₽';
         } else if ($this->contract->name == 'Долгосрочная аренда') {
-            return $this->price . ' руб. / мес.';
+            return $this->price . ' ₽ / мес.';
         } else if ($this->contract->name == 'Посуточная аренда') {
-            return $this->price . ' руб. / сут.';
+            return $this->price . ' ₽ / сут.';
         }
-    }
-
-    public static function flatsAmountByRooms($rooms)
-    {
-        $ads = Ad::where('object_type', '\App\Models\Flat')->get();
-        $count = 0;
-        foreach ($ads as $ad) {
-            if ($ad->object->characteristrics->where('living_rooms_amount', $rooms)) {
-                $count++;
-            }
-        }
-
-        return $count;
     }
 }

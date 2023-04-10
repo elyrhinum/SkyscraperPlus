@@ -9,19 +9,17 @@ class UserBookmark extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
         'user_id',
         'ad_id'
     ];
 
     // CONNECTIONS
-    public function users() {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 
-    public function ads() {
-        return $this->hasMany(Ad::class);
+    public function ad() {
+        return $this->belongsTo(Ad::class);
     }
 }

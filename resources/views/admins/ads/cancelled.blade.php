@@ -8,7 +8,9 @@
         {{--CONTENT--}}
         <div>
             {{--HEADER--}}
-            <h5 id="title">Отклоненные объявления</h5>
+            <div id="title">
+                <h5>Отклоненные объявления</h5>
+            </div>
 
             {{--MESSAGE--}}
             @include('inc.message')
@@ -30,13 +32,13 @@
                         <td> {{ $ad->getCorrectObjectType() }}</td>
                         <td>{{ $ad->contract->name }}</td>
                         <td>{{ $ad->district->name }}</td>
-                        <td>{{ $ad->price }} ₽</td>
+                        <td>{{ $ad->getCorrectPrice() }}</td>
                         <td class="centered">{{ $ad->dateOfCreating }}</td>
                         <td class="centered">{{ $ad->dateOfUpdating }}</td>
-                        <td class="centered">
+                        <td class="td-btn">
 
                             {{--BUTTON TO SHOW--}}
-                            <a href="{{ route('admins.ads.show', $ad->id) }}"
+                            <a href="{{ route('ads.show', $ad->id) }}"
                                class="btn btn-outlined btn-more">
                                 Подробнее
                             </a>
@@ -44,9 +46,17 @@
                             {{--BUTTON TO PUBLISH--}}
                             <button class="btn btn-filled btn-publish"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop"
+                                    data-bs-target="#staticBackdrop1"
                                     onclick="getId({{ $ad->id }})">
                                 Опубликовать
+                            </button>
+
+                            {{--BUTTON TO SEE REASON--}}
+                            <button class="btn btn-danger btn-reason"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2"
+                                    onclick="getIdToSeeReason('{{ $ad->comment }}')">
+                                Причина отклонения
                             </button>
                         </td>
                     </tr>
@@ -59,9 +69,8 @@
         </div>
     </div>
 
-
     {{--MODAL WINDOW TO PUBLISH--}}
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
@@ -84,6 +93,27 @@
             </div>
         </div>
     </div>
+
+    {{--MODAL WINDOW WITH REASON--}}
+    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Причина отклонения</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p id="pre-comment"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-filled" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('script')
@@ -91,6 +121,11 @@
         // GET ID TO PUBLISH
         function getId(id) {
             document.getElementById("modal-object-id").value = id
+        }
+
+        // GET COMMENT
+        function getIdToSeeReason(comment) {
+            document.getElementById('pre-comment').textContent = comment
         }
     </script>
 @endpush

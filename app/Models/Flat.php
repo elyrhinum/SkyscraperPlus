@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Flat extends Model
 {
     use HasFactory;
-
     public $timestamps = false;
 
     protected $fillable = [
@@ -25,11 +24,21 @@ class Flat extends Model
     // CONNECTIONS
     public function ad()
     {
-        return $this->belongsTo(Ad::class);
+        return $this->morphTo(Ad::class);
+    }
+
+    public function residential_complex()
+    {
+        return $this->belongsTo(ResidentialComplex::class);
     }
 
     public function characteristics()
     {
-        return $this->hasMany(RoomFlatCharacteristic::class);
+        return $this->morphedByMany(RoomFlatCharacteristic::class, 'object');
+    }
+
+    public function repair()
+    {
+        return $this->belongsTo(RepairType::class);
     }
 }

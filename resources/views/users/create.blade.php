@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/users/create.css') }}">
 @section('title', 'Регистрация')
 @section('content')
-    <div class="main-container pd mt">
+    <div class="main-container pd common mt-4">
         <h3>Зарегистрироваться как</h3>
 
         {{-- TABS --}}

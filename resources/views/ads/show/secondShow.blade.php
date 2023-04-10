@@ -1,18 +1,18 @@
 @extends('templates.app')
-<link rel="stylesheet" href="{{ asset('css/ads/show/secondShow.css') }}">
+<link rel="stylesheet" href="{{ asset('css/ads/show/show.css') }}">
 @section('title', 'Просмотр объявления')
 @section('content')
-    <div class="main-container pd">
+    <div class="main-container pd ">
         <div class="container__main-body">
             {{--ABOUT OBJECT--}}
-            <div class="body__ad">
+            <div class="body__ad common">
                 {{--SLIDER--}}
                 <div class="body__carousel col">
                     <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             @foreach($ad->images as $key=>$item)
                                 <button type="button" data-bs-target="#carouselExampleCaptions"
-                                        data-bs-slide-to="{{ $key }}" class="active"
+                                        data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}"
                                         aria-current="true" aria-label="Slide {{$key}}"></button>
                             @endforeach
                         </div>
@@ -46,27 +46,28 @@
 
                 {{--INFORMATION--}}
                 <div class="body__info">
-                    <div>
-                        <div class="info__title">
-                            <h5>{{ $ad->getNameOfObject() }}</h5>
+                    <div class="info__main">
+                        <div>
+                            <div class="info__title">
+                                <h5>{{ $ad->getNameOfObject() }}</h5>
+                            </div>
+                            <div class="info__tags">
+                                <p>{{ $ad->getCorrectObjectType() }}</p>
+                                <p>{{ $ad->contract->name }}</p>
+                                <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
+                            </div>
                         </div>
-                        <p class="info__description">{{ $ad->description }}</p>
                         <div class="info__price">
                             <h5>{{ $ad->getCorrectPrice() }}</h5>
                         </div>
-                    </div>
-                    <div class="info__tags">
-                        <p>{{ $ad->getCorrectObjectType() }}</p>
-                        <p>{{ $ad->contract->name }}</p>
-                        <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
                     </div>
                 </div>
             </div>
 
             {{--ABOUT USER--}}
-            <div class="body__user">
+            <div class="body__user common">
                 {{--IMAGE--}}
-                @if ($ad->user->role == 'Риелтор')
+                @if ($ad->user->role_id == 2)
                     <img src="{{ $ad->user->image }}" alt="{{ $ad->user->shortName }}">
                 @endif
 
@@ -82,10 +83,10 @@
             </div>
         </div>
 
-        <div class="container__second-body">
-            <div>
+        <div class="container__secondary-body">
+            <div class="common">
                 @if ($ad->object_type == '\App\Models\House')
-                    <div>
+                    <div class="container__infographics">
                         <div class="infographics">
                             <img src="{{ asset('/media/icons/ads/living_area.svg') }}" alt="Площадь здания">
                             <div>
@@ -93,9 +94,27 @@
                                 <p class="infographics__value">{{ $ad->object->building_area }} м<sup>2</sup></p>
                             </div>
                         </div>
+                        @if($ad->object->floors)
+                            <div class="infographics">
+                                <img src="{{ asset('/media/icons/ads/floors.svg') }}" alt="Этажей">
+                                <div>
+                                    <p class="infographics__title">Этажей</p>
+                                    <p class="infographics__value">{{ $ad->object->floors }}</p>
+                                </div>
+                            </div>
+                        @endif
+                        @if($ad->object->building_material)
+                            <div class="infographics">
+                                <img src="{{ asset('/media/icons/ads/repair.svg') }}" alt="Материал">
+                                <div>
+                                    <p class="infographics__title">Материал</p>
+                                    <p class="infographics__value">{{ $ad->object->building_material }}</p>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 @elseif ($ad->object_type == '\App\Models\LandPlot')
-                    <div>
+                    <div class="container__infographics">
                         <div class="infographics">
                             <img src="{{ asset('/media/icons/ads/total_area.svg') }}" alt="Площадь участка">
                             <div>
@@ -108,9 +127,58 @@
             </div>
         </div>
 
-        <div class="container__second-body">
-            <div>
-                <div>
+        {{--DESCRIPTION--}}
+        <div class="container__secondary-body">
+            <div class="common">
+                <h5>Описание</h5>
+                <p>{{ $ad->description }}</p>
+            </div>
+        </div>
+
+        <div class="container__secondary-body">
+            <div class="common">
+
+                {{--ABOUT HOUSE--}}
+                @if ($ad->object_type == '\App\Models\House')
+                    <div class="secondary-body__inner">
+                        <h5>О здании</h5>
+
+                        <div>
+                            {{--BEDROOMS--}}
+                            @if($ad->object->bedrooms)
+                                <div class="padding-bottom">
+                                    <p>Количество спальных комнат – {{ $ad->object->bedrooms }} ком.</p>
+                                </div>
+                            @endif
+
+                            {{--BATHROOMS AND BATHROOM PLACE--}}
+                            @if($ad->object->bathrooms)
+                                <div class="padding-bottom">
+                                    <p>Количество санузлов – {{ $ad->object->bathrooms }} ком.
+                                        Находится {{ $ad->object->bathroom_place }}.</p>
+                                </div>
+                            @endif
+
+                            {{--BUILDING YEAR--}}
+                            @if($ad->object->building_year)
+                                <div class="padding-bottom">
+                                    <p>Год постройки здания – {{ $ad->object->building_year }} г.</p>
+                                </div>
+                            @endif
+
+                            {{--BUILDING STATUS--}}
+                            @if($ad->object->building_status)
+                                <div class="padding-bottom">
+                                    <p>Состояние здания:</p>
+                                    <p> {{ $ad->object->building_status }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{--ABOUT PLOT--}}
+                <div class="secondary-body__inner">
                     <h5>Об участке</h5>
 
                     {{--FOR LANDPLOT--}}
@@ -120,24 +188,28 @@
                         </div>
                     @elseif ($ad->object_type == '\App\Models\House')
                         <div>
-                            <p>Площадь участка составляет {{ $ad->object->plot_area }} сот.</p>
-                            <p>Состояние участка: {{ $ad->object->plot_status }}</p>
+                            <p class="padding-bottom">Площадь участка составляет {{ $ad->object->plot_area }} сот.</p>
+                            <div>
+                                <p>Состояние участка:</p>
+                                <p> {{ $ad->object->plot_status }}</p>
+                            </div>
                         </div>
                     @endif
+                </div>
+
+                {{--CHARACTERISTICS--}}
+                <div class="secondary-body__inner">
+                    <h5>Удобства</h5>
 
                     <div>
-                        <h5>Удобства</h5>
-
-                        <div>
-                            <p>На объекте недвижимости присутствуют следующие удобства:</p>
-                            <ul class="ad__characteristics">
-                                @if (App\Models\ObjectAndCharacteristics::where('object_id', $ad->object()->first()->id)->get() != null)
-                                    @foreach(App\Models\ObjectAndCharacteristics::where('object_id', $ad->object()->first()->id)->get() as $item)
-                                        <li>{{ $item->characteristic->name }}</li>
-                                    @endforeach
-                                @endif
-                            </ul>
-                        </div>
+                        <p>На объекте недвижимости присутствуют следующие удобства:</p>
+                        <ul class="ad__characteristics">
+                            @if ($characteristics != null)
+                                @foreach($characteristics as $charact)
+                                    <li>{{ $charact->characteristic->name }}</li>
+                                @endforeach
+                            @endif
+                        </ul>
                     </div>
                 </div>
             </div>

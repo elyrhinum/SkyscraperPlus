@@ -2,56 +2,66 @@
 @section('title', 'Опубликованные жилые комплексы')
 @section('content')
     <div class="main-container">
-        <h5 id="title">Опубликованные жилые комплексы</h5>
+        {{--NAVBAR--}}
+        @include('inc.admins.navbar')
 
-        {{--СООБЩЕНИЕ--}}
-        @include('inc.message')
+        {{--CONTENT--}}
+        <div>
+            {{--HEADER--}}
+            <div id="title">
+                <h5>Опубликованные жилые комплексы</h5>
+                <a href="{{ route('admins.complexes.create') }}" class="btn btn-filled">Добавить жилой комплекс</a>
+            </div>
 
-        {{--ТАБЛИЦА--}}
-        <table>
-            <tr>
-                <th class="br">ID</th>
-                <th>Наименование</th>
-                <th>Район</th>
-                <th class="date-column">Дата подачи</th>
-                <th class="date-column">Дата обновления</th>
-                <th></th>
-            </tr>
-            @forelse($objects as $object)
+            {{--MESSAGE--}}
+            @include('inc.message')
+
+            <table>
                 <tr>
-                    <td class="br object-id">{{ $object->id }}</td>
-                    <td>{{ $object->name }}</td>
-                    <td>{{ $object->district->name }}</td>
-                    <td class="date-column">{{ $object->dateOfCreating }}</td>
-                    <td class="date-column">{{ $object->dateOfUpdating }}</td>
-                    <td class="td-btn">
-                        {{--КНОПКА ПРОСМОТРА--}}
-                        <a href="{{ route('admins.complexes.show', $object->id) }}" class="btn btn-outlined btn-more">Подробнее</a>
+                    <th class="br">ID</th>
+                    <th>Наименование</th>
+                    <th>Район</th>
+                    <th class="date-column">Дата подачи</th>
+                    <th class="date-column">Дата обновления</th>
+                    <th></th>
+                </tr>
+                @forelse($complexes as $complex)
+                    <tr>
+                        <td class="br object-id">{{ $complex->id }}</td>
+                        <td>{{ $complex->name }}</td>
+                        <td>{{ $complex->district->name }}</td>
+                        <td class="date-column">{{ $complex->dateOfCreating }}</td>
+                        <td class="date-column">{{ $complex->dateOfUpdating }}</td>
+                        <td class="td-btn">
+                            {{--BUTTON TO SHOW--}}
+                            <a href="{{ route('complexes.show', $complex->id) }}"
+                               class="btn btn-outlined btn-more">Подробнее</a>
 
-                        {{--КНОПКА СКРЫТИЯ--}}
-                        <button class="btn btn-danger btn-hide"
-                                data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop"
-                                data-id="{{ $object->id }}"
-                                onclick="getId({{ $object->id }})">Скрыть
-                        </button>
-                    </td>
-                </tr>
-            @empty
-                <tr class="centered">
-                    <td colspan="6">Нет заявлений на добавление жилого комплекса</td>
-                </tr>
-            @endforelse
-        </table>
+                            {{--BUTTON TO HIDE--}}
+                            <button class="btn btn-danger btn-hide"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop"
+                                    data-id="{{ $complex->id }}"
+                                    onclick="getId({{ $complex->id }})">Скрыть
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr class="centered">
+                        <td colspan="6">Нет опубликованных жилых комплексов</td>
+                    </tr>
+                @endforelse
+            </table>
+        </div>
     </div>
 
-    {{--МОДАЛЬНОЕ ОКНО ДЛЯ СКРЫТИЯ ЖИЛОГО КОМПЛЕКСА--}}
+    {{--MODAL WINDOW TO HIDE--}}
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Скрыть жилой комплекс из каталога</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Подтвердите действие</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -72,7 +82,7 @@
 
 @push('script')
     <script>
-        // ПЕРЕДАЧА ID ДЛЯ ОПУБЛИКОВАНИЯ ОБЪЯВЛЕНИЯ
+        // GET ID TO HIDE
         function getId(id) {
             document.getElementById("modal-object-id").value = id
         }

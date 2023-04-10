@@ -1,13 +1,13 @@
 body {
-    position: relative;
-
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .main-container {
-    position: absolute;
+    margin: 0 auto;
+}
 
-    top: 200px;
-    left: 40%;
+form {
+    margin-top: 0 !important;
+    padding: 50px !important;
 }
