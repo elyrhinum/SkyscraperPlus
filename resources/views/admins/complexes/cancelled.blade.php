@@ -18,7 +18,7 @@
 
             <table>
                 <tr>
-                    <th class="br">ID</th>
+                    <th class="br object-id">ID</th>
                     <th>Наименование</th>
                     <th>Район</th>
                     <th class="date-column">Дата подачи</th>

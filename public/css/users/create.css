@@ -16,6 +16,10 @@ h3 {
     text-align: center;
 }
 
+.checkboxes__link {
+    text-decoration: underline !important;
+}
+
 /*TAB BUTTONS*/
 .tabs {
     position: relative;
@@ -59,7 +63,6 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     width: fit-content;
     padding: 25px 40px !important;
 
@@ -80,8 +83,24 @@ form {
     font-size: 12px;
 }
 
-.rules {
-    margin-bottom: 20px;
+/*CHECKBOXES AND REQUIRED MARK*/
+.checkboxes {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    margin: 20px 0;
+}
+.checkboxes > label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.checkboxes > label > input {
+    margin-right: 10px;
+    cursor: pointer;
 }
 
 .required-mark {
@@ -99,10 +118,8 @@ form {
 .btn-signup {
     color: white !important;
     font-weight: 500 !important;
-    background-color: #EEA444 !important;
-    font-family: HelveticaNeueCyr !important;
+    font-family: var(--main-font);
     transition: .5s !important;
-    margin-top: 20px;
 }
 
 /*IMAGE PREVIEW*/

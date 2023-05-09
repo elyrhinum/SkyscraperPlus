@@ -33,9 +33,9 @@
                     @if (count($complexes->where('status_id', 2)) > 0)
                         <div>
                             <p class="ads__title">Количество жилых комплексов требующих рассмотрения</p>
-                            <p class="ads__count">{{ count($ads->where('status_id', 2)) }}</p>
+                            <p class="ads__count">{{ count($complexes->where('status_id', 2)) }}</p>
                         </div>
-                        <a href="{{ route('admins.ads.onlySuggested') }}" class="btn btn-filled">Посмотреть</a>
+                        <a href="{{ route('admins.complexes.onlySuggested') }}" class="btn btn-filled">Посмотреть</a>
                     @else
                         <p>Нет жилых комплексов требущих рассмотрения</p>
                     @endif
@@ -59,7 +59,7 @@
                         <th class="centered">Дата подачи</th>
                         <th class="centered">Дата обновления</th>
                     </tr>
-                    @forelse($ads->take(3) as $ad)
+                    @forelse($ads->where('status_id', 2)->take(3) as $ad)
                         <tr class="table__block">
                             <td class="br object-id">{{ $ad->id }}</td>
                             <td> {{ $ad->getCorrectObjectType() }}</td>
@@ -71,7 +71,7 @@
                         </tr>
                     @empty
                         <tr class="centered">
-                            <td colspan="6">Нет объявлений на рассмотрении</td>
+                            <td colspan="7">Нет объявлений на рассмотрении</td>
                         </tr>
                     @endforelse
                 </table>
@@ -95,7 +95,7 @@
                         <th class="date-column">Дата подачи</th>
                         <th class="date-column">Дата обновления</th>
                     </tr>
-                    @forelse($complexes->take(3) as $complex)
+                    @forelse($complexes->where('status_id', 2)->take(3) as $complex)
                         <tr class="table__block">
                             <td class="br object-id">{{ $complex->id }}</td>
                             <td>{{ $complex->name }}</td>

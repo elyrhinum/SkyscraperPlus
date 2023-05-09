@@ -127,6 +127,7 @@ select {
 
 .btn-outlined {
     font-weight: 500 !important;
+    background-color: white !important;
     border: 1px solid #356089 !important;
 }
 

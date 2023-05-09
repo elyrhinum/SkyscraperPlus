@@ -12,13 +12,16 @@
         <div class="footer__navbar">
             <ul class="navbar__list">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Продажа</a>
+                    <a class="nav-link" href="{{ route('ads.sale') }}">Продажа</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Аренда</a>
+                    <a class="nav-link" href="{{ route('ads.rent') }}">Аренда</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Жилые комплексы</a>
+                    <a class="nav-link" href="{{ route('complexes.index') }}">Жилые комплексы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('documents.index') }}">Юридические документы</a>
                 </li>
             </ul>
         </div>

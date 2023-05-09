@@ -17,7 +17,7 @@
 
             <table>
                 <tr>
-                    <th class="br">ID</th>
+                    <th class="br object-id">ID</th>
                     <th>Тип объекта</th>
                     <th>Район</th>
                     <th>Цена</th>

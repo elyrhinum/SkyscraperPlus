@@ -100,10 +100,23 @@
             <p class="navigation__ul-title">Модераторы</p>
             <li>
                 <a href="{{ route('admins.moderators.index') }}" class="navigation__ul-link">
-                    <img src="{{ asset('/media/icons/admin/moderators.png') }}" alt="Новые жилые комплексы">
+                    <img src="{{ asset('/media/icons/admin/moderators.png') }}" alt="Модераторы">
                     <div>
                         <span>Список модераторов</span>
                         <span class="span-count">{{ count($moderators->where('role_id', 4)) }}</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    @endif
+    @if(auth()->user()->role_id == 3)
+        <ul>
+            <p class="navigation__ul-title">Документация</p>
+            <li>
+                <a href="{{ route('admins.documents.index') }}" class="navigation__ul-link">
+                    <img src="{{ asset('/media/icons/admin/documents.png') }}" alt="Документация">
+                    <div>
+                        <span>Список документов</span>
                     </div>
                 </a>
             </li>

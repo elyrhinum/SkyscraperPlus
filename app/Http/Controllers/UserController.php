@@ -7,6 +7,7 @@ use App\Http\Requests\ModeratorSignUpRequest;
 use App\Http\Requests\ModeratorUpdateRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Models\Ad;
+use App\Models\Document;
 use App\Models\ResidentialComplex;
 use App\Models\User;
 use App\Models\UserBookmark;
@@ -17,7 +18,7 @@ use function PHPUnit\Framework\isFalse;
 
 class UserController extends Controller
 {
-    // REDIRECT TO USER'S ACCOUNT
+    // METHOD TO REDIRECT TO USER'S ACCOUNT
     public function account()
     {
         return view('users.account', [
@@ -27,7 +28,7 @@ class UserController extends Controller
         ]);
     }
 
-    // REDIRECT TO USER'S SUGGESTED ADS
+    // METHOD TO REDIRECT TO USER'S SUGGESTED ADS
     public function onlySuggestedAds()
     {
         return view('users.ads.suggested', [
@@ -35,7 +36,7 @@ class UserController extends Controller
         ]);
     }
 
-    // REDIRECT TO USER'S PUBLISHED ADS
+    // METHOD TO REDIRECT TO USER'S PUBLISHED ADS
     public function onlyPublishedAds()
     {
         return view('users.ads.published', [
@@ -43,7 +44,7 @@ class UserController extends Controller
         ]);
     }
 
-    // REDIRECT TO USER'S PUBLISHED ADS
+    // METHOD TO REDIRECT TO USER'S PUBLISHED ADS
     public function onlyCancelledAds()
     {
         return view('users.ads.cancelled', [
@@ -51,7 +52,7 @@ class UserController extends Controller
         ]);
     }
 
-    // REDIRECT TO USER'S BOOKMARKS
+    // METHOD TO REDIRECT TO USER'S BOOKMARKS
     public function bookmarks()
     {
         return view('users.ads.bookmarks', [
@@ -59,19 +60,22 @@ class UserController extends Controller
         ]);
     }
 
-    // REDIRECT TO SIGN UP FORM
+    // METHOD TO REDIRECT TO SIGN UP FORM
     public function create()
     {
-        return view('users.create');
+        return view('users.create', [
+            'agreement' => Document::where('name', 'Пользовательское соглашение')->first(),
+            'politics' => Document::where('name', 'Политика конфиденциальности')->first()
+        ]);
     }
 
-    // LOGIN IN ACCOUNT
+    // METHOD TO LOGIN IN ACCOUNT
     public function login()
     {
         return view('users.login');
     }
 
-    // VERIFICATION
+    // VERIFICATION METHOD
     public function verification(Request $request)
     {
         if (Auth::attempt($request->only(['login', 'password']))) {
@@ -82,7 +86,7 @@ class UserController extends Controller
         return back()->withErrors(['errorLogin' => 'Проверьте логин и пароль']);
     }
 
-    // LOGOUT FROM ACCOUNT
+    // METHOD TO LOGOUT FROM ACCOUNT
     public function logout(Request $request)
     {
         auth()->logout();
@@ -91,7 +95,7 @@ class UserController extends Controller
         return to_route('index');
     }
 
-    // STORE USER
+    // USER STORE METHOD
     public function storeUser(SignUpRequest $request)
     {
         $user = User::create(array_merge(
@@ -104,7 +108,7 @@ class UserController extends Controller
         return to_route('users.account');
     }
 
-    // STORE REALTOR
+    // REALTOR STORE METHOD
     public function storeRealtor(SignUpRequest $request)
     {
         $path = FileServiceForRealtors::upload($request->file('image'), '/realtors');
@@ -123,7 +127,7 @@ class UserController extends Controller
         return to_route('users.account');
     }
 
-    // REDIRECT TO EDIT FORM
+    // METHOD TO REDIRECT TO EDIT FORM
     public function edit(User $user)
     {
         return view('users.edit', ['user' => $user]);

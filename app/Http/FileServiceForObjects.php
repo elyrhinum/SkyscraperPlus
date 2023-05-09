@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileServiceForObjects
 {
+    // METHOD TO UPLOAD IMAGE
     public static function upload($file, $dir = '/', $default = 'default/default.png')
     {
         if ($file != null) {
@@ -17,6 +18,7 @@ class FileServiceForObjects
         return url('/storage/' . $path);
     }
 
+    // METHOD TO UPLOAD IMAGE WITH REDIRECTING
     public static function uploadRedirect($file, $dir = '/', $default = 'default/default.png')
     {
         if ($file != null) {
@@ -27,6 +29,7 @@ class FileServiceForObjects
         return url($path);
     }
 
+    // METHOD TO DELETE IMAGE
     public static function delete($url, $dir)
     {
         $path = '/public/' . $dir . pathinfo($url, PATHINFO_BASENAME);
@@ -37,6 +40,7 @@ class FileServiceForObjects
         return false;
     }
 
+    // METHOD TO UPDATE IMAGE
     public static function update($dir, $old, $new = '')
     {
         if ($new != '' && $old != 'default/default.png') {
@@ -45,5 +49,4 @@ class FileServiceForObjects
         }
         return false;
     }
-
 }

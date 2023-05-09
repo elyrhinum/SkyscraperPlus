@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 // INDEX PAGE
 Route::controller(AdController::class)->group(function () {
     Route::get('/', 'index')->name('index');
+    Route::get('/documents', 'documents')->name('documents.index');
 });
 
 // ROUTES FOR NON-AUTH USERS
@@ -42,7 +43,7 @@ Route::prefix('ads')->name('ads.')->group(function () {
         // FILTRATION ROUTE
         Route::get('/filtration', 'filtration')->name('filtration');
 
-        // GET ADS BY CATEGORIES
+        // ROUTE TO GET ADS BY CATEGORIES
         Route::get('/catalog/{object_type}/{contract_id_1}/{contract_id_2?}', 'catalog')->name('catalog');
 
         // BOOKMARKS ROUTES
@@ -69,7 +70,7 @@ Route::prefix('complexes')->name('complexes.')->group(function () {
         // SHOW ROUTE
         Route::get('/show/{complex}', 'show')->name('show');
 
-        // OBJECTS BY COMPLEX
+        // ROUTE TO GET OBJECTS BY COMPLEX
         Route::get('/flatsInResidentialComplex/{complex}', 'flatsInResidentialComplex')->name('flatsInResidentialComplex');
         Route::get('/roomsInResidentialComplex/{complex}', 'roomsInResidentialComplex')->name('roomsInResidentialComplex');
     });
@@ -82,17 +83,17 @@ Route::middleware('auth')->group(function () {
             // LOGOUT ROUTE
             Route::get('/logout', 'logout')->name('logout');
 
-            // ONLY USERS ROUTES
+            // USERS ROUTES
             Route::get('/account', 'account')->name('account');
             Route::get('/account/edit/{user}', 'edit')->name('edit');
             Route::post('/account/update/{user}', 'update')->name('update');
 
-            // GET ADS BY STATUS
+            // ROUTES TO GET ADS BY STATUS
             Route::get('/ads/suggested', 'onlySuggestedAds')->name('onlySuggestedAds');
             Route::get('/ads/published', 'onlyPublishedAds')->name('onlyPublishedAds');
             Route::get('/ads/cancelled', 'onlyCancelledAds')->name('onlyCancelledAds');
 
-            // GET BOOKMARKS
+            // ROUTE TO GET BOOKMARKS
             Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
         });
     });
@@ -169,8 +170,8 @@ Route::prefix('admins')->name('admins.')->group(function () {
 
         // ADMINS ROUTE
         Route::middleware('can:admin')->group(function () {
+            // MODERATORS ROUTES
             Route::controller(\App\Http\Controllers\admins\UserController::class)->group(function () {
-                // MODERATORS ROUTES
                 Route::get('/moderators', 'moderatorIndex')->name('moderators.index');
                 Route::get('/signup/moderators', 'create')->name('moderators.create');
                 Route::post('/signup/moderators/store', 'store')->name('moderators.store');
@@ -178,17 +179,25 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 Route::post('/moderators/update/{moderator}', 'update')->name('moderators.update');
                 Route::get('/moderator/delete', 'delete')->name('moderator.delete');
             });
+
+            // DOCUMENTS ROUTES
+            Route::controller(\App\Http\Controllers\admins\DocumentController::class)->group(function () {
+                Route::get('/documents', 'index')->name('documents.index');
+                Route::post('/documents/store', 'store')->name('documents.store');
+                Route::post('/documents/update', 'update')->name('documents.update');
+                Route::get('/documents/delete', 'delete')->name('documents.delete');
+            });
         });
 
         // ADS ROUTES
         Route::prefix('ads')->name('ads.')->group(function () {
             Route::controller(\App\Http\Controllers\admins\AdController::class)->group(function () {
-                // GET ADS BY STATUS
+                // ROUTE TO GET ADS BY STATUS
                 Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
                 Route::get('/onlyCancelled', 'onlyCancelled')->name('onlyCancelled');
 
-                // CHANGE STATUS
+                // ROUTE TO CHANGE STATUS
                 Route::get('/cancel', 'cancel')->name('cancel');
                 Route::get('/publish', 'publish')->name('publish');
                 Route::get('/hide', 'hide')->name('hide');
@@ -198,7 +207,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
         // RESIDENTIAL COMPLEXES ROUTES
         Route::prefix('complexes')->name('complexes.')->group(function () {
             Route::controller(\App\Http\Controllers\admins\ResidentialComplexController::class)->group(function () {
-                // GET BY STATUS
+                // ROUTE TO GET BY STATUS
                 Route::get('/onlySuggested', 'onlySuggested')->name('onlySuggested');
                 Route::get('/onlyPublished', 'onlyPublished')->name('onlyPublished');
                 Route::get('/onlyHidden', 'onlyHidden')->name('onlyHidden');
@@ -211,7 +220,7 @@ Route::prefix('admins')->name('admins.')->group(function () {
                 // SHOW ROUTE
                 Route::get('/show/{complex}', 'show')->name('show');
 
-                // CHANGE STATUS
+                // ROUTE TO CHANGE STATUS
                 Route::get('/cancel', 'cancel')->name('cancel');
                 Route::get('/publish', 'publish')->name('publish');
                 Route::get('/hide', 'hide')->name('hide');

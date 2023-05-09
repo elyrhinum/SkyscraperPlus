@@ -9,7 +9,7 @@
 
         {{--ADS--}}
         <div class="complexes pd">
-            <h3>Квартире в ЖК "{{ $complex->name }}"</h3>
+            <h3>Квартиры в ЖК "{{ $complex->name }}"</h3>
 
             @forelse($ads as $ad)
                 {{--AD--}}

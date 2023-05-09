@@ -11,7 +11,6 @@
             <div class="tab-header"></div>
         </div>
 
-
         {{-- FORMS --}}
         <div class="tab-body">
             <div class="tab-body__item"></div>
@@ -115,7 +114,18 @@
 
                 <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-                <button class="btn btn-filled btn-signup">Зарегистрироваться</button>
+                <div class="checkboxes">
+                    <label for="agreement">
+                        <input type="checkbox" name="agreement" id="agreement">Я согласен(-на) с&nbsp;<a href="{{ $agreement != null ? $agreement->document : '#' }}">пользовательским соглашением</a>
+                    </label>
+                    <label for="personal-data">
+                        <input type="checkbox" name="politics" id="politics">Я согласен(-на) с&nbsp;<a href="{{ $politics != null ? $politics->document : '#' }}">политикой конфиденциальности</a>
+                    </label>
+                </div>
+
+                <div class="btn-signup">
+                    <button class="btn btn-filled" id="btn-signup-user">Зарегистрироваться</button>
+                </div>
             </form>`,
                 target: 'tab-1'
             },
@@ -224,7 +234,18 @@
 
                 <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-                <button class="btn brn-filled btn-signup">Зарегистрироваться</button>
+                <div class="checkboxes">
+                    <label for="agreement">
+                        <input type="checkbox" name="agreement" id="agreement">Я согласен(-на) с&nbsp;<a href="{{ $agreement->document }}" class="checkboxes__link">пользовательским соглашением</a>
+                    </label>
+                    <label for="personal-data">
+                        <input type="checkbox" name="politics" id="politics">Я согласен(-на) с&nbsp;<a href="{{ $politics->document }}" class="checkboxes__link">политикой конфиденциальности</a>
+                    </label>
+                </div>
+
+                <div class="btn-signup">
+                    <button class="btn btn-filled" id="btn-signup-realtor">Зарегистрироваться</button>
+                </div>
             </form>`,
                 target: 'tab-2'
             }
@@ -235,7 +256,7 @@
 
         let count = 0;
 
-        if(sessionStorage.getItem('currentTab') == null) {
+        if (sessionStorage.getItem('currentTab') == null) {
             sessionStorage.setItem('currentTab', 0);
         }
 
@@ -266,10 +287,34 @@
 
         }
 
+        const disableButton = () => {
+            let signupBtn;
+            if (sessionStorage.getItem('currentTab') == 0) {
+                signupBtn = document.querySelector('#btn-signup-user');
+            } else if (sessionStorage.getItem('currentTab') == 1) {
+                signupBtn = document.querySelector('#btn-signup-realtor');
+            }
+            signupBtn.disabled = true;
+
+            document.getElementById('politics').addEventListener('input', (e) => {
+                if (document.getElementById('politics').checked === true && document.getElementById('agreement').checked === true) {
+                    signupBtn.disabled = false;
+                }
+            });
+
+            document.getElementById('agreement').addEventListener('input', (e) => {
+                if (document.getElementById('politics').checked === true && document.getElementById('agreement').checked === true) {
+                    signupBtn.disabled = false;
+                }
+            });
+        }
+
         const start = () => {
             tabHeader.children[sessionStorage.getItem('currentTab')].classList.add('active');
             tabBody.innerHTML = `${tabs[sessionStorage.getItem('currentTab')].body}`;
             const element_1 = document.querySelector(".telephone");
+
+            disableButton();
             telephoneMask(element_1);
             imagePreview();
         }
@@ -298,6 +343,7 @@
 
             const element_1 = document.querySelector(".telephone");
 
+            disableButton();
             telephoneMask(element_1);
             imagePreview();
         }

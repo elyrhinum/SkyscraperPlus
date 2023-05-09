@@ -18,7 +18,7 @@ class ResidentialComplexController extends Controller
     public function index()
     {
         return view('complexes.index', [
-            'complexes' => ResidentialComplex::all()
+            'complexes' => ResidentialComplex::onlyPublished()->get()
         ]);
     }
 

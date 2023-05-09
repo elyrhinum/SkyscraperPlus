@@ -36,12 +36,10 @@
                             <span class="navbar-text">
                                 <a class="btn btn-filled" href="{{ route('ads.preCreate') }}">Подать объявление</a>
                             </span>
-                            @if(auth()->user()->role_id == 2)
-                                <span class="navbar-text">
-                                    <a class="btn btn-filled" style="margin-left: 10px"
-                                       href="{{ route('complexes.create') }}">Добавить ЖК</a>
-                                </span>
-                            @endif
+                            <span class="navbar-text">
+                                <a class="btn btn-filled" style="margin-left: 10px"
+                                   href="{{ route('complexes.create') }}">Добавить ЖК</a>
+                            </span>
                             <span class="navbar-text" style="margin-left: 10px">
                                 <a class="btn btn-outlined" href="{{ route('users.account') }}">Мой аккаунт</a>
                             </span>

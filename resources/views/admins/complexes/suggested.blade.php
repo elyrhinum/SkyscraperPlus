@@ -1,5 +1,5 @@
 @extends('templates.admin')
-@section('title', 'Заявления на добавление жилого комплекса')
+@section('title', 'Жилые комплексы на рассмотрении')
 @section('content')
     <div class="main-container">
         {{--NAVBAR--}}
@@ -9,7 +9,7 @@
         <div>
             {{--HEADER--}}
             <div id="title">
-                <h5>Заявления на добавление жилого комплекса</h5>
+                <h5>Жилые комплексы на рассмотрении</h5>
                 <a href="{{ route('admins.complexes.create') }}" class="btn btn-filled">Добавить жилой комплекс</a>
             </div>
 
@@ -18,7 +18,7 @@
 
             <table>
                 <tr>
-                    <th class="br">ID</th>
+                    <th class="br object-id">ID</th>
                     <th>Наименование</th>
                     <th>Район</th>
                     <th class="date-column">Дата подачи</th>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ad;
 use App\Models\ContractType;
 use App\Models\District;
+use App\Models\Document;
 use App\Models\HouseLandPlotCharacteristic;
 use App\Models\ObjectAndCharacteristics;
 use App\Models\PlotType;
@@ -26,13 +27,19 @@ class AdController extends Controller
         ]);
     }
 
-    // REDIRECT TO PRE-CREATE PAGE
+    // METHOD TO REDIRECT TO PAGE WITH DOCUMENTS
+    public function documents()
+    {
+        return view('documents.index', ['documents' => Document::all()]);
+    }
+
+    // METHOD TO REDIRECT TO PRE-CREATE PAGE
     public function preCreate()
     {
         return view('ads.preCreate');
     }
 
-    // REDIRECT TO SALE PAGE
+    // METHOD TO REDIRECT TO SALE PAGE
     public function sale()
     {
         return view('sale.index', ['ads' => Ad::onlyPublished()->where('contract_id', 1)->latest()->get()]);
@@ -70,7 +77,7 @@ class AdController extends Controller
         return view('ads.catalog', ['ads' => $ads, 'title' => $title]);
     }
 
-    // REDIRECT TO RENT PAGE
+    // METHOD TO REDIRECT TO RENT PAGE
     public function rent()
     {
         return view('rent.index', ['ads' => Ad::onlyPublished()->whereIn('contract_id', [2, 3])->latest()->get()]);
@@ -130,7 +137,7 @@ class AdController extends Controller
         return view('ads.filtration', ['ads' => $ads->latest()->get(), 'filters' => $filters]);
     }
 
-    // REDIRECT TO EDIT PAGE
+    // METHOD TO REDIRECT TO EDIT PAGE
     public function edit(Ad $ad)
     {
         if ($ad->object_type == '\App\Models\Flat' || $ad->object_type == '\App\Models\Room') {
@@ -162,7 +169,7 @@ class AdController extends Controller
         }
     }
 
-    // ADD AD IN BOOKMARKS
+    // METHOD TO ADD AD IN BOOKMARKS
     public function bookmark(Request $request)
     {
 
@@ -177,7 +184,7 @@ class AdController extends Controller
         return response()->json($result);
     }
 
-    // DELETE AD FROM BOOKMARKS
+    // METHOD TO DELETE AD FROM BOOKMARKS
     public function unbookmark(Request $request)
     {
         $bookmark = UserBookmark::where('ad_id', $request->data)->where('user_id', auth()->id());

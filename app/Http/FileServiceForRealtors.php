@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileServiceForRealtors
 {
+    // METHOD TO UPLOAD IMAGE
     public static function upload($file, $dir = '/', $default = 'default/default.png')
     {
         if ($file != null) {
@@ -16,6 +17,7 @@ class FileServiceForRealtors
         return url('/storage/' . $path);
     }
 
+    // METHOD TO DELETE IMAGE
     public static function delete($url)
     {
         $path = '/public/realtors/' . pathinfo($url, PATHINFO_BASENAME);
@@ -26,6 +28,7 @@ class FileServiceForRealtors
         return false;
     }
 
+    // METHOD TO UPDATE IMAGE
     public static function update($dir, $old, $new = '')
     {
         if ($new != '' && $old != 'default/default.png') {

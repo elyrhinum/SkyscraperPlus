@@ -13,7 +13,7 @@
                 @forelse($complexes as $complex)
                     @include('inc.complex')
                 @empty
-                    <div class="message-empty">
+                    <div class="message-empty common">
                         <p>Нет жилых комплексов</p>
                     </div>
                 @endforelse

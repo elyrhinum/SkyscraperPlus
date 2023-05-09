@@ -68,7 +68,7 @@
                 {{--AD--}}
                 @include('inc.ad')
             @empty
-                <div class="message-empty">
+                <div class="message-empty common">
                     <p>Нет последних объявлений</p>
                 </div>
             @endforelse
@@ -90,7 +90,7 @@
                 {{--COMPLEX--}}
                 @include('inc.complex')
             @empty
-                <div class="message-empty">
+                <div class="message-empty common">
                     <p>Нет жилых комплексов</p>
                 </div>
             @endforelse

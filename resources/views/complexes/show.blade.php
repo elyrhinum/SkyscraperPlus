@@ -93,7 +93,7 @@
                             комплексе</a>
                     </h5>
 
-                    <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}" class="btn btn-filled">Подробнее</a>
+                    <a href="{{ route('complexes.roomsInResidentialComplex', $complex->id) }}" class="btn btn-filled">Подробнее</a>
                 </div>
 
                 @foreach($rooms as $ad)
