@@ -34,7 +34,7 @@ class FileServiceForObjects
     {
         $path = '/public/' . $dir . pathinfo($url, PATHINFO_BASENAME);
 
-        if (Storage::exists($path) || $path == '/public/products/default.png') {
+        if (Storage::exists($path) || $path != '/public/products/default.png') {
             return Storage::delete($path);
         }
         return false;
@@ -45,7 +45,7 @@ class FileServiceForObjects
     {
         if ($new != '' && $old != 'default/default.png') {
             FileServiceForObjects::delete($old, $dir);
-            return FileServiceForObjects::upload($new, $dir);
+            return FileServiceForObjects::uploadRedirect($new, $dir);
         }
         return false;
     }

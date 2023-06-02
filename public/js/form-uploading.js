@@ -47,34 +47,24 @@ function handleChange(e) {
         filesStore.splice(10, filesStore.length - 10);
     }
 
-    console.log(filesStore)
-
-    cont.textContent = '';
-
     filesStore.forEach((item, key) => {
-        let divImg = document.createElement('div');
-        divImg.classList.add('images-block');
-        let image = document.createElement('img');
-        image.style.display = 'block';
-        image.style.width = '150px';
-        image.style.height = '150px';
-        image.style.borderRadius = '3px';
-        image.style.objectFit = 'cover';
-        image.src = URL.createObjectURL(item);
-        image.alt = 'Изображение';
-        divImg.append(image);
-
-        let btnDel = document.createElement('p');
-        btnDel.textContent = "×";
-        btnDel.dataset.index = key;
-        divImg.append(btnDel);
-        cont.append(divImg);
-
-        btnDel.addEventListener('click', e => {
-            filesStore.splice(e.target.dataset.index, 1);
-            console.log(filesStore)
-            divImg.remove();
-        });
+        cont.insertAdjacentHTML('beforeend', `
+        <div class="images-block">
+            <img src="${URL.createObjectURL(item)}" alt="Фотография">
+            <p data-index="${key}" onclick="deleteImg(event)">×</p>
+        </div>`);
     })
     e.target.value = '';
+}
+
+function deleteImg(e) {
+    filesStore.splice(e.target.dataset.index, 1);
+    cont.textContent = '';
+    filesStore.forEach((item, key) => {
+        cont.insertAdjacentHTML('beforeend', `
+        <div class="images-block">
+            <img src="${URL.createObjectURL(item)}" alt="Фотография" >
+            <p data-index="${key}" onclick="deleteImg(event)">×</p>
+        </div>`);
+    })
 }

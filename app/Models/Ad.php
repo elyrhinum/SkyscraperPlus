@@ -105,9 +105,9 @@ class Ad extends Model
         if ($this->object_type == '\App\Models\LandPlot') {
             return 'Земельный участок';
         } else if ($this->object_type == '\App\Models\House') {
-            if ($this->object->plotType = 'Дом/коттедж') {
+            if ($this->object->type_id == 1) {
                 return "Дом/коттедж";
-            } else if ($this->object->plotType = 'Дача') {
+            } else if ($this->object->type_id == 2) {
                 return "Дача";
             }
         } else if ($this->object_type == '\App\Models\Flat') {

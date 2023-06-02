@@ -66,15 +66,12 @@
 
             {{--ABOUT USER--}}
             <div class="body__user common">
-                {{--IMAGE--}}
-                @if ($ad->user->role_id == 2)
-                    <img src="{{ $ad->user->image }}" alt="{{ $ad->user->shortName }}">
-                @endif
-
                 {{--ABOUT USER--}}
                 <div class="user__info">
-                    <p class="user__full-name">{{ $ad->user->fullName }}</p>
-                    <p class="user__role">{{ $ad->user->role->name }}</p>
+                    <div class="user__name">
+                        <h5 class="user__full-name">{{ $ad->user->fullName }}</h5>
+                        <p class="user__role">{{ $ad->user->role->name }}</p>
+                    </div>
                     <div class="user__contacts">
                         <p>{{ $ad->user->telephone }}</p>
                         <p>{{ $ad->user->email }}</p>
@@ -198,12 +195,12 @@
                 </div>
 
                 {{--CHARACTERISTICS--}}
-                <div class="secondary-body__inner">
+                <div class="secondary-body__inner mb-0">
                     <h5>Удобства</h5>
 
                     <div>
                         <p>На объекте недвижимости присутствуют следующие удобства:</p>
-                        <ul class="ad__characteristics">
+                        <ul class="ad__characteristics mb-0">
                             @if ($characteristics != null)
                                 @foreach($characteristics as $charact)
                                     <li>{{ $charact->characteristic->name }}</li>
@@ -216,20 +213,3 @@
         </div>
     </div>
 @endsection
-
-@push('script')
-    <script>
-        const userInfo = document.querySelector('.body__user'),
-            header = document.getElementById("header");
-
-        window.onscroll = () => {
-            let headerHeight = header.clientHeight;
-
-            if (window.scrollY >= headerHeight) {
-                userInfo.classList.add("change-fixed");
-            } else {
-                userInfo.classList.remove("change-fixed");
-            }
-        };
-    </script>
-@endpush

@@ -8,7 +8,7 @@
             <div class="headers__inner">
                 <h3>Добавить новый жилой комплекс</h3>
                 <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                    заявление на добавление нового жилого комплекса.</p>
+                    заявление на добавление жилого комплекса.</p>
                 <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
                     для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
             </div>
@@ -39,7 +39,8 @@
 
                     {{--NAME--}}
                     <div id="complex-name">
-                        <p class="mb-3">Если наименование состоит из английского алфавита, то необходимо в скобках написать его
+                        <p class="mb-3">Если наименование состоит из английского алфавита, то необходимо в скобках
+                            написать его
                             транскрипцию</p>
                         <div class="labels">
                             <p class="complex-name__title">Наименование <span class="sign-required">*</span></p>
@@ -80,13 +81,16 @@
                                 Главным изображением будет являтся первое загруженное, поэтому будьте внимательнее!</p>
                         </div>
 
-                        <label for="images" class="label-images">
-                            <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
-                            <input type="file" name="images" id="images" class="form-control"
-                                   accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)" multiple>
+                        <div class="label-images">
+                            <label for="images">
+                                <p class="label-images__title">ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
+                                <input type="file" name="images" id="images" class="form-control"
+                                       accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
+                                       multiple>
+                            </label>
                             <div id="images-prev"></div>
-                        </label>
-                        <span id="images-error" style="color: red;"></span>
+                            <span id="images-error" style="color: red;"></span>
+                        </div>
                     </div>
                 </fieldset>
 

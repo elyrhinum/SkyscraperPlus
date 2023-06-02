@@ -48,6 +48,7 @@
         flex-direction: row;
         justify-content: flex-start;
         align-content: center;
+        flex-wrap: wrap;
         gap: 10px;
 
         background-color: white;

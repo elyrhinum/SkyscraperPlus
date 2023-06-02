@@ -15,16 +15,6 @@
 }
 
 /*CLASSES*/
-.for-realtor-account {
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
-    gap: 10px;
-
-    margin-bottom: 10px !important;
-    background-color: white;
-    padding: 15px;
-}
-
 .for-user-account {
     display: grid;
     grid-template-columns: 5fr 1fr;
@@ -47,8 +37,6 @@
     width: 250px;
     height: 250px;
     object-fit: cover;
-
-    margin-right: 15px;
     border-radius: 3px;
 }
 
@@ -71,8 +59,8 @@
 
 /*AD*/
 .ad {
-    display: grid;
-    grid-template-columns: 250px 5fr 200px;
+    display: flex;
+    flex-direction: row;
     gap: 10px;
 
     width: 100%;
@@ -81,6 +69,31 @@
     background-color: white;
     border-radius: 3px;
     padding: 10px;
+}
+
+.ad__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.info__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.info__header > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: fit-content;
+    opacity: 70%;
 }
 
 .info__description {
@@ -104,7 +117,6 @@
 }
 
 .info__price > h5 {
-
     font-size: 26px;
     margin-bottom: 0;
 }
@@ -121,25 +133,52 @@
 /*BUTTONS ON AD*/
 .ad__buttons {
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-}
-.ad__buttons > a, .btn-reason {
-    width: 100%;
-}
-
-.btn-reason {
-    margin-bottom: 10px;
-}
-
-.info__header > div {
-    display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
+}
 
-    width: fit-content;
-    opacity: 70%;
+/*PC STYLES*/
+@media (min-width: 1200px) {
+    /*REALTOR STYLES*/
+    .for-realtor-account {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 10px;
+
+        margin-bottom: 10px !important;
+        background-color: white;
+        padding: 15px;
+    }
+}
+
+/*TABLET STYLES*/
+@media (max-width: 990px) {
+    /*REALTOR STYLES*/
+    .for-realtor-account {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        gap: 10px;
+
+        margin-bottom: 10px !important;
+        background-color: white;
+        padding: 15px;
+    }
+}
+
+/*PHONE STYLES*/
+@media (max-width: 770px) {
+    /*REALTOR STYLES*/
+    .for-realtor-account {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+
+        margin-bottom: 10px !important;
+        background-color: white;
+        padding: 15px;
+    }
 }

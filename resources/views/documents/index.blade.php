@@ -19,7 +19,7 @@
                         <div>
                             <img src="{{ asset('/media/icons/admin/documents.png') }}" alt="Документ">
                             <p>{{ $document->name }}</p>
-                            <p>{{ $documen->dateOfUpdating }}</p>
+                            <span>{{ $document->dateOfUpdating }}</span>
                         </div>
                         <a href="{{ $document->document }}" class="btn btn-filled">Скачать</a>
                     </div>
@@ -49,7 +49,13 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
-        align-items: flex-start;
+        align-items: flex-end;
+    }
+
+    .inner__single-document > div > span {
+        opacity: 50%;
+        margin-left: 10px;
+        font-size: 12px;
     }
 
     .inner__single-document > div > img {

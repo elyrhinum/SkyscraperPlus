@@ -116,10 +116,12 @@
 
                 <div class="checkboxes">
                     <label for="agreement">
-                        <input type="checkbox" name="agreement" id="agreement">Я согласен(-на) с&nbsp;<a href="{{ $agreement != null ? $agreement->document : '#' }}">пользовательским соглашением</a>
+                        <input type="checkbox" name="agreement" id="agreement" class="form-check-input">
+                        Я согласен(-на) с&nbsp;<a href="{{ $agreement != null ? $agreement->document : '#' }}"  class="checkboxes__link">пользовательским соглашением</a>
                     </label>
-                    <label for="personal-data">
-                        <input type="checkbox" name="politics" id="politics">Я согласен(-на) с&nbsp;<a href="{{ $politics != null ? $politics->document : '#' }}">политикой конфиденциальности</a>
+                    <label for="politics">
+                        <input type="checkbox" name="politics" id="politics" class="form-check-input">
+                        Я согласен(-на) с&nbsp;<a href="{{ $politics != null ? $politics->document : '#' }}"  class="checkboxes__link">политикой конфиденциальности</a>
                     </label>
                 </div>
 
@@ -188,16 +190,18 @@
 
                 <div class="inputs input-image">
                     <p>Фотография</p>
-                    <label for="image" class="label-image">
-                        <p>ЗАГРЗУИТЕ ФОТОГРАФИЮ</p>
-                        <input type="file" name="image" id="image"
-                            accept="image/jpg, image/jpeg, image/png"
-                            class="form-control image @error('image') is-invalid @enderror">
-                        <p id="image-prev"></p>
-                    </label>
-                        @error('image')
-                <span>{{ $message }}</span>
-                        @enderror
+                    <div class="label-image">
+                        <label for="image">
+                            <p class="label-image__title">ЗАГРЗУИТЕ ФОТОГРАФИЮ</p>
+                            <input type="file" name="image" id="image"
+                                accept="image/jpg, image/jpeg, image/png"
+                                class="form-control image @error('image') is-invalid @enderror">
+                            <p id="image-prev" class="m-3"></p>
+                        </label>
+                    </div>
+                    @error('image')
+                        <span>{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="inputs input-login">
@@ -236,10 +240,12 @@
 
                 <div class="checkboxes">
                     <label for="agreement">
-                        <input type="checkbox" name="agreement" id="agreement">Я согласен(-на) с&nbsp;<a href="{{ $agreement->document }}" class="checkboxes__link">пользовательским соглашением</a>
+                        <input type="checkbox" name="agreement" id="agreement" class="form-check-input">
+                        Я согласен(-на) с&nbsp;<a href="{{ $agreement ? $agreement->document : '#' }}" class="checkboxes__link">пользовательским соглашением</a>
                     </label>
-                    <label for="personal-data">
-                        <input type="checkbox" name="politics" id="politics">Я согласен(-на) с&nbsp;<a href="{{ $politics->document }}" class="checkboxes__link">политикой конфиденциальности</a>
+                    <label for="politics">
+                        <input type="checkbox" name="politics" id="politics" class="form-check-input">
+                        Я согласен(-на) с&nbsp;<a href="{{ $politics ? $politics->document : '#' }}" class="checkboxes__link">политикой конфиденциальности</a>
                     </label>
                 </div>
 

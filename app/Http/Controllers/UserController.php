@@ -154,4 +154,18 @@ class UserController extends Controller
         return $result ? to_route('users.account')->with(['success' => 'Аккаунт успешно обновлен']) :
             to_route('users.account')->withErrors(['error' => 'Не удалось обновить аккаунт']);
     }
+
+    // METHOD TO REDIRECT TO PAGE WITH REALTORS
+    public function realtorsIndex()
+    {
+        return view('realtors.index', ['realtors' => User::where('role_id', 2)->get()]);
+    }
+
+    public function realtorsAds(User $user)
+    {
+        return view('realtors.show', [
+            'user' => $user,
+            'ads' => Ad::where('user_id', $user->id)
+        ]);
+    }
 }

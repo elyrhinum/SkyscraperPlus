@@ -1,16 +1,16 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/create.css') }}">
-@section('title', 'Подать объявление о комнате')
+@section('title', 'Редактировать объявление о квартире')
 @section('content')
     <div class="main-container pd">
-        {{--HEADER WITH INSTURCTION--}}
+        {{--HEADERS WITH INSTRUCTIONS--}}
         <div class="headers">
             <div class="headers__inner">
-                <h3>Подать объявление о комнате</h3>
-                <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                    объявление на рассмотрение модераторам.</p>
+                <h3>Редактировать объявление о квартире</h3>
+                <p>Ниже представлена форма, поля которой необходимо заполнить или изменить для того, чтобы в дальнейшем
+                    отправить объявление на повторное рассмотрение модераторам.</p>
                 <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+                    для заполнения. Повторное рассмотрение объявления может занять около 7 дней.</p>
             </div>
         </div>
 
@@ -22,10 +22,11 @@
 
                     <div class="labels">
                         <p class="contract-types__title">Вид договора <span class="sign-required">*</span></p>
-                        <select class="form-select contract-types__select" name="contract_id">
+                        <select class="form-select contract-types__select"
+                                name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>
+                                    {{ $contract->id == $ad->contract_id ? 'selected' : '' }}>
                                     {{ $contract->name }}
                                 </option>
                             @endforeach
@@ -33,7 +34,7 @@
                     </div>
                 </div>
 
-                {{--RESIDENTIAL COMPLEX--}}
+                {{--RESIDENTIAL COMPLEXES--}}
                 <div id="residential-complexes">
                     <h5>Жилой комплекс</h5>
 
@@ -44,7 +45,7 @@
                             <option value="Не выбрано">Не выбрано</option>
                             @foreach($complexes as $complex)
                                 <option value="{{ $complex->id }}"
-                                    {{ old('complex') == $complex->id ? 'selected' : '' }}>
+                                    {{ $complex->id == $ad->object->resident_complex_id ? 'selected' : '' }}>
                                     {{ $complex->name }}
                                 </option>
                             @endforeach
@@ -64,7 +65,7 @@
                                     id="district_id" name="district_id">
                                 @foreach($districts as $district)
                                     <option value="{{ $district->id }}"
-                                        {{ old('district') == $district->id ? 'selected' : '' }}>
+                                        {{ old('district') ?? $ad->district_id == $district->id ? 'selected' : '' }}>
                                         {{ $district->name }}
                                     </option>
                                 @endforeach
@@ -76,28 +77,29 @@
                     {{--STREET--}}
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
-                        <input type="text" list="streets-list" class="form-select" name="street"
-                               placeholder="В формате ул. Гагарина или пр. Ленина"
-                               {{ old('street') }} required>
+                        <input type="text" list="streets-list" class="form-select" name="street" required
+                               value="{{ $ad->street->name }}" placeholder="В формате ул. Гагарина или пр. Ленина">
                         <datalist id="streets-list">
                             @foreach($streets as $street)
-                                <option>{{ $street->name }}</option>
+                                <option {{ old('street') ?? $ad->street_id == $street->id ? 'selected' : '' }}>
+                                    {{ $street->name }}
+                                </option>
                             @endforeach
                         </datalist>
                     </div>
 
-                    {{--STREET NUMBER--}}
+                    {{--STREET NUBMER--}}
                     <div id="street-number" class="labels">
                         <p class="building-number__title">Номер улицы <span class="sign-required">*</span></p>
-                        <input type="number" name="street_number" id="street_number" class="form-control"
-                               min="1" {{ old('street_number') }} required>
+                        <input type="number" name="street_number" id="street_number" class="form-control" min="1"
+                               value="{{ old('street_number') ?? $ad->object->street_number }}" required>
                     </div>
 
                     {{--ENTRANCE--}}
                     <div id="entrance-number" class="labels">
                         <p class="entrance-number__title">Номер подъезда <span class="sign-required">*</span></p>
-                        <input type="number" name="entrance" id="entrance" class="form-control"
-                               min="1" {{ old('entrance') }} required>
+                        <input type="number" name="entrance" id="entrance" class="form-control" min="1"
+                               value="{{ old('entrance') ?? $ad->object->entrance }}" required>
                     </div>
 
                     {{--FLOORS--}}
@@ -105,19 +107,19 @@
                         <p class="floors__title">Этаж <span class="sign-required">*</span></p>
                         <div>
                             <input type="number" name="floor" id="floor" class="form-control" min="1"
-                                   {{ old('floor') }} required>
+                                   value="{{ old('floor') ?? $ad->object->floor }}" required>
                             <p>из</p>
                             <input type="number" name="floors" id="floors" class="form-control" min="1"
-                                   {{ old('floors') }} required>
+                                   value="{{ old('floors') ?? $characteristics->floors }}" required>
                         </div>
                         <p id="floor-error"></p>
                     </div>
 
-                    {{--ROOM NUMBER--}}
+                    {{--FLAT NUMBER--}}
                     <div id="number" class="labels">
-                        <p class="number__title">Номер комнаты</p>
-                        <input type="number" name="number" id="number" class="form-control"
-                               min="1" {{ old('number') }}>
+                        <p class="number__title">Номер квартиры <span class="sign-required">*</span></p>
+                        <input type="number" name="number" id="number" class="form-control" min="1"
+                               value="{{ old('number') ?? $ad->object->number }}" required>
                     </div>
                 </fieldset>
 
@@ -125,42 +127,32 @@
                 <fieldset>
                     <h5>Информация об объекте</h5>
 
-                    {{--AREA--}}
-                    <div id="room-area" class="labels">
-                        <p class="room-area__title">Площадь комнаты <span class="sign-required">*</span></p>
-                        <div>
-                            <input type="number" name="area" id="area" class="form-control"
-                                   min="1" {{ old('area') }} required>
-                            <p>м<sup>2</sup></p>
-                        </div>
-                    </div>
-
                     {{--LIVING AREA--}}
                     <div id="living-area" class="labels">
                         <p class="living-area__title">Жилая площадь <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="living_area" id="living_area" class="form-control"
-                                   {{ old('living_area') }} min="1" required>
+                            <input type="number" name="living_area" id="living_area" class="form-control" min="1"
+                                   value="{{ old('living_area') ?? $characteristics->living_area }}" required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--TOTAL AREA  --}}
+                    {{--TOTAL AREA--}}
                     <div id="total-area" class="labels">
                         <p class="total-area__title">Общая площадь <span class="sign-required">*</span></p>
                         <div>
-                            <input type="number" name="total_area" id="total_area" class="form-control"
-                                   {{ old('total_area') }} min="1" required>
+                            <input type="number" name="total_area" id="total_area" class="form-control" min="1"
+                                   value="{{ old('total_area') ?? $characteristics->total_area }}" required>
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
 
-                    {{--KITCHEN AREA    --}}
+                    {{--KITCHEN AREA--}}
                     <div id="kitchen-area" class="labels">
                         <p class="kitchen-area__title">Площадь кухни</p>
                         <div>
                             <input type="number" name="kitchen_area" id="kitchen_area" class="form-control"
-                                   {{ old('kitchen_area') }} min="1">
+                                   value="{{ old('kitchen_area') ?? $characteristics->kitchen_area }}" min="1">
                             <p>м<sup>2</sup></p>
                         </div>
                     </div>
@@ -170,7 +162,7 @@
                         <p class="ceiling-height__title">Высота потолков</p>
                         <div>
                             <input type="number" name="ceiling_height" id="ceiling_height" class="form-control"
-                                   {{ old('ceiling_height') }} min="1">
+                                   value="{{ old('ceiling_height') ?? $characteristics->ceiling_height }}" min="1">
                             <p>м</p>
                         </div>
                     </div>
@@ -180,10 +172,22 @@
                         <p class="living-rooms-amount__title">Количество жилых комнат <span
                                 class="sign-required">*</span></p>
                         <select name="living_rooms_amount" class="form-control" id="living_rooms_amount">
-                            <option value="1" {{ old('living_rooms_amount') == '1' ? 'selected' : '' }}>1</option>
-                            <option value="2" {{ old('living_rooms_amount') == '2' ? 'selected' : '' }}>2</option>
-                            <option value="3" {{ old('living_rooms_amount') == '3' ? 'selected' : '' }}>3</option>
-                            <option value="4+" {{ old('living_rooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                            <option
+                                value="1" {{ old('living_rooms_amount') ?? $characteristics->living_rooms_amount == '1' ? 'selected' : '' }}>
+                                1
+                            </option>
+                            <option
+                                value="2" {{ old('living_rooms_amount') ?? $characteristics->living_rooms_amount == '2' ? 'selected' : '' }}>
+                                2
+                            </option>
+                            <option
+                                value="3" {{ old('living_rooms_amount') ?? $characteristics->living_rooms_amount == '3' ? 'selected' : '' }}>
+                                3
+                            </option>
+                            <option
+                                value="4+" {{ old('living_rooms_amount') ?? $characteristics->living_rooms_amount == '4+' ? 'selected' : '' }}>
+                                4+
+                            </option>
                         </select>
                     </div>
 
@@ -191,10 +195,22 @@
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов <span class="sign-required">*</span></p>
                         <select name="bathrooms_amount" class="form-control" id="bathrooms_amount">
-                            <option value="1" {{ old('bathrooms_amount') == '1' ? 'selected' : '' }}>1</option>
-                            <option value="2" {{ old('bathrooms_amount') == '2' ? 'selected' : '' }}>2</option>
-                            <option value="3" {{ old('bathrooms_amount') == '3' ? 'selected' : '' }}>3</option>
-                            <option value="4+" {{ old('bathrooms_amount') == '4+' ? 'selected' : '' }}>4+</option>
+                            <option
+                                value="1" {{ old('bathrooms_amount') ?? $characteristics->bathrooms_amount == '1' ? 'selected' : '' }}>
+                                1
+                            </option>
+                            <option
+                                value="2" {{ old('bathrooms_amount') ?? $characteristics->bathrooms_amount == '2' ? 'selected' : '' }}>
+                                2
+                            </option>
+                            <option
+                                value="3" {{ old('bathrooms_amount') ?? $characteristics->bathrooms_amount == '3' ? 'selected' : '' }}>
+                                3
+                            </option>
+                            <option
+                                value="4+" {{ old('bathrooms_amount') ?? $characteristics->bathrooms_amount == '4+' ? 'selected' : '' }}>
+                                4+
+                            </option>
                         </select>
                     </div>
 
@@ -203,10 +219,12 @@
                         <p class="bathroom-type__title">Санузел</p>
                         <select class="form-select bathroom-type__select" name="bathroom_type">
                             <option value="Раздельный"
-                                {{ old('bathroom_type') == 'Раздельный' ? 'selected' : '' }}>Раздельный
+                                {{ old('bathrooms_type') ?? $characteristics->bathrooms_type == 'Раздельный' ? 'selected' : '' }}>
+                                Раздельный
                             </option>
                             <option value="Совмещенный"
-                                {{ old('bathroom_type') == 'Совмещенный' ? 'selected' : '' }}>Совмещенный
+                                {{ old('bathrooms_type') ?? $characteristics->bathrooms_type == 'Совмещенный' ? 'selected' : '' }}>
+                                Совмещенный
                             </option>
                         </select>
                     </div>
@@ -220,8 +238,7 @@
                             <select class="form-select repair-types__select"
                                     name="repair_id">
                                 @foreach($repair_types as $repair)
-                                    <option value="{{ $repair->id }}"
-                                        {{ old('repair') == $repair->name ? 'selected' : '' }}>
+                                    <option value="{{ $repair->id }}" {{ old('repair_id') ?? $ad->repair_id == $repair->id ? 'selected' : '' }}>
                                         {{ $repair->name }}
                                     </option>
                                 @endforeach
@@ -237,7 +254,8 @@
                     {{--YEAR OF BUILDING--}}
                     <div id="building-year" class="labels">
                         <p class="building-year__title">Год постройки</p>
-                        <input type="number" name="building_year" id="building_year" class="form-control" min="1700">
+                        <input type="number" name="building_year" id="building_year" class="form-control" min="1700"
+                               value="{{ old('building_year') ?? $characteristics->building_year }}">
                         <p id="year-error"></p>
                     </div>
 
@@ -246,27 +264,33 @@
                         <p class="building-type__title">Материал здания</p>
                         <select class="form-select building-type__select" name="building_type">
                             <option value="Кирпичный"
-                                {{ old('building_type') == 'Кирпичный' ? 'selected' : '' }}>Кирпичный
+                                {{ old('building_type') ?? $characteristics->building_type == 'Кирпичный' ? 'selected' : '' }}>
+                                Кирпичный
                             </option>
                             <option value="Монолитный"
-                                {{ old('building_type') == 'Монолитный' ? 'selected' : '' }}>Монолитный
+                                {{ old('building_type') ?? $characteristics->building_type == 'Монолитный' ? 'selected' : '' }}>
+                                Монолитный
                             </option>
                             <option value="Панельный"
-                                {{ old('building_type') == 'Панельный' ? 'selected' : '' }}>Панельный
+                                {{ old('building_type') ?? $characteristics->building_type == 'Панельный' ? 'selected' : '' }}>
+                                Панельный
                             </option>
                             <option value="Блочный"
-                                {{ old('building_type') == 'Блочный' ? 'selected' : '' }}>Блочный
+                                {{ old('building_type') ?? $characteristics->building_type == 'Блочный' ? 'selected' : '' }}>
+                                Блочный
                             </option>
                             <option value="Деревянный"
-                                {{ old('building_type') == 'Деревянный' ? 'selected' : '' }}>Деревянный
+                                {{ old('building_type') ?? $characteristics->building_type == 'Деревянный' ? 'selected' : '' }}>
+                                Деревянный
                             </option>
                             <option value="Монолитно-кирпичный"
-                                {{ old('building_type') == 'Монолитно-кирпичный' ? 'selected' : '' }}>
+                                {{ old('building_type') ?? $characteristics->building_type == 'Монолитно-кирпичный' ? 'selected' : '' }}>
                                 Монолитно-кирпичный
                                 блок
                             </option>
                             <option value="Сталинский"
-                                {{ old('building_type') == 'Сталинский' ? 'selected' : '' }}>Сталинский
+                                {{ old('building_type') ?? $characteristics->building_type == 'Сталинский' ? 'selected' : '' }}>
+                                Сталинский
                                 блок
                             </option>
                         </select>
@@ -279,7 +303,10 @@
                     <div id="room-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
-                                  placeholder="Опишите все детали, например, для чего использовался участок или какие соседи. Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные данные и ссылки на другие ресурсы."></textarea>
+                                  placeholder="Опишите все детали, например, для чего использовался участок или какие соседи. Также,
+                                  можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности
+                                  объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные
+                                  данные и ссылки на другие ресурсы.">{{ $ad->description }}</textarea>
                     </div>
 
                     {{--LAYOUT--}}
@@ -298,7 +325,9 @@
                                 <input type="file" name="layout" id="layout" class="form-control"
                                        accept="image/jpg, image/jpeg, image/png">
                             </label>
-                            <div id="layout-prev"></div>
+                            <div id="layout-prev">
+                                <img src="{{ $ad->object->layout }}" alt="{{ $ad->getNameOfObject() }}">
+                            </div>
                         </div>
                     </div>
 
@@ -307,8 +336,8 @@
                         <div class="mb-3">
                             <h5 class="mb-1">Фотографии</h5>
                             <p>Объявления с фотографиями привлекают больше потенциальных покупателей. Не допускаются к
-                                размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные баннер.
-                                Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
+                                размещению фотографии с водяными знаками, чужих объектов недвижимости и рекламные
+                                баннер. Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ. Можно загрузить до
                                 десяти изображений. Первое из них будет являтся главным в объявлении.</p>
                         </div>
 
@@ -319,7 +348,14 @@
                                        accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
                                        multiple>
                             </label>
-                            <div id="images-prev"></div>
+                            <div id="images-prev">
+                                @foreach($ad->images as $image)
+                                    <div class="images-block">
+                                        <img src="{{ $image->image }}" alt="{{ $ad->getNameOfObject() }}">
+                                        <p data-index="{{ $image->id }}" onclick="deleteCurrentImg(event)">×</p>
+                                    </div>
+                                @endforeach
+                            </div>
                             <p id="images-error"></p>
                         </div>
                     </div>
@@ -329,7 +365,8 @@
                 <div id="set-price">
                     <div class="mb-3">
                         <h5 class="mb-1">Цена</h5>
-                        <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил публикации.
+                        <p>Укажите реальную цену объекта. Занижение цены является серьезным нарушением правил
+                            публикации.
                             Бонус, который оплачивается риелтору в случае успешной сделки необходимо обсуждать
                             непосредственно с самим риелтором, так
                             как у каждого свой тариф.</p>
@@ -338,7 +375,8 @@
                     <div class="labels">
                         <p class="se-price__title">Цена <span class="sign-required">*</span></p>
                         <div class="set-price__input">
-                            <input type="number" name="price" id="price" class="form-control" required>
+                            <input type="number" name="price" id="price" class="form-control"
+                                   value="{{ old('price') ?? $ad->price }}" required>
                             <p>₽</p>
                         </div>
                     </div>
@@ -368,18 +406,21 @@
             buildingYear = document.getElementById('building_year'),
             yearError = document.getElementById('year-error');
 
-        // PREVIEW OF LAYOUT
+        // RENDER LAYOUT PREVIEW
         layout.addEventListener('change', (e) => {
             layoutPrev.innerHTML = ''
             let image = document.createElement('img')
-            image.style.display = 'block'
-            image.style.width = '150px'
-            image.style.height = '150px'
-            image.style.objectFit = 'cover'
             image.src = URL.createObjectURL(e.target.files[0])
-            image.alt = "img"
+            image.alt = "Планировка"
             layoutPrev.append(image)
         })
+
+        // DELETING IMAGE
+        async function deleteCurrentImg(e) {
+            let result = await dataPostJSON('{{ route("ads.deleteImg")}}', e.target.dataset.index, "{{ csrf_token() }}");
+            e.target.parentNode.textContent = '';
+            console.log(result)
+        }
 
         // CHECKING FOR COMPLIANCE OF FLOORS
         floor.addEventListener('input', (e) => {
@@ -433,7 +474,7 @@
             }
         });
 
-        // CHECKING THAT YEAR DON'T EXCEED CURRENT YEAR
+        // CHECKING THAT YEAR DO NOT EXCEED CURRENT YEAR
         buildingYear.addEventListener('input', () => {
             const year = new Date().getFullYear(),
                 buildingYear = document.getElementById('building_year');
@@ -470,7 +511,7 @@
                 return formData;
             }
 
-            let res = await postJSON('{{ route("rooms.store") }}', formData, "{{ csrf_token() }}");
+            let res = await postJSON('{{ route("flats.update", $ad->id) }}', formData, "{{ csrf_token() }}");
             if (res != null) {
                 location = "{{ route('users.account') }}";
             }

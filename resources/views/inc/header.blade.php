@@ -19,6 +19,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('complexes.index') }}">Жилые комплексы</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.realtors.index') }}">Риелторы</a>
+                    </li>
                 </ul>
                 @guest
                     <div class="buttons">

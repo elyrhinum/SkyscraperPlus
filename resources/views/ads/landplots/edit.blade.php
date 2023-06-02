@@ -1,16 +1,16 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/create.css') }}">
-@section('title', 'Подать объявление о земельном участке')
+@section('title', 'Редактировать объявление о земельном участке')
 @section('content')
     <div class="main-container pd">
         {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
             <div class="headers__inner">
-                <h3>Подать объявление о земельном участке</h3>
-                <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
-                    объявление на рассмотрение модераторам.</p>
+                <h3>Редактировать объявление о земельном участке</h3>
+                <p>Ниже представлена форма, поля которой необходимо заполнить или изменить для того, чтобы в дальнейшем
+                    отправить объявление на повторное рассмотрение модераторам.</p>
                 <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+                    для заполнения. Повторное рассмотрение объявления может занять около 7 дней.</p>
             </div>
         </div>
 
@@ -26,7 +26,8 @@
                                 name="contract_id">
                             @foreach($contract_types as $contract)
                                 <option value="{{ $contract->id }}"
-                                    {{ old('contract') == $contract->id ? 'selected' : '' }}>{{ $contract->name }}</option>
+                                    {{ $contract->id == $ad->contract_id ? 'selected' : '' }}>
+                                    {{ $contract->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -43,7 +44,8 @@
                                 name="district_id">
                             @foreach($districts as $district)
                                 <option value="{{ $district->id }}"
-                                    {{ old('district') == $district->id ? 'selected' : '' }}>{{ $district->name }}</option>
+                                    {{ old('district') ?? $ad->district_id == $district->id ? 'selected' : '' }}>
+                                    {{ $district->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -52,11 +54,13 @@
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street"
-                               {{ old('street') }} required
+                               value="{{ $ad->street->name }}" required
                                placeholder="В формате ул. Гагарина или пр. Ленина">
                         <datalist id="streets-list">
                             @foreach($streets as $street)
-                                <option>{{ $street->name }}</option>
+                                <option {{ old('street') ?? $ad->street_id == $street->id ? 'selected' : '' }}>
+                                    {{ $street->name }}
+                                </option>
                             @endforeach
                         </datalist>
                     </div>
@@ -65,14 +69,14 @@
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control" min="1"
-                               {{ old('street_number') }} required>
+                               value="{{ old('street_number') ?? $ad->object->street_number }}" required>
                     </div>
 
                     {{--PLOT'S NUMBER--}}
                     <div id="plot-number" class="labels">
                         <p class="plot-number__title">Номер участка</p>
                         <input type="number" name="plot_number" id="plot_number" class="form-control"
-                               {{ old('plot_number') }} min="1">
+                               value="{{ old('plot_number') ?? $ad->object->plot_number }}" min="1">
                     </div>
                 </fieldset>
 
@@ -85,7 +89,7 @@
                         <p class="plot-area__title">Площадь участка <span class="sign-required">*</span></p>
                         <div>
                             <input type="number" name="area" id="area" class="form-control"
-                                   {{ old('area') }} min="1" required>
+                                   value="{{ old('area') ?? $ad->object->area }}" min="1" required>
                             <p>сот.</p>
                         </div>
                     </div>
@@ -94,7 +98,7 @@
                     <div id="plot-status" class="labels">
                         <p class="plot-status__title">Состояние участка <span class="sign-required">*</span></p>
                         <textarea name="status" id="status" cols="30" rows="5" class="form-control" required
-                                  placeholder="Кратко опишите в каком состоянии сейчас находится участок."></textarea>
+                                  placeholder="Кратко опишите в каком состоянии сейчас находится участок.">{{ $ad->object->status }}</textarea>
                     </div>
                 </fieldset>
 
@@ -104,7 +108,10 @@
                     <div id="plot-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
-                                  placeholder="Опишите все детали, например, для чего использовался участок или какие соседи. Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные данные и ссылки на другие ресурсы."></textarea>
+                                  placeholder="Опишите все детали, например, для чего использовался участок или какие соседи.
+                                  Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности
+                                  объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные
+                                  данные и ссылки на другие ресурсы.">{{ $ad->description }}</textarea>
                     </div>
 
                     {{--IMAGES--}}
@@ -118,16 +125,20 @@
                                 десяти изображений. Первое из них будет являтся главным в объявлении.</p>
                         </div>
 
-                        <div class="label-images">
-                            <label for="images">
-                                <p class="label-images__title">ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
-                                <input type="file" name="images" id="images" class="form-control"
-                                       accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
-                                       multiple>
-                            </label>
-                            <div id="images-prev"></div>
-                            <p id="images-error"></p>
-                        </div>
+                        <label for="images" class="label-images">
+                            <p class="label-images__title">ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
+                            <input type="file" name="images" id="images" class="form-control"
+                                   accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)" multiple>
+                            <div id="images-prev">
+                                @foreach($ad->images as $image)
+                                    <div class="images-block">
+                                        <img src="{{ $image->image }}" alt="{{ $ad->getNameOfObject() }}">
+                                        <p data-index="{{ $image->id }}" onclick="deleteCurrentImg(event)">×</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </label>
+                        <p id="images-error"></p>
                     </div>
                 </fieldset>
 
@@ -141,7 +152,7 @@
                                 <input type="checkbox" name="checkboxes[]" id="{{ $charact->id }}"
                                        class="form-check-input"
                                        value="{{ $charact->id }}"
-                                    {{ old($charact->name) ? 'checked' : '' }}>
+                                    {{ old($charact->name) ?? count($ad_characteristics->where('characteristic_id', $charact->id)) > 0 ? 'checked' : '' }}>
                                 {{ $charact->name }}
                             </label>
                         @endforeach
@@ -163,7 +174,7 @@
                         <p class="se-price__title">Цена <span class="sign-required">*</span></p>
                         <div class="set-price__input">
                             <input type="number" name="price" id="price" class="form-control"
-                                   {{ old('price') }} required>
+                                   value="{{ old('price') ?? $ad->price }}" required>
                             <p>₽</p>
                         </div>
                     </div>
@@ -181,6 +192,13 @@
     <script>
         const btnSubmit = document.querySelector(".btn-submit");
 
+        // DELETING IMAGE
+        async function deleteCurrentImg(e) {
+            let result = await dataPostJSON('{{ route("ads.deleteImg")}}', e.target.dataset.index, "{{ csrf_token() }}");
+            e.target.parentNode.textContent = '';
+            console.log(result)
+        }
+
         // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {
             e.preventDefault()
@@ -195,10 +213,13 @@
                     });
                 }
 
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ', ' + pair[1]);
+                }
                 return formData;
             }
 
-            let res = await postJSON('{{ route("landplots.store") }}', formData, "{{ csrf_token() }}");
+            let res = await postJSON('{{ route("landplots.update", $ad->id) }}', formData, "{{ csrf_token() }}");
             if (res != null) {
                 location = "{{ route('users.account') }}";
             }

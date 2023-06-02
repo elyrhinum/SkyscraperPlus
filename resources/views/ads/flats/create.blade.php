@@ -1,12 +1,12 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/create.css') }}">
-@section('title', 'Подать объявление о комнате')
+@section('title', 'Подать объявление о квартире')
 @section('content')
     <div class="main-container pd">
         {{--HEADERS WITH INSTRUCTIONS--}}
         <div class="headers">
             <div class="headers__inner">
-                <h3>Подать новое объявление о квартире</h3>
+                <h3>Подать объявление о квартире</h3>
                 <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
                     объявление на рассмотрение модераторам.</p>
                 <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
@@ -276,12 +276,14 @@
                                 Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.</p>
                         </div>
 
-                        <label for="layout" class="label-layout">
-                            <p>ЗАГРУЗИТЕ ПЛАНИРОВКУ</p>
-                            <input type="file" name="layout" id="layout" class="form-control"
-                                   accept="image/jpg, image/jpeg, image/png">
+                        <div class="label-layout">
+                            <label for="layout">
+                                <p class="label-layout__title">ЗАГРУЗИТЕ ПЛАНИРОВКУ</p>
+                                <input type="file" name="layout" id="layout" class="form-control"
+                                       accept="image/jpg, image/jpeg, image/png">
+                            </label>
                             <div id="layout-prev"></div>
-                        </label>
+                        </div>
                     </div>
 
                     {{--IMAGES--}}
@@ -294,13 +296,16 @@
                                 десяти изображений. Первое из них будет являтся главным в объявлении.</p>
                         </div>
 
-                        <label for="images" class="label-images">
-                            <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
-                            <input type="file" name="images" id="images" class="form-control"
-                                   accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)" multiple>
+                        <div class="label-images">
+                            <label for="images">
+                                <p class="label-images__title">ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
+                                <input type="file" name="images" id="images" class="form-control"
+                                       accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
+                                       multiple>
+                            </label>
                             <div id="images-prev"></div>
-                        </label>
-                        <p id="images-error"></p>
+                            <p id="images-error"></p>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -365,11 +370,11 @@
         floor.addEventListener('input', (e) => {
             const floors = document.getElementById('floors');
 
-            if (e.target.value > floors.value) {
+            if (e.target.value - floors.value < 0) {
                 floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
                 submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их'
                 btnSubmit.disabled = true;
-            } else {
+            } else if (e.target.value - floors.value > 0) {
                 floorError.textContent = '';
                 submitError.textContent = '';
                 btnSubmit.disabled = false;
@@ -379,11 +384,11 @@
         floors.addEventListener('input', (e) => {
             const floor = document.getElementById('floor');
 
-            if (e.target.value < floor.value) {
+            if (e.target.value - floor.value < 0) {
                 floorError.textContent = 'Этаж квартиры не должен превышать общее количество этажей';
-                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их';
+                submitError.textContent = 'Проверьте объявление на наличие ошибок и исправьте их'
                 btnSubmit.disabled = true;
-            } else {
+            } else if (e.target.value - floor.value > 0) {
                 floorError.textContent = '';
                 submitError.textContent = '';
                 btnSubmit.disabled = false;
@@ -426,6 +431,10 @@
                 yearError.textContent = '';
                 submitError.textContent = '';
                 btnSubmit.disabled = false;
+            } else {
+                btnSubmit.disabled = false;
+                yearError.textContent = '';
+                submitError.textContent = '';
             }
         });
 
@@ -443,9 +452,6 @@
                     });
                 }
 
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
                 return formData;
             }
 

@@ -92,10 +92,12 @@ form {
     align-items: flex-start !important;
     margin: 20px 0;
 }
+
 .checkboxes > label {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    cursor: pointer;
 }
 
 .checkboxes > label > input {
@@ -141,14 +143,18 @@ form {
     padding: 10px;
 
     border: 3px dotted lightgray;
-
-    cursor: pointer;
 }
 
-.label-image > p {
+.label-image > label {
+    width: 100%;
+}
+
+.label-image__title {
     text-align: center;
     font-weight: 600;
     color: lightgray;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 #image-prev {

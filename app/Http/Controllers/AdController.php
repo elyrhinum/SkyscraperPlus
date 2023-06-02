@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\FileServiceForObjects;
 use App\Models\Ad;
 use App\Models\ContractType;
 use App\Models\District;
 use App\Models\Document;
 use App\Models\HouseLandPlotCharacteristic;
+use App\Models\ImagesAd;
 use App\Models\ObjectAndCharacteristics;
 use App\Models\PlotType;
 use App\Models\RepairType;
@@ -18,7 +20,7 @@ use Illuminate\Http\Request;
 
 class AdController extends Controller
 {
-    // INDEX PAGE
+    // METHOD TO REDIRECT TO INDEX PAGE
     public function index()
     {
         return view('index', [
@@ -137,32 +139,57 @@ class AdController extends Controller
         return view('ads.filtration', ['ads' => $ads->latest()->get(), 'filters' => $filters]);
     }
 
+    // METHOD TO DELETE IMAGE
+    public function deleteImg(Request $request)
+    {
+        $result = false;
+        $image = ImagesAd::find($request->data);
+        if($image) {
+            $result = FileServiceForObjects::delete($image->image, '/storage/');
+            $result = $image->delete();
+        }
+        return $result;
+    }
+
     // METHOD TO REDIRECT TO EDIT PAGE
     public function edit(Ad $ad)
     {
-        if ($ad->object_type == '\App\Models\Flat' || $ad->object_type == '\App\Models\Room') {
-            return view('ads.edit', [
+        if ($ad->object_type == '\App\Models\Flat') {
+            return view('ads.flats.edit', [
                 'ad' => $ad,
                 'contract_types' => ContractType::all(),
                 'complexes' => ResidentialComplex::onlyPublished()->get(),
+                'characteristics' => RoomFlatCharacteristic::where('object_type', '\App\Models\Flat')->where('object_id', $ad->object->id)->first(),
+                'repair_types' => RepairType::all(),
+                'districts' => District::all(),
+                'streets' => Street::all()
+            ]);
+        } else if ($ad->object_type == '\App\Models\Room') {
+            return view('ads.rooms.edit', [
+                'ad' => $ad,
+                'contract_types' => ContractType::all(),
+                'complexes' => ResidentialComplex::onlyPublished()->get(),
+                'characteristics' => RoomFlatCharacteristic::where('object_type', '\App\Models\Room')->where('object_id', $ad->object->id)->first(),
                 'repair_types' => RepairType::all(),
                 'districts' => District::all(),
                 'streets' => Street::all()
             ]);
         } else if ($ad->object_type == '\App\Models\House') {
-            return view('ads.edit', [
+            return view('ads.houses.edit', [
                 'ad' => $ad,
                 'contract_types' => ContractType::all(),
                 'characteristics' => HouseLandPlotCharacteristic::where('is_landplot', 0)->get(),
+                'ad_characteristics' => ObjectAndCharacteristics::where('object_type','\App\Models\House' )->where('object_id', $ad->object->id)->get(),
                 'types' => PlotType::all(),
                 'districts' => District::all(),
                 'streets' => Street::all()
             ]);
         } else if ($ad->object_type == '\App\Models\LandPlot') {
-            return view('ads.edit', [
+            return view('ads.landplots.edit', [
                 'ad' => $ad,
                 'contract_types' => ContractType::all(),
                 'characteristics' => HouseLandPlotCharacteristic::where('is_landplot', 1)->get(),
+                'ad_characteristics' => ObjectAndCharacteristics::where('object_type','\App\Models\LandPlot' )->where('object_id', $ad->object->id)->get(),
                 'districts' => District::all(),
                 'streets' => Street::all()
             ]);

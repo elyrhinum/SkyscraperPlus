@@ -10,7 +10,7 @@
         </div>
 
         <div class="last-suggested-ads">
-            <div class="last-suggested-ads__inner">
+            <div class="last-cancelled-ads__inner">
                 @forelse($ads as $ad)
                     <div class="ad common">
                         {{--IMAGE--}}
@@ -20,38 +20,44 @@
 
                         {{--INFO--}}
                         <div class="ad__info">
-                            <div class="info__header">
-                                <h5>{{ $ad->getNameOfObject() }}</h5>
-                                <div>
-                                    <p>{{ $ad->getCorrectObjectType() }}</p>
-                                    <p>{{ $ad->contract->name }}</p>
+                            <div class="info__inner">
+                                <div class="info__header">
+                                    <h5>{{ $ad->getNameOfObject() }}</h5>
+                                    <div>
+                                        <p>{{ $ad->getCorrectObjectType() }}</p>
+                                        <p>{{ $ad->contract->name }}</p>
+                                    </div>
+                                </div>
+
+                                <p class="info__description">{{ $ad->description }}</p>
+
+                                <div class="info__price">
+                                    <h5>{{ $ad->getCorrectPrice() }}</h5>
                                 </div>
                             </div>
 
-                            <p class="info__description">{{ $ad->description }}</p>
+                            {{--BUTTONS--}}
+                            <div class="ad__buttons">
+                                {{--BUTTON TO SHOW--}}
+                                <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-outlined btn-edit">Посмотреть</a>
 
-                            <div class="info__price">
-                                <h5>{{ $ad->getCorrectPrice() }}</h5>
+                                {{--BUTTON TO SEE REASON--}}
+                                <button class="btn btn-danger btn-reason"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop"
+                                        onclick="getIdToSeeReason('{{ $ad->comment }}')">
+                                    Причина отклонения
+                                </button>
+
+                                {{--BUTTON TO EDIT--}}
+                                <a href="{{ route('ads.edit', $ad->id) }}"
+                                   class="btn btn-filled btn-edit">Редактировать</a>
                             </div>
-                        </div>
-
-                        {{--BUTTON TO SHOW--}}
-                        <div class="ad__buttons">
-                            {{--BUTTON TO SEE REASON--}}
-                            <button class="btn btn-danger btn-reason"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop"
-                                    onclick="getIdToSeeReason('{{ $ad->comment }}')">
-                                Причина отклонения
-                            </button>
-
-                            {{--BUTTON TO SHOW--}}
-                            <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-outlined">Посмотреть</a>
                         </div>
                     </div>
                 @empty
                     <div class="message-empty common">
-                        <p>Нет отклоненных объявлений</p>
+                        <p>Нет последних отклоненных объявлений</p>
                     </div>
                 @endforelse
             </div>

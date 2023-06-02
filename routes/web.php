@@ -34,6 +34,9 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::post('/login/verification', 'verification')->name('verification');
         Route::post('/signup/users/store', 'storeUser')->name('storeUser');
         Route::post('/signup/realtors/store', 'storeRealtor')->name('storeRealtor');
+
+        Route::get('/realtors', 'realtorsIndex')->name('realtors.index');
+        Route::get('/realtors/ads', 'realtorsAds')->name('realtors.ads');
     });
 });
 
@@ -95,6 +98,9 @@ Route::middleware('auth')->group(function () {
 
             // ROUTE TO GET BOOKMARKS
             Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
+
+            // ROUTE TO EDIT ADS
+            Route::get('/ads/edit/{ad}', 'edit')->name('edit');
         });
     });
 
@@ -103,6 +109,12 @@ Route::middleware('auth')->group(function () {
         Route::controller(AdController::class)->group(function () {
             // PRE-CREATE PAGE
             Route::get('/pre-create', 'preCreate')->name('preCreate');
+
+            // EDIT ROUTE
+            Route::get('/edit/{ad}', 'edit')->name('edit');
+
+            // ROUTE TO DELETE IMAGE
+            Route::post('/deleteImg', 'deleteImg')->name('deleteImg');
         });
     });
 
@@ -111,6 +123,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(FlatController::class)->group(function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::post('/update/{ad}', 'update')->name('update');
         });
     });
 
@@ -119,6 +132,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(RoomController::class)->group(function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::post('/update/{ad}', 'update')->name('update');
         });
     });
 
@@ -127,6 +141,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(HouseController::class)->group(function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::post('/update/{ad}', 'update')->name('update');
         });
     });
 
@@ -135,6 +150,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(LandPlotController::class)->group(function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
+            Route::post('/update/{ad}', 'update')->name('update');
         });
     });
 

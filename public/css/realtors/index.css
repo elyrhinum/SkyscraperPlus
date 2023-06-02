@@ -1,0 +1,40 @@
+/*CONTAINER*/
+.flex-block__inner {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/*REALTOR*/
+.inner__realtor {
+    display: grid;
+    grid-template-columns: 200px 2fr;
+    gap: 10px;
+}
+
+.inner__realtor > img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.realtor__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 170px;
+}
+
+.realtor__info > p {
+    opacity: 70%;
+}
+
+/*TABLET STYLES*/
+@media (max-width: 1200px) {
+    /*CONTAINER*/
+    .flex-block__inner {
+        display: flex !important;
+        flex-direction: column;
+        gap: 10px;
+    }
+}
