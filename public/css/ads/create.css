@@ -76,6 +76,14 @@ form {
     display: none;
 }
 
+.label-images {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
 .label-images, .label-layout {
     width: 100%;
     min-height: 150px;
@@ -138,23 +146,13 @@ form {
     object-fit: cover;
 }
 
-#images-prev {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
+#old-images-prev {
+    margin-bottom: 10px;
 }
 
 #images-error, #floor-error, #submit-error, #year-error {
     color: red;
     margin-bottom: 5px !important;
-}
-
-#floor-error , #year-error {
-    font-size: 12px;
-    width: 400px;
 }
 
 #submit-error {
@@ -181,7 +179,6 @@ form {
 /*IMAGES*/
 .images-block {
     position: relative;
-    margin-right: 10px !important;
 }
 
 .images-block > p {
@@ -207,16 +204,106 @@ form {
 }
 
 /*LABELS*/
-.labels {
-    display: grid;
-    grid-template-columns: 150px 50%;
-    align-items: flex-start;
-
-    margin-bottom: 10px;
-}
-
 fieldset {
     margin-bottom: 30px !important;
+}
+
+/*PC STYLES*/
+@media (min-width: 1200px) {
+    /*LABELS*/
+    .labels {
+        display: grid;
+        grid-template-columns: 150px 50%;
+        align-items: flex-start;
+
+        margin-bottom: 10px;
+    }
+
+    #floor-error , #year-error {
+        font-size: 12px;
+        width: 400px;
+    }
+
+    /*IMAGES*/
+    #images-prev, #old-images-prev {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+/*TABLET STYLES*/
+@media (max-width: 1200px) {
+    /*LABELS*/
+    .labels {
+        display: grid;
+        grid-template-columns: 150px 50%;
+        align-items: flex-start;
+
+        margin-bottom: 10px;
+    }
+
+    #floor-error , #year-error {
+        font-size: 12px;
+        width: 400px;
+    }
+    
+    #plot-status {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+
+    /*IMAGES*/
+    #images-prev, #old-images-prev {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+}
+
+/*PHONE STYLES*/
+@media (max-width: 770px) {
+    /*LABELS*/
+    .labels {
+        display: grid;
+        grid-template-columns: 100px 60%;
+        align-items: flex-start;
+        gap: 10px;
+
+        margin-bottom: 10px;
+    }
+
+    #plot-status {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        gap: 10px;
+    }
+
+    #floor-error , #year-error {
+        font-size: 12px;
+        width: 300px;
+    }
+
+    /*IMAGES*/
+    #images-prev, #old-images-prev {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
 }
 
 /*DISABLING ARROWS IN INPUT:NUMBER*/

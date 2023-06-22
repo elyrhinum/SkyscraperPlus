@@ -40,8 +40,7 @@ class FlatController extends Controller
 
         // CREATE FLAT
         if ($request->residential_complex_id != 'Не выбрано') {
-            $flat = Flat::create(array_merge(
-                ['layout' => $layout_path],
+            $flat = Flat::create(array_merge(['layout' => $layout_path],
                 $request->except('_token', 'images', 'layout')));
         } else {
             $flat = Flat::create(array_merge(
@@ -114,8 +113,12 @@ class FlatController extends Controller
             'status_id' => 2
         ], $request->only('contract_id', 'district_id', 'description', 'price')));
 
-        // UPDATE ROOMS
-        $flat = $ad->object->update($request->except('_token', 'images'));
+        // UPDATE FLAT
+        if ($request->residential_complex_id != 'Не выбрано') {
+            $flat = $ad->object->update($request->except('_token', 'images'));
+        } else {
+            $flat = $ad->object->update($request->except('_token', 'images', 'residential_complex_id'));
+        }
 
         // UPDATE IMAGES
         if ($request->images) {
@@ -127,7 +130,7 @@ class FlatController extends Controller
                 ]);
             }
         } else {
-            if (count(ImagesAd::where('object_type', '\App\Models\House')->where('object_id', $ad->object->id)->get()) == 0) {
+            if (count(ImagesAd::where('ad_id', $ad->id)->get()) == 0) {
                 $path = FileServiceForObjects::uploadRedirect(null, '');
                 $images = ImagesAd::create([
                     'ad_id' => $ad->id,
@@ -138,7 +141,7 @@ class FlatController extends Controller
 
         // UPDATE CHARACTERISTICS
         if ($request->checkboxes) {
-            foreach (RoomFlatCharacteristic::where('object_id', $ad->object->id)->where('object_type', '\App\Models\Room')->get() as $cb) {
+            foreach (RoomFlatCharacteristic::where('object_id', $ad->object->id)->where('object_type', '\App\Models\Flat')->get() as $cb) {
                 $cb->delete();
             }
 

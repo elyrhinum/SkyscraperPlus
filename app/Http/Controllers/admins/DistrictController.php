@@ -28,7 +28,7 @@ class DistrictController extends Controller
     {
         $district = District::find($request->id);
 
-        if (District::where('name', $request->name)->first() == $district) {
+        if (District::where('name', $request->name)->first() == $district || District::where('name', $request->name)->first() == null) {
             $result = $district->update($request->only(['name']));
         } else {
             $result = false;

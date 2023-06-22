@@ -127,7 +127,7 @@ class RoomController extends Controller
                 ]);
             }
         } else {
-            if (count(ImagesAd::where('object_type', '\App\Models\House')->where('object_id', $ad->object->id)->get()) == 0) {
+            if (count(ImagesAd::where('ad_id', $ad->id)->get()) == 0) {
                 $path = FileServiceForObjects::uploadRedirect(null, '');
                 $images = ImagesAd::create([
                     'ad_id' => $ad->id,

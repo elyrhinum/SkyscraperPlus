@@ -20,24 +20,32 @@
 
                         {{--INFO--}}
                         <div class="ad__info">
-                            <div class="info__header">
-                                <h5>{{ $ad->getNameOfObject() }}</h5>
-                                <div>
-                                    <p>{{ $ad->getCorrectObjectType() }}</p>
-                                    <p>{{ $ad->contract->name }}</p>
+                            <div class="info__inner">
+                                <div class="info__header">
+                                    <h5>{{ $ad->getNameOfObject() }}</h5>
+                                    <div>
+                                        <p>{{ $ad->getCorrectObjectType() }}</p>
+                                        <p>{{ $ad->contract->name }}</p>
+                                    </div>
+                                </div>
+
+                                <p class="info__description">{{ $ad->description }}</p>
+
+                                <div class="info__price">
+                                    <h5>{{ $ad->getCorrectPrice() }}</h5>
                                 </div>
                             </div>
 
-                            <p class="info__description">{{ $ad->description }}</p>
-
-                            <div class="info__price">
-                                <h5>{{ $ad->getCorrectPrice() }}</h5>
+                            {{--BUTTONS--}}
+                            <div class="ad__buttons">
+                                {{--BUTTON TO SHOW--}}
+                                <a href="{{ route('ads.show', $ad->id) }}"
+                                   class="btn btn-outlined btn-edit">Посмотреть</a>
+                                   
+                                {{--BUTTON TO DELETE--}}
+                                <a href="{{ route('ads.delete', $ad->id) }}"
+                                class="btn btn-danger">Удалить</a>
                             </div>
-                        </div>
-
-                        {{--BUTTON TO SHOW--}}
-                        <div class="ad__buttons">
-                            <a href="{{ route('ads.show', $ad->id) }}" class="btn btn-outlined">Посмотреть</a>
                         </div>
                     </div>
                 @empty
@@ -48,5 +56,9 @@
             </div>
         </div>
     </div>
-
 @endsection
+<style>
+    footer {
+        margin: 30px 10% 0 10% !important;
+    }
+</style>

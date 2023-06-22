@@ -1,6 +1,6 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/users/create.css') }}">
-@section('title', 'Регистрация')
+@section('title', 'Редактирование профиля')
 @section('content')
     <div class="main-container common pd mt-4">
         <h3>Редактирование профиля</h3>
@@ -71,16 +71,16 @@
             </div>
 
             {{--IMAGE--}}
-            @if($user->role->name == 'Риелтор')
+            @if($user->role_id == 2)
                 <div class="inputs input-image">
                     <p>Фотография</p>
                     <label for="image" class="label-image">
-                        <p>ЗАГРУЗИТЕ ФОТОГРАФИЮ</p>
+                        <p class="label-image__title">ЗАГРУЗИТЕ ФОТОГРАФИЮ</p>
                         <input type="file" name="image" id="image"
                                accept="image/jpg, image/jpeg, image/png"
                                class="form-control image @error('image') is-invalid @enderror">
-                        <div id="image-prev">
-                            <img src="{{ $user->image }}" alt="{{ $user->name }}">
+                        <div id="image-prev" class="mt-3">
+                            <img src="{{ $user->image }}" alt="{{ $user->shortName }}">
                         </div>
                     </label>
                     @error('image')
@@ -103,7 +103,7 @@
 
             <p class="required-instruction"><sup class="required-mark">*</sup> - поле обязательно для заполнения</p>
 
-            <button class="btn brn-filled btn-signup">Редактировать</button>
+            <button class="btn btn-filled btn-update">Редактировать</button>
         </form>
     </div>
 @endsection
@@ -125,12 +125,8 @@
         imageInput.addEventListener('change', (e) => {
             imagePrev.innerHTML = ''
             let image = document.createElement('img')
-            image.style.display = 'block'
-            image.style.width = '350px'
-            image.style.height = '350px'
-            image.style.objectFit = 'cover'
             image.src = URL.createObjectURL(e.target.files[0])
-            image.alt = "img"
+            image.alt = "Фотография"
             imagePrev.append(image)
         })
     </script>

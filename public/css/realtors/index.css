@@ -6,35 +6,146 @@
 }
 
 /*REALTOR*/
-.inner__realtor {
-    display: grid;
-    grid-template-columns: 200px 2fr;
-    gap: 10px;
+.realtor__info > div {
+    height: fit-content;
 }
 
-.inner__realtor > img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-}
-
-.realtor__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 170px;
-}
-
-.realtor__info > p {
+.info__count-ads {
+    margin-top: 10px;
     opacity: 70%;
+}
+
+.realtor__info > a {
+    width: 100%;
+}
+
+/*PC STYLES*/
+@media (min-width: 1200px) {
+    /*CONTAINER*/
+    .realtor-block__inner {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    /*REALTOR*/
+    .inner__realtor {
+        display: grid;
+        grid-template-columns: 200px 2fr;
+        gap: 10px;
+    }
+
+    .realtor__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        
+        height: 100%;
+    }
+
+    .inner__realtor > img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
 }
 
 /*TABLET STYLES*/
 @media (max-width: 1200px) {
     /*CONTAINER*/
-    .flex-block__inner {
-        display: flex !important;
+    .realtor-block__inner {
+        display: flex;
         flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px
+    }
+
+    /*REALTOR*/
+    .inner__realtor {
+        display: grid;
+        grid-template-columns: 200px 2fr;
+        grid-template-rows: 200px;
         gap: 10px;
+        
+        width: 100%;
+    }
+
+    .realtor__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        
+        height: 100%;
+    }
+
+    .realtor {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    .inner__realtor > img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+}
+
+/*PHONE STYLES*/
+@media (max-width: 770px) {
+    /*CONTAINER*/
+    .realtor-block__inner {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        width: 100%;
+    }
+
+    /*REALTOR*/
+    .inner__realtor {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+
+        width: 100%;
+    }
+
+    .inner__realtor > div {
+        width: 100%;
+    }
+
+    .realtor__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        width: 100%;
+        height: fit-content;
+    }
+
+    .inner__realtor > img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+
+    /*BUTTONS*/
+    .btn {
+        width: 100%;
+        margin-top: 15px;
     }
 }

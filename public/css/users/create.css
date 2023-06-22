@@ -1,23 +1,17 @@
 /*MAIN CONTAINER*/
-.main-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    width: fit-content;
-    padding: 20px !important;
-    margin: 0 auto !important;
-}
-
 h3 {
-    font-family: HelveticaNeueCyr;
+    font-family: var(--main-font);
     margin: 20px 0 !important;
     text-align: center;
 }
 
 .checkboxes__link {
     text-decoration: underline !important;
+}
+ 
+.pattern-error {
+    color: red;
+    margin-top: 5px;
 }
 
 /*TAB BUTTONS*/
@@ -58,25 +52,10 @@ h3 {
 }
 
 /*USER FORM*/
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 25px 40px !important;
-
-    border: 0 !important;
-}
-
 .inputs {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-}
-
-.inputs > label > input {
-    width: 400px;
 }
 
 .inputs > span {
@@ -90,14 +69,8 @@ form {
     flex-direction: column !important;
     justify-content: flex-start !important;
     align-items: flex-start !important;
+    gap: 5px;
     margin: 20px 0;
-}
-
-.checkboxes > label {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    cursor: pointer;
 }
 
 .checkboxes > label > input {
@@ -166,9 +139,152 @@ form {
     margin-bottom: 15px ;
 }
 
-#image-prev > img {
-    width: 350px;
-    height: 350px;
+/*PC STYLES*/
+@media (min-width: 1200px) {
+    /*CONTAINER*/
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-    object-fit: cover;
+        width: fit-content;
+        padding: 20px !important;
+        margin: 0 auto !important;
+    }
+
+    /*FORM*/
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        padding: 25px 40px !important;
+
+        border: 0 !important;
+    }
+
+    .inputs > label > input, .input-password > span {
+        width: 400px;
+    }
+
+    .checkboxes > label {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        cursor: pointer;
+    }
+
+    #image-prev > img {
+        width: 350px;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    .btn-update {
+        margin-top: 40px;
+    }
+}
+
+/*TABLET STYLES*/
+@media (max-width: 1200px) {
+    /*CONTAINER*/
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        width: 500px;
+        margin: 0 auto !important;
+    }
+
+    /*FORM*/
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        border: 0 !important;
+    }
+
+    .inputs > label > input,
+    .input-password,
+    .input-image,
+    .required-instruction,
+    .checkboxes {
+        width: 400px;
+    }
+
+    .checkboxes > label {
+        display: block;
+    }
+
+    #image-prev > img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .btn-signup {
+        margin-bottom: 15px;
+    }
+
+    .btn-update {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+}
+
+/*PHONE STYLES*/
+@media (max-width: 770px) {
+    /*CONTAINER*/
+    .main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        width: 400px;
+        margin: 0 auto !important;
+    }
+
+    /*FORM*/
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        border: 0 !important;
+    }
+
+    .inputs > label > input,
+    .input-password,
+    .input-image,
+    .required-instruction,
+    .checkboxes {
+        width: 300px;
+    }
+
+    .checkboxes > label {
+        display: block;
+    }
+
+    #image-prev > img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .btn-signup {
+        margin-bottom: 15px;
+    }
+
+    .btn-update {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
 }

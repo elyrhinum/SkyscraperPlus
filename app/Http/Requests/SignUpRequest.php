@@ -13,7 +13,7 @@ class SignUpRequest extends FormRequest
             'surname' => ['required', 'regex:/^[а-яёА-ЯЁ\s\-]+$/iu'],
             'patronymic' => ['regex:/^[а-яёА-ЯЁ\s\-]+$/iu', 'nullable'],
             'email' => ['required', 'unique:users', 'email'],
-            'telephone' => ['required'],
+            'telephone' => ['required', 'unique:users'],
             'image' => ['image', 'nullable'],
             'login' => ['required', 'unique:users', 'regex:/^[a-z\d\-]+$/i'],
             'password' => ['required', 'regex:/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!&#?])[0-9a-zA-Z!#&?]{6,}$/', 'confirmed']

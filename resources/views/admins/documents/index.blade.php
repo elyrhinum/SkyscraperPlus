@@ -185,11 +185,13 @@
 @push('script')
     <script>
         // GET DATA TO UPDATE
-        document.querySelector('.btn-update-document').addEventListener('click', (e) => {
-            document.getElementById('id-update').value = e.target.dataset.id;
-            document.getElementById('name-update').value = e.target.dataset.name;
-            document.getElementById('document-update').href = e.target.dataset.document;
-        });
+        document.querySelectorAll('.btn-update-document').forEach((item) => {
+            item.addEventListener('click', (e) => {
+                document.getElementById('id-update').value = e.target.dataset.id;
+                document.getElementById('name-update').value = e.target.dataset.name;
+                document.getElementById('document-update').href = e.target.dataset.document;
+            });
+        })
 
         function getIdToDelete(id) {
             document.getElementById("id-delete").value = id

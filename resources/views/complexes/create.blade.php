@@ -1,16 +1,16 @@
 @extends('templates.app')
 <link rel="stylesheet" href="{{ asset('css/ads/create.css') }}">
-@section('title', 'Добавить новый жилой комплекс')
+@section('title', 'Добавить жилой комплекс')
 @section('content')
     <div class="main-container pd">
         {{--HEADER WITH INSTRUCTION--}}
         <div class="headers">
             <div class="headers__inner">
-                <h3>Добавить новый жилой комплекс</h3>
+                <h3>Добавить жилой комплекс</h3>
                 <p>Ниже представлена форма, поля которой необходимо заполнить для того, чтобы в дальнейшем отправить
                     заявление на добавление жилого комплекса.</p>
                 <p>Поля помеченые звездочкой (<span class="sign-required">*</span>) являются обязательными
-                    для заполнения. Рассмотрение объявления может занять около 7 дней.</p>
+                    для заполнения. Рассмотрение заявления может занять около 7 дней.</p>
             </div>
         </div>
 
@@ -76,7 +76,7 @@
                     <div id="complex-images">
                         <div class="mb-3">
                             <h5 class="mb-1">Фотографии</h5>
-                            <p>Не допускаются к размещению фотографии с водяными знаками, чужих объектов недвижимости и
+                            <p>Не допускаются к размещению фотографии с водяными знаками, объектов недвижимости и
                                 рекламные баннер. Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.
                                 Главным изображением будет являтся первое загруженное, поэтому будьте внимательнее!</p>
                         </div>
@@ -89,12 +89,12 @@
                                        multiple>
                             </label>
                             <div id="images-prev"></div>
-                            <span id="images-error" style="color: red;"></span>
+                            <p id="images-error"></p>
                         </div>
                     </div>
                 </fieldset>
 
-                <button class="btn btn-filled btn-submit">Добавить жилой комплекс</button>
+                <button class="btn btn-filled btn-submit">Подать заявление</button>
             </form>
         </div>
     </div>
@@ -104,7 +104,40 @@
     <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
-        const btnSubmit = document.querySelector(".btn-submit");
+        const btnSubmit = document.querySelector(".btn-submit"),
+            form = document.querySelector('#form'),
+            imagesError = document.querySelector('#images-error');
+
+        // UPLOADING IMAGES
+        function handleChange(e) {
+            if (!e.target.files.length) {
+                return;
+            }
+
+            let oldLength = filesStore.length;
+
+            [...e.target.files].forEach(item => {
+                if (item.size / 1024 > 10) {
+                    filesStore.push(item);
+                }
+            })
+
+            if (filesStore.length > 10) {
+                imagesError.textContent = 'Изображений должно быть меньше 10!';
+                filesStore.splice(10, filesStore.length - 10);
+            }
+
+            cont.textContent = '';
+
+            filesStore.forEach((item, key) => {
+                cont.insertAdjacentHTML('beforeend', `
+                <div class="images-block">
+                    <img src="${URL.createObjectURL(item)}" alt="Фотография">
+                    <p data-index="${key}" onclick="deleteImg(event)">×</p>
+                </div>`);
+            })
+            e.target.value = '';
+        }
 
         // UPLOADING IMAGES AND REDIRECT
         btnSubmit.addEventListener('click', async e => {
@@ -120,9 +153,6 @@
                     });
                 }
 
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
                 return formData;
             }
 

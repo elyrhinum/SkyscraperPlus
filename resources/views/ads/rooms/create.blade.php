@@ -88,7 +88,7 @@
 
                     {{--STREET NUMBER--}}
                     <div id="street-number" class="labels">
-                        <p class="building-number__title">Номер улицы <span class="sign-required">*</span></p>
+                        <p class="building-number__title">Номер здания <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control"
                                min="1" {{ old('street_number') }} required>
                     </div>
@@ -179,7 +179,7 @@
                     <div id="living-rooms-amount" class="labels">
                         <p class="living-rooms-amount__title">Количество жилых комнат <span
                                 class="sign-required">*</span></p>
-                        <select name="living_rooms_amount" class="form-control" id="living_rooms_amount">
+                        <select name="living_rooms_amount" class="form-select" id="living_rooms_amount">
                             <option value="1" {{ old('living_rooms_amount') == '1' ? 'selected' : '' }}>1</option>
                             <option value="2" {{ old('living_rooms_amount') == '2' ? 'selected' : '' }}>2</option>
                             <option value="3" {{ old('living_rooms_amount') == '3' ? 'selected' : '' }}>3</option>
@@ -190,7 +190,7 @@
                     {{--BATHROOMS AMOUNT--}}
                     <div id="bathrooms-amount" class="labels">
                         <p class="bathrooms-amount__title">Количество санузлов <span class="sign-required">*</span></p>
-                        <select name="bathrooms_amount" class="form-control" id="bathrooms_amount">
+                        <select name="bathrooms_amount" class="form-select" id="bathrooms_amount">
                             <option value="1" {{ old('bathrooms_amount') == '1' ? 'selected' : '' }}>1</option>
                             <option value="2" {{ old('bathrooms_amount') == '2' ? 'selected' : '' }}>2</option>
                             <option value="3" {{ old('bathrooms_amount') == '3' ? 'selected' : '' }}>3</option>
@@ -279,17 +279,16 @@
                     <div id="room-description">
                         <h5>Описание <span class="sign-required">*</span></h5>
                         <textarea name="description" id="description" rows="10" class="form-control" required
-                                  placeholder="Опишите все детали, например, для чего использовался участок или какие соседи. Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимущества или особенности объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные данные и ссылки на другие ресурсы."></textarea>
+                                  placeholder="Опишите все детали, например, есть ли какая-либо мебель или какие соседи. Также, можно описать ближайшую инфраструктуру, транспортную доступность, указать на преимуществаили особенности объекта недвижимости. Если есть особые условия для сделки, сообщите о них. Запрещается указывать контактные данные и ссылки на другие ресурсы."></textarea>
                     </div>
 
                     {{--LAYOUT--}}
                     <div id="layout-image">
                         <div class="mb-3">
                             <h5 class="mb-1">Планировка</h5>
-                            <p>Объявления с планирвкой привлекают больше потенциальных покупателей. Не допускаются к
-                                размещению изображения планировки с водяными знаками, чужих объектов недвижимости и
-                                рекламные баннер.
-                                Разрешенные форматы: JPG, JPEG, PNG. Максимальный размер файла 10 МБ.</p>
+                            <p>Не допускаются к размещению изображения планировки с водяными знаками, чужих объектов
+                                недвижимости и рекламные баннер. Разрешенные форматы: JPG, JPEG, PNG. Максимальный
+                                размер файла 10 МБ.</p>
                         </div>
 
                         <div class="label-layout">
@@ -366,7 +365,40 @@
             district = document.getElementById('district_id'),
             renderSelect = document.getElementById('rendering-select'),
             buildingYear = document.getElementById('building_year'),
-            yearError = document.getElementById('year-error');
+            yearError = document.getElementById('year-error'),
+            form = document.querySelector('#form'),
+            imagesError = document.querySelector('#images-error');
+
+        // UPLOADING IMAGES
+        function handleChange(e) {
+            if (!e.target.files.length) {
+                return;
+            }
+
+            let oldLength = filesStore.length;
+
+            [...e.target.files].forEach(item => {
+                if (item.size / 1024 > 10) {
+                    filesStore.push(item);
+                }
+            })
+
+            if (filesStore.length > 10) {
+                imagesError.textContent = 'Изображений должно быть меньше 10!';
+                filesStore.splice(10, filesStore.length - 10);
+            }
+
+            cont.textContent = '';
+
+            filesStore.forEach((item, key) => {
+                cont.insertAdjacentHTML('beforeend', `
+                <div class="images-block">
+                    <img src="${URL.createObjectURL(item)}" alt="Фотография">
+                    <p data-index="${key}" onclick="deleteImg(event)">×</p>
+                </div>`);
+            })
+            e.target.value = '';
+        }
 
         // PREVIEW OF LAYOUT
         layout.addEventListener('change', (e) => {

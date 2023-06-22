@@ -50,6 +50,36 @@ form {
     color: lightgray;
 }
 
+.images-block > img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+.label-images {
+    width: 100%;
+    min-height: 150px;
+    padding: 10px;
+
+    border-radius: 3px;
+    border: 3px dotted lightgray;
+}
+
+.label-images > label {
+    width: 100%;
+}
+
+.label-images__title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px !important;
+    color: lightgray;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #complex-description {
     margin-bottom: 30px !important;
 }

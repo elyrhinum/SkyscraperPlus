@@ -60,7 +60,7 @@
             <div class="container__secondary-body">
                 <div class="common">
                     <h5>Описание</h5>
-                    <p>{{ $complex->description }}</p>
+                    <p class="complex-description">{{ $complex->description }}</p>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
         {{--FLATS IN THIS COMPLEX--}}
         @if (count($flats) > 0)
             <div class="container__secondary-body objects-in-complex">
-                <div>
+                <div class="headers mb-1">
                     <h5>
                         <a href="{{ route('complexes.flatsInResidentialComplex', $complex->id) }}">Квартиры в этом жилом
                             комплексе</a>
@@ -87,7 +87,7 @@
         {{--ROOMS IN THIS COMPLEX--}}
         @if (count($rooms) > 0)
             <div class="container__secondary-body objects-in-complex">
-                <div>
+                <div class="headers mb-1">
                     <h5>
                         <a href="{{ route('complexes.roomsInResidentialComplex', $complex->id) }}">Комнаты в этом жилом
                             комплексе</a>

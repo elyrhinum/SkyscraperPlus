@@ -8,7 +8,7 @@
             <div class="body__ad common">
                 {{--SLIDER--}}
                 <div class="body__carousel col">
-                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             @foreach($ad->images as $key=>$item)
                                 <button type="button" data-bs-target="#carouselExampleCaptions"
@@ -69,7 +69,7 @@
                 {{--ABOUT USER--}}
                 <div class="user__info">
                     <div class="user__name">
-                        <h5 class="user__full-name">{{ $ad->user->fullName }}</h5>
+                        <h5 class="user__full-name"><a href="{{ route('users.ads', $ad->user->id) }}">{{ $ad->user->fullName }}</a></h5>
                         <p class="user__role">{{ $ad->user->role->name }}</p>
                     </div>
                     <div class="user__contacts">
@@ -77,6 +77,11 @@
                         <p>{{ $ad->user->email }}</p>
                     </div>
                 </div>
+            </div>
+
+            {{--WARNING--}}
+            <div class="alert alert-warning mb-0">
+                <p>При необходимости вы можете нанять любого доступного риелтора от агентства недвижимости на странице <a href="{{ route('users.realtors.index') }}">"Риелторы".</a></p>
             </div>
         </div>
 

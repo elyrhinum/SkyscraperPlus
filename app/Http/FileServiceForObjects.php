@@ -34,7 +34,7 @@ class FileServiceForObjects
     {
         $path = '/public/' . $dir . pathinfo($url, PATHINFO_BASENAME);
 
-        if (Storage::exists($path) || $path != '/public/products/default.png') {
+        if (Storage::exists($path) || $path != '/storage/default/default.png') {
             return Storage::delete($path);
         }
         return false;

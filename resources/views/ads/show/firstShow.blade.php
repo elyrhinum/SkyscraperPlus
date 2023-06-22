@@ -8,7 +8,7 @@
             <div class="body__ad common">
                 {{--SLIDER--}}
                 <div class="body__carousel col">
-                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                    <div id="carouselExampleCaptions" class="carousel carousel-dark slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             @foreach($ad->images as $key=>$item)
                                 <button type="button" data-bs-target="#carouselExampleCaptions"
@@ -66,20 +66,22 @@
 
             {{--ABOUT USER--}}
             <div class="body__user common">
-                {{--IMAGE--}}
-                @if ($ad->user->role_id == 2)
-                    <img src="{{ $ad->user->image }}" alt="{{ $ad->user->shortName }}">
-                @endif
-
                 {{--ABOUT USER--}}
                 <div class="user__info">
-                    <p class="user__full-name">{{ $ad->user->fullName }}</p>
-                    <p class="user__role">{{ $ad->user->role->name }}</p>
+                    <div class="user__name">
+                        <h5 class="user__full-name"><a href="{{ route('users.ads', $ad->user->id) }}">{{ $ad->user->fullName }}</a></h5>
+                        <p class="user__role">{{ $ad->user->role->name }}</p>
+                    </div>
                     <div class="user__contacts">
                         <p>{{ $ad->user->telephone }}</p>
                         <p>{{ $ad->user->email }}</p>
                     </div>
                 </div>
+            </div>
+
+            {{--WARNING--}}
+            <div class="alert alert-warning mb-0">
+                <p>При необходимости вы можете нанять любого доступного риелтора от агентства недвижимости на странице <a href="{{ route('users.realtors.index') }}">"Риелторы".</a></p>
             </div>
         </div>
 
@@ -122,7 +124,7 @@
                             <img src="{{ asset('/media/icons/ads/kitchen_area.svg') }}" alt="Площадь кухни">
                             <div>
                                 <p class="infographics__title">Площадь кухни</p>
-                                <p class="infographics__value">{{ $characteristics->kithcen_area }} м<sup>2</sup></p>
+                                <p class="infographics__value">{{ $characteristics->kitchen_area }} м<sup>2</sup></p>
                             </div>
                         </div>
                     @endif
@@ -195,20 +197,3 @@
         @endif
     </div>
 @endsection
-
-@push('script')
-    <script>
-        const userInfo = document.querySelector('.body__user'),
-            header = document.getElementById("header");
-
-        window.onscroll = () => {
-            let headerHeight = header.clientHeight;
-
-            if (window.scrollY >= headerHeight) {
-                userInfo.classList.add("change-fixed");
-            } else {
-                userInfo.classList.remove("change-fixed");
-            }
-        };
-    </script>
-@endpush

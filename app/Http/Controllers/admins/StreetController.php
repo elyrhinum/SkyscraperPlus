@@ -29,7 +29,7 @@ class StreetController extends Controller
     {
         $street = Street::find($request->id);
 
-        if (Street::where('name', $request->name)->first() == $street) {
+        if (Street::where('name', $request->name)->first() == $street || Street::where('name', $request->name)->first() == null) {
             $result = $street->update($request->only(['name']));
         } else {
             $result = false;

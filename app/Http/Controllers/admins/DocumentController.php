@@ -35,7 +35,17 @@ class DocumentController extends Controller
         $result = false;
         $document = Document::find($request->id);
 
-        if (Document::where('name', $request->name)->first() == $document) {
+        if(Document::where('name', $request->name)->first() != null) {
+            if (Document::where('name', $request->name)->first() == $document) {
+                $path = FileServiceForDocuments::update('/documents', $document->document, $request->file('document') ?? '');
+
+                if ($path) {
+                    $result = $document->update(array_merge(['document' => $path], $request->except(['document'])));
+                } else {
+                    $result = $document->update($request->except(['document']));
+                }
+            }
+        } else {
             $path = FileServiceForDocuments::update('/documents', $document->document, $request->file('document') ?? '');
 
             if ($path) {

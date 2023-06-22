@@ -89,7 +89,7 @@
 
                     {{--STREET'S NUMBER--}}
                     <div id="plot-number" class="labels">
-                        <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
+                        <p class="plot-number__title">Номер здания <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control"
                                min="1" value="{{ old('street_number') ?? $ad->object->street_number }}" required>
                     </div>
@@ -262,13 +262,16 @@
                                        accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
                                        multiple>
                             </label>
-                            <div id="images-prev">
-                                @foreach($ad->images as $image)
-                                    <div class="images-block">
-                                        <img src="{{ $image->image }}" alt="{{ $ad->getNameOfObject() }}">
-                                        <p data-index="{{ $image->id }}" onclick="deleteCurrentImg(event)">×</p>
-                                    </div>
-                                @endforeach
+                            <div>
+                                <div id="old-images-prev">
+                                    @foreach($ad->images as $image)
+                                        <div class="images-block">
+                                            <img src="{{ $image->image }}" alt="{{ $ad->getNameOfObject() }}">
+                                            <p data-index="{{ $image->id }}" onclick="deleteCurrentImg(event)">×</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div id="images-prev"></div>
                             </div>
                             <p id="images-error"></p>
                         </div>
@@ -327,7 +330,47 @@
         const btnSubmit = document.querySelector('.btn-submit'),
             buildingYear = document.getElementById('building_year'),
             submitError = document.getElementById('submit-error'),
-            yearError = document.getElementById('year-error');
+            yearError = document.getElementById('year-error'),
+            oldCont = document.querySelector('#old-images-prev'),
+            form = document.querySelector('#form'),
+            imagesError = document.querySelector('#images-error');
+
+        // UPLOADING IMAGES
+        function handleChange(e) {
+            if (!e.target.files.length) {
+                return;
+            }
+
+            let oldLength = filesStore.length;
+
+            [...e.target.files].forEach(item => {
+                if (item.size / 1024 > 10) {
+                    filesStore.push(item);
+                }
+            })
+
+            let newLength = filesStore.length;
+            let amountLoaded = newLength - oldLength;
+            let imagesAmount = document.querySelectorAll('.images-block').length;
+            let imagesInOldCont = oldCont.querySelectorAll('.images-block').length;
+
+            if (imagesAmount > 10 || amountLoaded > 10 - imagesAmount) {
+                imagesError.textContent = 'Изображений должно быть меньше 10!';
+                filesStore.splice(10 - imagesInOldCont,
+                    imagesAmount + amountLoaded - 10);
+            }
+
+            cont.textContent = '';
+
+            filesStore.forEach((item, key) => {
+                cont.insertAdjacentHTML('beforeend', `
+                <div class="images-block">
+                    <img src="${URL.createObjectURL(item)}" alt="Фотография">
+                    <p data-index="${key}" onclick="deleteImg(event)">×</p>
+                </div>`);
+            })
+            e.target.value = '';
+        }
 
         // CHECKING THAT YEAR DON'T EXCEED CURRENT YEAR
         buildingYear.addEventListener('input', () => {

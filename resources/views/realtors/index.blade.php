@@ -7,26 +7,27 @@
         <div class="flex-block">
             {{--HEADERS--}}
             <div class="headers">
-                <h3>Риелторы</h3>
+                <div class="headers__inner">
+                    <h3>Риелторы</h3>
+                    <p>Для связи с риелтором и обсуждения дальнейшей работы необходимо связаться лично, воспользовавшись контактными данными, указанными самим риелтором.</p>
+                </div>
             </div>
 
             {{--REALTORS--}}
-            <div class="flex-block__inner">
+            <div class="realtor-block__inner">
                 @forelse($realtors as $realtor)
                     {{--REALTOR--}}
                     <div class="inner__realtor common">
-                        <img src="{{ $realtor->image }}" alt="Фотография">
-                        <div>
-                            <h5>{{ $realtor->fullName }}</h5>
+                        <img src="{{ $realtor->image }}" alt="{{ $realtor->fullName }}">
                             <div class="realtor__info">
                                 <div>
+                                    <h5>{{ $realtor->fullName }}</h5>
                                     <p>E-mail: {{ $realtor->email }}</p>
                                     <p>Телефон: {{ $realtor->telephone }}</p>
-                                </div>
-                                <p>Объявлений всего: {{ count($realtor->ads) }}</p>
-                                <a href="{{ route('users.realtors.ads', $realtor->id) }}" class="btn btn-outlined">Посмотреть объявления</a>
+                                    <p class="info__count-ads">Объявлений всего: {{ count($realtor->ads->where('status_id', 1)) }}</p>
                             </div>
-                        </div>
+                            <a href="{{ route('users.ads', $realtor->id) }}" class="btn btn-outlined">Посмотреть объявления</a>
+                         </div>
                     </div>
                 @empty
                     <div class="message-empty common">

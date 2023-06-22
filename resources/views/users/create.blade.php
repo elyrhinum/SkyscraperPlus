@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{{ asset('css/users/create.css') }}">
 @section('title', 'Регистрация')
 @section('content')
-    <div class="main-container pd common mt-4">
+    <div class="main-container common mt-4">
         <h3>Зарегистрироваться как</h3>
 
         {{-- TABS --}}
@@ -32,9 +32,9 @@
                         <input type="text" name="name" value="{{ old('name') }}" placeholder="Иван"
                                    class="form-control name @error('name') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('name')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -43,9 +43,9 @@
                         <input type="text" name="surname" value="{{ old('surname') }}" placeholder="Иванов"
                                    class="form-control surname @error('surname') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('surname')
-                <span>{{ $message }}</span>
+                <span  class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -54,19 +54,20 @@
                         <input type="text" name="patronymic" value="{{ old('patronymic') }}" placeholder="Иванович"
                                    class="form-control patronymic @error('patronymic') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('patronymic')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
                 <div class="inputs input-email">
                     <label for="email">E-mail <sup class="required-mark">*</sup>
                         <input type="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com"
+                                   pattern="[^@\s]+@[^@\s]+.[^@\s]+"
                                    class="form-control email @error('email') is-invalid @enderror">
                         </label>
                         @error('email')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -76,7 +77,7 @@
                                    class="form-control telephone @error('telephone') is-invalid @enderror">
                         </label>
                         @error('telephone')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -85,9 +86,9 @@
                         <input type="text" name="login" value="{{ old('login') }}" placeholder="eXampl3"
                                    class="form-control login @error('login') is-invalid @enderror">
                         </label>
-                        <span>Английский алфавит и цифры</span>
+                        <span>Английский алфавит и цифры.</span>
                         @error('login')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -96,9 +97,9 @@
                         <input type="password" name="password"
                                class="form-control password @error('password') is-invalid @enderror">
                         </label>
-                        <span>Должен содержать минимум одну заглавную и прописную буквы, цифру</span>
+                        <span>Должен содержать минимум одну заглавную и прописную буквы, цифру, один спец. символ (!&#?). Минимум 6 символов.</span>
                         @error('password')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -108,7 +109,7 @@
                                class="form-control password_confirmation @error('password_confirmation') is-invalid @enderror">
                         </label>
                         @error('password_confirmation')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -140,9 +141,9 @@
                         <input type="text" name="name" value="{{ old('name') }}" placeholder="Иван"
                                    class="form-control name @error('name') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('name')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -151,9 +152,9 @@
                         <input type="text" name="surname" value="{{ old('surname') }}" placeholder="Иванов"
                                    class="form-control surname @error('surname') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('surname')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -162,19 +163,20 @@
                         <input type="text" name="patronymic" value="{{ old('patronymic') }}" placeholder="Иванович"
                                    class="form-control patronymic @error('patronymic') is-invalid @enderror">
                         </label>
-                        <span>Кириллица, пробелы и тире</span>
+                        <span>Кириллица, пробелы и тире.</span>
                         @error('patronymic')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
                 <div class="inputs input-email">
                     <label for="email">E-mail <sup class="required-mark">*</sup>
                         <input type="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com"
+                                   pattern="[^@\s]+@[^@\s]+.[^@\s]+"
                                    class="form-control email @error('email') is-invalid @enderror">
                         </label>
                         @error('email')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -184,7 +186,7 @@
                                    class="form-control telephone @error('telephone') is-invalid @enderror">
                         </label>
                         @error('telephone')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -200,7 +202,7 @@
                         </label>
                     </div>
                     @error('image')
-                        <span>{{ $message }}</span>
+                        <span class="pattern-error">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -209,9 +211,9 @@
                         <input type="text" name="login" value="{{ old('login') }}" placeholder="eXampl3"
                                    class="form-control login @error('login') is-invalid @enderror">
                         </label>
-                        <span>Английский алфавит и цифры</span>
+                        <span>Английский алфавит и цифры.</span>
                         @error('login')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -220,9 +222,9 @@
                         <input type="password" name="password"
                                class="form-control password @error('password') is-invalid @enderror">
                         </label>
-                        <span>Должен содержать минимум одну заглавную и прописную буквы, цифру</span>
+                        <span>Должен содержать минимум одну заглавную и прописную буквы, цифру, один спец. символ (!&#?). Минимум 6 символов.</span>
                         @error('password')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -232,7 +234,7 @@
                                class="form-control password_confirmation @error('password_confirmation') is-invalid @enderror">
                         </label>
                         @error('password_confirmation')
-                <span>{{ $message }}</span>
+                <span class="pattern-error">{{ $message }}</span>
                         @enderror
                 </div>
 
@@ -282,12 +284,8 @@
             imageInput.addEventListener('change', (e) => {
                 imagePrev.innerHTML = ''
                 let image = document.createElement('img')
-                image.style.display = 'block'
-                image.style.width = '350px'
-                image.style.height = '350px'
-                image.style.objectFit = 'cover'
                 image.src = URL.createObjectURL(e.target.files[0])
-                image.alt = "img"
+                image.alt = "Фотография"
                 imagePrev.append(image)
             })
 

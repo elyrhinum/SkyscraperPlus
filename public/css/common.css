@@ -87,12 +87,6 @@ select {
     margin-bottom: 0 !important;
 }
 
-.flex-block__inner {
-    display: flex;
-    flex-direction: column;
-    gap: 10px ;
-}
-
 /*EMPTY MESSAGE*/
 .message-empty {
     width: 100%;
@@ -133,4 +127,33 @@ select {
 
 .btn-outlined:hover {
     border: 1px solid #EEA444 !important;
+}
+
+/*PC STYLES*/
+@media (min-width: 1200px) {
+    .flex-block__inner {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px ;
+    }
+}
+
+/*TABLET STYLES*/
+@media (max-width: 1200px) {
+    .flex-block__inner {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 10px ;
+    }
+}
+
+/*PHONE STYLES*/
+@media (max-width: 770px) {
+    .flex-block__inner {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap;
+        gap: 10px ;
+    }
 }

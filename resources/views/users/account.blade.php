@@ -75,6 +75,10 @@
                                 {{--BUTTON TO SHOW--}}
                                 <a href="{{ route('ads.show', $ad->id) }}"
                                    class="btn btn-outlined btn-edit">Посмотреть</a>
+
+                                {{--BUTTON TO DELETE--}}
+                                <a href="{{ route('ads.delete', $ad->id) }}"
+                                class="btn btn-danger">Удалить</a>
                             </div>
                         </div>
                     </div>
@@ -125,6 +129,10 @@
                                 {{--BUTTON TO SHOW--}}
                                 <a href="{{ route('ads.show', $ad->id) }}"
                                    class="btn btn-outlined btn-edit">Посмотреть</a>
+
+                                {{--BUTTON TO DELETE--}}
+                                <a href="{{ route('ads.delete', $ad->id) }}"
+                                   class="btn btn-danger">Удалить</a>
                             </div>
                         </div>
                     </div>
@@ -185,6 +193,10 @@
                                     {{--BUTTON TO EDIT--}}
                                     <a href="{{ route('ads.edit', $ad->id) }}"
                                        class="btn btn-filled btn-edit">Редактировать</a>
+
+                                    {{--BUTTON TO DELETE--}}
+                                    <a href="{{ route('ads.delete', $ad->id) }}"
+                                       class="btn btn-danger">Удалить</a>
                                 </div>
                             </div>
                         </div>

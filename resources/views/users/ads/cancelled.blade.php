@@ -52,6 +52,10 @@
                                 {{--BUTTON TO EDIT--}}
                                 <a href="{{ route('ads.edit', $ad->id) }}"
                                    class="btn btn-filled btn-edit">Редактировать</a>
+                                   
+                                {{--BUTTON TO DELETE--}}
+                                <a href="{{ route('ads.delete', $ad->id) }}"
+                                class="btn btn-danger">Удалить</a>
                             </div>
                         </div>
                     </div>
@@ -94,3 +98,9 @@
         }
     </script>
 @endpush
+
+<style>
+    footer {
+        margin: 30px 10% 0 10% !important;
+    }
+</style>

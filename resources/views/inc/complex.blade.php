@@ -1,4 +1,4 @@
-<div class="complex">
+<div class="complex common">
     {{--IMAGE--}}
     <div class="complex__image">
         <img src="{{ $complex->images[0]->image }}" alt="{{ $complex->id }}">
@@ -23,19 +23,6 @@
 </div>
 
 <style>
-    .complex {
-        display: grid;
-        grid-template-columns: 250px 5fr 200px;
-        gap: 10px;
-
-        width: 100%;
-        height: 272px;
-
-        background-color: white;
-        border: 1px solid rgba(211, 211, 211, 0.5);
-        padding: 10px;
-    }
-
     .complex__header {
         display: flex;
         flex-direction: column;
@@ -70,13 +57,6 @@
         height: fit-content;
     }
 
-    .complex__image > img {
-        width: 250px;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 3px;
-    }
-
     /*INFO*/
     .complex__info {
         display: grid;
@@ -85,18 +65,107 @@
     }
 
     /*BUTTONS*/
-    .complex__buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-self: flex-end;
-    }
-
     .info__buttons > a {
         width: fit-content;
     }
 
     .btn-filled {
         height: 35px;
+    }
+
+    /*PC STYLES*/
+    @media (min-width: 1200px) {
+        /*COMPLEX*/
+        .complex {
+            display: grid;
+            grid-template-columns: 250px 5fr 200px;
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .complex__image > img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        /*BUTTONS*/
+        .complex__buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-self: flex-end;
+        }
+    }
+    
+    /*TABLET STYLES*/
+    @media (max-width: 1200px) {
+        /*COMPLEX*/
+        .complex {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+
+            width: 100%;
+        }
+        
+        .complex__image {
+            width: 100%;
+        }
+
+        .complex__image > img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+        
+        .header__complex-description {
+            display: none;
+        }
+
+        /*BUTTONS*/
+        .complex__buttons, .complex__buttons > .btn {
+            width: 100%;
+        }
+    }
+
+    /*PHONE STYLES*/
+    @media (max-width: 770px) {
+        /*COMPLEX*/
+        .complex {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .complex__image {
+            width: 100%;
+        }
+
+        .complex__image > img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+        
+        .header__complex-description {
+            display: none;
+        }
+
+
+        /*BUTTONS*/
+        .complex__buttons, .complex__buttons > .btn {
+            width: 100%;
+        }
     }
 </style>

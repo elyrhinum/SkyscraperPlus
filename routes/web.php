@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// INDEX PAGE
+// INDEX PAGE AND PAGE WITH DOCUMENTS
 Route::controller(AdController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/documents', 'documents')->name('documents.index');
@@ -36,7 +36,7 @@ Route::prefix('users')->name('users.')->group(function () {
         Route::post('/signup/realtors/store', 'storeRealtor')->name('storeRealtor');
 
         Route::get('/realtors', 'realtorsIndex')->name('realtors.index');
-        Route::get('/realtors/ads', 'realtorsAds')->name('realtors.ads');
+        Route::get('/users/ads/{user}', 'usersAds')->name('ads');
     });
 });
 
@@ -115,6 +115,9 @@ Route::middleware('auth')->group(function () {
 
             // ROUTE TO DELETE IMAGE
             Route::post('/deleteImg', 'deleteImg')->name('deleteImg');
+
+            //ROUTE TO DELETE AD
+            Route::get('/delete/{ad}', 'delete')->name('delete');
         });
     });
 

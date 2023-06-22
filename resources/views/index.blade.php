@@ -15,42 +15,42 @@
     {{--CATEGORIES OF ADS--}}
     <div class="categories pd">
         <div class="ads__blocks">
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Flat', 'contract_id_1' => 1]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'Flat', 'contract_id_1' => 1]) }}"
                class="blocks__block">
                 <p>Купить квартиру</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Flat', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'Flat', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
                class="blocks__block">
                 <p>Снять квартиру</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Room', 'contract_id_1' => 1]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'Room', 'contract_id_1' => 1]) }}"
                class="blocks__block">
                 <p>Купить комнату</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\Room', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'Room', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
                class="blocks__block">
                 <p>Снять комнату</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\House', 'contract_id_1' => 1]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'House', 'contract_id_1' => 1]) }}"
                class="blocks__block">
                 <p>Купить участок с домом</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\House', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'House', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
                class="blocks__block">
                 <p>Снять участок с домом</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\LandPlot', 'contract_id_1' => 1]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'LandPlot', 'contract_id_1' => 1]) }}"
                class="blocks__block">
                 <p>Купить земельный участок</p>
             </a>
 
-            <a href="{{ route('ads.catalog', ['object_type' => '\App\Models\LandPlot', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
+            <a href="{{ route('ads.catalog', ['object_type' => 'LandPlot', 'contract_id_1' => 2, 'contract_id_2' => 3]) }}"
                class="blocks__block">
                 <p>Снять земельный участок</p>
             </a>

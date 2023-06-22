@@ -4,6 +4,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 
     margin: 20px 0 !important;
 }
@@ -14,32 +15,11 @@
     margin-bottom: 0;
 }
 
-/*CLASSES*/
-.for-user-account {
-    display: grid;
-    grid-template-columns: 5fr 1fr;
-    gap: 10px;
-
-    margin-bottom: 10px !important;
-    background-color: white;
-    padding: 15px;
+footer {
+    margin: 30px 0 !important;
 }
 
 /*MAIN BLOCKS*/
-.main-info__button {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: flex-end;
-}
-
-.main-info__personal > img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-    border-radius: 3px;
-}
-
 .blocks__info > div {
     display: flex;
     flex-direction: column;
@@ -58,26 +38,6 @@
 }
 
 /*AD*/
-.ad {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-
-    width: 100%;
-    height: 272px;
-
-    background-color: white;
-    border-radius: 3px;
-    padding: 10px;
-}
-
-.ad__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
 .info__inner {
     display: flex;
     flex-direction: column;
@@ -98,22 +58,8 @@
 
 .info__description {
     margin-top: 20px;
+    margin-bottom: 20px !important;
     width: 100%;
-}
-
-.ad__image > img {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-}
-
-.info__price {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-
-    margin-top: 20px;
 }
 
 .info__price > h5 {
@@ -130,15 +76,6 @@
     border-radius: 3px;
 }
 
-/*BUTTONS ON AD*/
-.ad__buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-}
-
 /*PC STYLES*/
 @media (min-width: 1200px) {
     /*REALTOR STYLES*/
@@ -151,10 +88,71 @@
         background-color: white;
         padding: 15px;
     }
+
+    /*USER STYLES*/
+    .for-user-account {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        gap: 10px;
+
+        margin-bottom: 10px !important;
+        background-color: white;
+        padding: 15px;
+    }
+
+    .main-info__personal > img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+
+    .main-info__button {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    /*AD*/
+    .ad {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+
+        width: 100%;
+        height: 272px;
+
+        background-color: white;
+        border-radius: 3px;
+        padding: 10px;
+    }
+
+    .ad__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .ad__image > img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+    }
+    
+    /*BUTTONS ON AD*/
+    .ad__buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 /*TABLET STYLES*/
-@media (max-width: 990px) {
+@media (max-width: 1200px) {
     /*REALTOR STYLES*/
     .for-realtor-account {
         display: grid;
@@ -164,6 +162,96 @@
         margin-bottom: 10px !important;
         background-color: white;
         padding: 15px;
+    }
+
+    /*USER STYLES*/
+    .for-user-account {
+        display: grid;
+        grid-template-columns: 5fr 1fr;
+        gap: 10px;
+
+        margin-bottom: 10px !important;
+        background-color: white;
+        padding: 15px;
+    }
+
+    .main-info__personal > img {
+        width: 250px;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+
+    .main-info__button {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .main-info__button > .btn {
+        width: 100%;
+    }
+
+    /*AD*/
+    .ad {
+        width: 100%;
+    }
+
+    .ad__image {
+        width: 100%;
+    }
+
+    .ad__image > img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 3px;
+        margin-bottom: 10px;
+    }
+
+    .ad__header > div > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        width: fit-content;
+        margin-bottom: 20px;
+        opacity: 70%;
+        font-size: 12px;
+    }
+
+    .info__description {
+        display: none;
+    }
+    
+    /*BUTTONS ON AD*/
+    .ad__buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .ad__buttons > .btn {
+        width: 100% !important;
+    }
+    
+    .info__price {
+        margin: 10px 0;
+    }
+
+    /*USER INFO*/
+    .ad__user {
+        margin-top: 20px;
+    }
+
+    .user__contacts {
+        margin-top: 10px;
     }
 }
 
@@ -180,5 +268,90 @@
         margin-bottom: 10px !important;
         background-color: white;
         padding: 15px;
+    }
+
+    /*USER STYLES*/
+    .for-user-account {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .main-info__personal > img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+
+    .main-info__button {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .main-info__button > .btn {
+        width: 100%;
+    }
+
+    /*AD*/
+    .ad {
+        width: 100%;
+    }
+
+    .ad__image {
+        width: 100%;
+    }
+
+    .ad__image > img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 3px;
+    }
+
+    .ad__header > div > div {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 10px;
+
+        width: fit-content;
+        margin-bottom: 20px;
+        opacity: 70%;
+        font-size: 12px;
+    }
+
+    .info__description {
+        display: none;
+    }
+    
+    /*BUTTONS ON AD*/
+    .ad__buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ad__buttons > .btn {
+        width: 100% !important;
+    }
+
+    /*USER INFO*/
+    .ad__user {
+        margin-top: 20px;
+    }
+
+    .user__contacts {
+        margin-top: 10px;
     }
 }

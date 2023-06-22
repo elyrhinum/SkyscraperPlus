@@ -52,8 +52,7 @@
                     <div id="streets" class="labels">
                         <p class="streets__title">Улица <span class="sign-required">*</span></p>
                         <input type="text" list="streets-list" class="form-select" name="street"
-                               {{ old('street') }} required
-                               placeholder="В формате ул. Гагарина или пр. Ленина">
+                               placeholder="В формате ул. Гагарина или пр. Ленина" {{ old('street') }} required>
                         <datalist id="streets-list">
                             @foreach($streets as $street)
                                 <option>{{ $street->name }}</option>
@@ -63,7 +62,7 @@
 
                     {{--STREET'S NUMBER--}}
                     <div id="plot-number" class="labels">
-                        <p class="plot-number__title">Номер улицы <span class="sign-required">*</span></p>
+                        <p class="plot-number__title">Номер здания <span class="sign-required">*</span></p>
                         <input type="number" name="street_number" id="street_number" class="form-control" min="1"
                                {{ old('street_number') }} required>
                     </div>
@@ -179,7 +178,40 @@
     <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
-        const btnSubmit = document.querySelector(".btn-submit");
+        const btnSubmit = document.querySelector(".btn-submit"),
+            form = document.querySelector('#form'),
+            imagesError = document.querySelector('#images-error');
+
+        // UPLOADING IMAGES
+        function handleChange(e) {
+            if (!e.target.files.length) {
+                return;
+            }
+
+            let oldLength = filesStore.length;
+
+            [...e.target.files].forEach(item => {
+                if (item.size / 1024 > 10) {
+                    filesStore.push(item);
+                }
+            })
+
+            if (filesStore.length > 10) {
+                imagesError.textContent = 'Изображений должно быть меньше 10!';
+                filesStore.splice(10, filesStore.length - 10);
+            }
+
+            cont.textContent = '';
+
+            filesStore.forEach((item, key) => {
+                cont.insertAdjacentHTML('beforeend', `
+                <div class="images-block">
+                    <img src="${URL.createObjectURL(item)}" alt="Фотография">
+                    <p data-index="${key}" onclick="deleteImg(event)">×</p>
+                </div>`);
+            })
+            e.target.value = '';
+        }
 
         // UPLOADING IMAGES AND REDIRECT TO METHOD
         btnSubmit.addEventListener('click', async e => {

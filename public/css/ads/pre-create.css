@@ -62,6 +62,15 @@
     transform: scale(1.2);
 }
 
+/*TABLET STYLES*/
+@media (max-width: 1200px) {
+    .blocks {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+    }
+}
+
 /*PHONE STYLES*/
 @media (max-width: 770px) {
     .blocks {

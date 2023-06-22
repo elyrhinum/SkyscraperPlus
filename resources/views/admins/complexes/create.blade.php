@@ -84,14 +84,16 @@
                                     будьте внимательнее!</p>
                             </div>
 
-                            <label for="images" class="label-images">
-                                <p>ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
-                                <input type="file" name="images" id="images" class="form-control"
-                                       accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
-                                       multiple>
+                            <div class="label-images">
+                                <label for="images">
+                                    <p class="label-images__title">ЗАГРУЗИТЕ ИЗОБРАЖЕНИЯ</p>
+                                    <input type="file" name="images" id="images" class="form-control"
+                                           accept="image/jpg, image/jpeg, image/png" onchange="handleChange(event)"
+                                           multiple>
+                                </label>
                                 <div id="images-prev"></div>
-                            </label>
-                            <span id="images-error" style="color: red;"></span>
+                                <span id="images-error" style="color: red;"></span>
+                            </div>
                         </div>
                     </fieldset>
 
@@ -108,7 +110,40 @@
     <script src="{{ asset('/js/form-uploading.js') }}"></script>
 
     <script>
-        const btnSubmit = document.querySelector(".btn-submit");
+        const btnSubmit = document.querySelector(".btn-submit"),
+            form = document.querySelector('#form'),
+            imagesError = document.querySelector('#images-error');
+
+        // UPLOADING IMAGES
+        function handleChange(e) {
+            if (!e.target.files.length) {
+                return;
+            }
+
+            let oldLength = filesStore.length;
+
+            [...e.target.files].forEach(item => {
+                if (item.size / 1024 > 10) {
+                    filesStore.push(item);
+                }
+            })
+
+            if (filesStore.length > 10) {
+                imagesError.textContent = 'Изображений должно быть меньше 10!';
+                filesStore.splice(10, filesStore.length - 10);
+            }
+
+            cont.textContent = '';
+
+            filesStore.forEach((item, key) => {
+                cont.insertAdjacentHTML('beforeend', `
+                <div class="images-block">
+                    <img src="${URL.createObjectURL(item)}" alt="Фотография">
+                    <p data-index="${key}" onclick="deleteImg(event)">×</p>
+                </div>`);
+            })
+            e.target.value = '';
+        }
 
         // UPLOADING IMAGES AND REDIRECT
         btnSubmit.addEventListener('click', async e => {
@@ -124,9 +159,6 @@
                     });
                 }
 
-                for (var pair of formData.entries()) {
-                    console.log(pair[0] + ', ' + pair[1]);
-                }
                 return formData;
             }
 

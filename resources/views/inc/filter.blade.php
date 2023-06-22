@@ -8,11 +8,11 @@
     $districts = District::all();
 @endphp
 
-<form action="{{ route('ads.filtration') }}" class="common">
+<form action="{{ route('ads.filtration') }}" class="filter-form common">
     <div class="filters">
         {{--SELECTING CONTRACT TYPE--}}
         <div class="filters__contract-type">
-            <select name="contract_id" id="contract_id" class="form-control">
+            <select name="contract_id" id="contract_id" class="form-select inputs">
                 @foreach($contractTypes as $contractType)
                     <option value="{{ $contractType->id }}">
                         {{ $contractType->name }}
@@ -22,7 +22,7 @@
         </div>
         {{--SELECTING OBJECT TYPE--}}
         <div class="filters__object-type">
-            <select name="object_type" id="object_type" class="form-control">
+            <select name="object_type" id="object_type" class="form-select inputs">
                 <option value="\App\Models\Room">
                     Комната
                 </option>
@@ -41,18 +41,19 @@
         {{--SELECTING PRICE FROM AND TO--}}
         <div class="filters__prices">
             <div class="prices__from">
-                <input type="number" name="price_from" id="price_from" class="form-control" placeholder="Цена от">
+                <input type="number" name="price_from" id="price_from" class="form-control inputs"
+                       placeholder="Цена от">
                 <span>₽</span>
             </div>
             <div class="prices__to">
-                <input type="number" name="price_to" id="price_to" class="form-control" placeholder="Цена до">
+                <input type="number" name="price_to" id="price_to" class="form-control inputs" placeholder="Цена до">
                 <span>₽</span>
             </div>
         </div>
 
         {{--SELECTING DISTRICT--}}
         <div class="filters__districts">
-            <select name="district_id" id="district_id" class="form-control">
+            <select name="district_id" id="district_id" class="form-control inputs">
                 @foreach($districts as $district)
                     <option value="{{ $district->id }}">
                         {{ $district->name }}
@@ -66,25 +67,7 @@
 </form>
 
 <style>
-    form {
-        display: grid;
-        grid-template-columns: 7fr 1fr;
-        gap: 10px;
 
-        padding: 20px !important;
-        margin: 30px 0;
-    }
-    .filters {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
-    }
-
-    .filters__prices {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
 
     #price_from, #price_to {
         padding-right: 20px !important;
@@ -117,5 +100,87 @@
     /* Firefox */
     input[type=number] {
         -moz-appearance: textfield;
+    }
+
+    /*PC STYLES*/
+    @media (min-width: 1200px) {
+        .filter-form {
+            display: grid;
+            grid-template-columns: 7fr 1fr;
+            gap: 10px;
+
+            padding: 20px !important;
+            margin: 30px 0;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .filters__prices {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+    }
+    
+    /*TABLET STYLES*/
+    @media (max-width: 1200px) {
+        .filter-form {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .filter-form, .filters, .filters__prices {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .inputs,
+        .filter-form > .btn,
+        .filters__contract-type,
+        .filters__object-type,
+        .filters__prices,
+        .filters__districts,
+        .prices__from,
+        .prices__to {
+            width: 100%;
+        }
+    }
+
+    /*PHONE STYLES*/
+    @media (max-width: 770px) {
+        .filter-form {
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        .filter-form, .filters, .filters__prices {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+
+            width: 100%;
+        }
+
+        .inputs,
+        .filter-form > .btn,
+        .filters__contract-type,
+        .filters__object-type,
+        .filters__prices,
+        .filters__districts,
+        .prices__from,
+        .prices__to {
+            width: 100%;
+        }
     }
 </style>

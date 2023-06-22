@@ -17,6 +17,7 @@ use App\Models\RoomFlatCharacteristic;
 use App\Models\Street;
 use App\Models\UserBookmark;
 use Illuminate\Http\Request;
+use Nette\Utils\Image;
 
 class AdController extends Controller
 {
@@ -50,6 +51,9 @@ class AdController extends Controller
     // CATALOG METHOD
     public function catalog($object_type, $contract_id_1, $contract_id_2 = null)
     {
+
+        $object_type = "\\App\\Models\\" . $object_type;
+
         if ($contract_id_2 != null) {
             $ads = Ad::onlyPublished()->where('object_type', $object_type)->whereIn('contract_id', [$contract_id_1, $contract_id_2])->latest()->get();
         } else {
@@ -144,11 +148,19 @@ class AdController extends Controller
     {
         $result = false;
         $image = ImagesAd::find($request->data);
-        if($image) {
+        if ($image) {
             $result = FileServiceForObjects::delete($image->image, '/storage/');
             $result = $image->delete();
+
+            if (count(ImagesAd::where('ad_id', $image->ad_id)->get()) == 0) {
+                $result = FileServiceForObjects::uploadRedirect(null, '');
+                $images = ImagesAd::create([
+                    'ad_id' => $image->ad_id,
+                    'image' => $result
+                ]);
+            }
         }
-        return $result;
+        return response()->json($result);
     }
 
     // METHOD TO REDIRECT TO EDIT PAGE
@@ -179,7 +191,7 @@ class AdController extends Controller
                 'ad' => $ad,
                 'contract_types' => ContractType::all(),
                 'characteristics' => HouseLandPlotCharacteristic::where('is_landplot', 0)->get(),
-                'ad_characteristics' => ObjectAndCharacteristics::where('object_type','\App\Models\House' )->where('object_id', $ad->object->id)->get(),
+                'ad_characteristics' => ObjectAndCharacteristics::where('object_type', '\App\Models\House')->where('object_id', $ad->object->id)->get(),
                 'types' => PlotType::all(),
                 'districts' => District::all(),
                 'streets' => Street::all()
@@ -189,7 +201,7 @@ class AdController extends Controller
                 'ad' => $ad,
                 'contract_types' => ContractType::all(),
                 'characteristics' => HouseLandPlotCharacteristic::where('is_landplot', 1)->get(),
-                'ad_characteristics' => ObjectAndCharacteristics::where('object_type','\App\Models\LandPlot' )->where('object_id', $ad->object->id)->get(),
+                'ad_characteristics' => ObjectAndCharacteristics::where('object_type', '\App\Models\LandPlot')->where('object_id', $ad->object->id)->get(),
                 'districts' => District::all(),
                 'streets' => Street::all()
             ]);
@@ -240,5 +252,61 @@ class AdController extends Controller
                 'characteristics' => $characteristics
             ]);
         }
+    }
+
+    // METHOD TO DELETE AD
+    public function delete(Ad $ad)
+    {
+        if($ad->object_type == '\App\Models\House') {
+            foreach (ObjectAndCharacteristics::where('object_id', $ad->object->id)->where('object_type', '\App\Models\House')->get() as $cb) {
+                $cb->delete();
+            }
+
+            foreach ($ad->images as $img) {
+                FileServiceForObjects::delete($img->image, '/house');
+                $img->delete();
+            }
+
+            $ad->object->delete();
+            $ad->delete();
+        } else if($ad->object_type == '\App\Models\LandPlot') {
+            foreach (ObjectAndCharacteristics::where('object_id', $ad->object->id)->where('object_type', '\App\Models\LandPlot')->get() as $cb) {
+                $cb->delete();
+            }
+
+            foreach ($ad->images as $img) {
+                FileServiceForObjects::delete($img->image, '/landplot');
+                $img->delete();
+            }
+
+            $ad->object->delete();
+            $ad->delete();
+        } else if ($ad->object_type == '\App\Models\Flat') {
+            foreach (RoomFlatCharacteristic::where('object_id', $ad->object->id)->where('object_type', '\App\Models\Flat')->get() as $cb) {
+                $cb->delete();
+            }
+
+            foreach ($ad->images as $img) {
+                FileServiceForObjects::delete($img->image, '/flat');
+                $img->delete();
+            }
+
+            $ad->object->delete();
+            $ad->delete();
+        } else if($ad->object_type == '\App\Models\Room') {
+            foreach (RoomFlatCharacteristic::where('object_id', $ad->object->id)->where('object_type', '\App\Models\Flat')->get() as $cb) {
+                $cb->delete();
+            }
+
+            foreach ($ad->images as $img) {
+                FileServiceForObjects::delete($img->image, '/flat');
+                $img->delete();
+            }
+
+            $ad->object->delete();
+            $ad->delete();
+        }
+
+        return back();
     }
 }

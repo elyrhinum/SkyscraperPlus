@@ -1,4 +1,4 @@
-<div class="ad">
+<div class="ad common">
     {{--IMAGE--}}
     <div class="ad__image">
         <img src="{{ $ad->images[0]->image }}" alt="{{ $ad->id }}">
@@ -8,13 +8,16 @@
     <div class="ad__info">
         {{--INFO--}}
         <div class="ad__header">
-            <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
             <div>
-                <p>{{ $ad->getCorrectObjectType() }}</p>
-                <p>{{ $ad->contract->name }}</p>
-                <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
+                <h5 class="info__header">{{ $ad->getNameOfObject() }}</h5>
+                <div>
+                    <p>{{ $ad->getCorrectObjectType() }}</p>
+                    <p>{{ $ad->contract->name }}</p>
+                    <p>Дата публикации: {{ $ad->dateOfUpdating }}</p>
+                </div>
+                <p class="info__description">{{ $ad->description }}</p>
             </div>
-            <p class="info__description">{{ $ad->description }}</p>
+
             <h5 class="info__price">{{ $ad->getCorrectPrice() }}</h5>
         </div>
 
@@ -34,7 +37,7 @@
 
     {{--USER INFO--}}
     <div class="ad__user">
-        <p class="user__full-name">{{ $ad->user->fullName }}</p>
+        <a href="{{ route('users.ads', $ad->user->id) }}" class="user__full-name">{{ $ad->user->fullName }}</a>
         <p class="user__role">{{ $ad->user->role->name }}</p>
         <div class="user__contacts">
             <p>{{ $ad->user->telephone }}</p>
@@ -44,32 +47,6 @@
 </div>
 
 <style>
-    .ad {
-        display: grid;
-        grid-template-columns: 250px 5fr 200px;
-        gap: 10px;
-
-        width: 100%;
-        height: 272px;
-
-        background-color: white;
-        border: 1px solid rgba(211, 211, 211, 0.5);
-        padding: 10px;
-    }
-
-    .ad__header > div {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-
-        width: fit-content;
-        opacity: 70%;
-
-        margin-bottom: 20px;
-    }
-
     .info__header {
         margin-bottom: 0;
     }
@@ -88,27 +65,7 @@
         height: fit-content;
     }
 
-    .ad__image > img {
-        width: 250px;
-        height: 250px;
-        object-fit: cover;
-        border-radius: 3px;
-    }
-
-    /*INFO*/
-    .ad__info {
-        display: grid;
-        grid-auto-rows: 3fr 35px;
-        gap: 10px;
-    }
-
     /*BUTTONS*/
-    .info__buttons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-    }
-
     .info__buttons > a {
         width: fit-content;
     }
@@ -123,21 +80,19 @@
         border: 0;
         border-radius: 3px;
         cursor: pointer;
+        height: 47px;
+        width: 47px !important  ;
     }
 
     .btn-save > img {
         height: 47px;
+        width: 47px;
         object-fit: cover;
 
         margin-top: -7px;
     }
 
     /*USER INFO*/
-    .ad__user {
-        padding: 10px;
-        border-left: 1px solid rgba(211, 211, 211, 0.5);
-    }
-
     .user__full-name {
         font-size: 16px;
         font-weight: 500;
@@ -151,5 +106,191 @@
 
     .user__contacts > p {
         margin: 0;
+    }
+
+    /*PC STYLES*/
+    @media (min-width: 1200px) {
+        /*AD*/
+        .ad {
+            display: grid;
+            grid-template-columns: 250px 5fr 200px;
+            gap: 10px;
+
+            width: 100%;
+            height: 272px;
+            padding: 10px;
+        }
+
+        .ad__image > img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .ad__header > div > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            width: fit-content;
+            opacity: 70%;
+
+            margin-bottom: 20px;
+        }
+
+        .ad__info {
+            display: grid;
+            grid-auto-rows: 3fr 35px;
+            gap: 10px;
+        }
+
+        /*USER INFO*/
+        .ad__user {
+            padding: 10px;
+            border-left: 1px solid rgba(211, 211, 211, 0.5);
+        }
+        
+        /*BUTTONS*/
+        .info__buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        }
+    }
+    
+    /*TABLET STYLES*/
+    @media (max-width: 1200px) {
+        /*AD*/
+        .ad {
+            width: 100%;
+        }
+
+        .ad__image {
+            width: 100%;
+        }
+
+        .ad__image > img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .ad__header > div > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            width: fit-content;
+            margin-bottom: 20px;
+            opacity: 70%;
+            font-size: 12px;
+        }
+
+        .info__buttons > a {
+            width: 100%;
+        }
+
+        .ad__info {
+            display: grid;
+            grid-auto-rows: 3fr 35px;
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .info__buttons > .btn {
+            width: 100% !important;
+        }
+        
+        /*BUTTONS*/
+        .info__buttons {
+            display: grid;
+            grid-template-columns: 47px 3fr;
+        }
+
+        /*USER INFO*/
+        .ad__user {
+            margin-top: 20px;
+        }
+
+        .user__contacts {
+            margin-top: 10px;
+        }
+    }
+
+    /*PHONE STYLES*/
+    @media (max-width: 770px) {
+        /*AD*/
+        .ad {
+            width: 100%;
+        }
+
+        .ad__image {
+            width: 100%;
+        }
+
+        .ad__image > img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .ad__header > div > div {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            width: fit-content;
+            margin-bottom: 20px;
+            opacity: 70%;
+            font-size: 12px;
+        }
+
+        .info__description {
+            display: none;
+        }
+
+        .info__buttons > a {
+            width: 100%;
+        }
+
+        .ad__info {
+            display: grid;
+            grid-auto-rows: 3fr 35px;
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .info__buttons > .btn {
+            width: 100% !important;
+        }
+        
+        /*BUTTONS*/
+        .info__buttons {
+            display: grid;
+            grid-template-columns: 47px 3fr;
+        }
+
+        /*USER INFO*/
+        .ad__user {
+            margin-top: 20px;
+        }
+
+        .user__contacts {
+            margin-top: 10px;
+        }
     }
 </style>

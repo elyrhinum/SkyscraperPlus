@@ -59,11 +59,13 @@ class LandPlotController extends Controller
 
             }
         } else {
-            $path = FileServiceForObjects::uploadRedirect(null, '');
-            $images = ImagesAd::create([
-                'ad_id' => $ad->id,
-                'image' => $path
-            ]);
+            if (count(ImagesAd::where('ad_id', $ad->id)->get()) == 0) {
+                $path = FileServiceForObjects::uploadRedirect(null, '');
+                $images = ImagesAd::create([
+                    'ad_id' => $ad->id,
+                    'image' => $path
+                ]);
+            }
         }
 
         // STORE CHARACTERISTICS

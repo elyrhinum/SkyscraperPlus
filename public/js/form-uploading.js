@@ -1,6 +1,4 @@
-const cont = document.querySelector('#images-prev'),
-    form = document.querySelector('#form'),
-    imagesError = document.querySelector('#images-error');
+const cont = document.querySelector('#images-prev');
 
 let filesStore = [];
 
@@ -29,32 +27,6 @@ async function dataPostJSON(route, data, _token) {
 
     })
     return await response.json()
-}
-
-function handleChange(e) {
-    if (!e.target.files.length) {
-        return;
-    }
-
-    [...e.target.files].forEach(item => {
-        if (item.size / 1024 > 10) {
-            filesStore.push(item);
-        }
-    })
-
-    if (filesStore.length > 10) {
-        imagesError.textContent = 'Изображений должно быть меньше 10!';
-        filesStore.splice(10, filesStore.length - 10);
-    }
-
-    filesStore.forEach((item, key) => {
-        cont.insertAdjacentHTML('beforeend', `
-        <div class="images-block">
-            <img src="${URL.createObjectURL(item)}" alt="Фотография">
-            <p data-index="${key}" onclick="deleteImg(event)">×</p>
-        </div>`);
-    })
-    e.target.value = '';
 }
 
 function deleteImg(e) {

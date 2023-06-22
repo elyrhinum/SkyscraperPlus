@@ -128,9 +128,9 @@ class UserController extends Controller
     }
 
     // METHOD TO REDIRECT TO EDIT FORM
-    public function edit(User $user)
+    public function edit()
     {
-        return view('users.edit', ['user' => $user]);
+        return view('users.edit', ['user' => auth()->user()]);
     }
 
     // UPDATE METHOD
@@ -139,16 +139,23 @@ class UserController extends Controller
         $result = false;
 
         if ($user->role->name == 'Пользователь') {
-            $result = $user->update($request->except(['_token', 'image']));
+            $result = $user->update($request->except(['_token', 'image', 'email']));
         } else if ($user->role->name == 'Риелтор') {
             $path = FileServiceForRealtors::update('/realtors', $user->image, $request->file('image'));
 
             if ($path) {
                 $result = $user->update(array_merge(['image' => $path],
-                    $request->except(['_token', 'image'])));
+                    $request->except(['_token', 'image', 'email'])));
             } else {
-                $result = $user->update($request->except(['_token', 'image']));
+                $result = $user->update($request->except(['_token', 'image', 'email']));
             }
+        }
+
+        if (User::where('email', $request->email)->first()->id == auth()->id()){
+            $result = $user->update(['email'=>$request->email]);
+        }
+        else{
+            return back()->withErrors(['error'=>'Электронная почта занята']);
         }
 
         return $result ? to_route('users.account')->with(['success' => 'Аккаунт успешно обновлен']) :
@@ -161,11 +168,11 @@ class UserController extends Controller
         return view('realtors.index', ['realtors' => User::where('role_id', 2)->get()]);
     }
 
-    public function realtorsAds(User $user)
+    public function usersAds(User $user)
     {
-        return view('realtors.show', [
+        return view('users.show', [
             'user' => $user,
-            'ads' => Ad::where('user_id', $user->id)
+            'ads' => Ad::onlyPublished()->where('user_id', $user->id)
         ]);
     }
 }
